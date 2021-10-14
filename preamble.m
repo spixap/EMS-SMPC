@@ -11,9 +11,9 @@ par.Ts = Ts;
 %% ----------------------------\\ INPUTS \\--------------------------------
 par.N_prd   = 12;    % 6 for MPC, 12 for CRPS
 % par.method = 'point_frcst';
-par.method = 'scn_frcst';
+% par.method = 'scn_frcst';
 
-if strcmp(par.method,'point_frcst')==1
+if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;
 else
     par.N_scn   = 10; % realizations - scenarios number
@@ -42,11 +42,11 @@ end
 % Reference day 100: t = 4*24*99 : 4*24*99 + 4*24
 % Reference day 26: t = 4*24*25 : 4*24*25 + 4*24
 
+par.N_steps = 4*24*input.durationDays;    % number of timesteps to simulate 576 (nice period)
+% par.N_steps = 4*24*10;                  % number of timesteps to simulate 576 (nice period)
 
-
-par.N_steps = 4*24*10;                  % number of timesteps to simulate 576 (nice period)
-
-t_current   = 4*24*99;    
+t_current   = 4*24*(input.startingDay-1);    
+% t_current   = 4*24*99;    
 %% --------------------------\\ COST COEFS \\ -----------------------------
 dol2eur = 0.89;
 rhoGas  = 0.717;

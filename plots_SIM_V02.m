@@ -411,7 +411,7 @@ funFrcstFig1step(ttData, par, Data, t_slct, Mdl, varName, myFigtitle);
 tempXI = RSLT.ESS_scn.rslt.xi(t_slct-t_current+1).W;
 hold on;plot(ttData.time(t_slct : t_slct+5),tempXI)
 %% Appendix-1: Save produced figures
-%
+%{
 % mkdir FigOutTest
 FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Figs_Out\paper_01';   % Your destination folder
 FigList = findobj(allchild(0), 'flat', 'Type', 'figure');

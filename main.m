@@ -11,6 +11,17 @@
 % under a MILP formulation. This program simulates a wind powered offshore O&G simplified system
 % by applying the proposed SMPC_MILP technique.
 %..................................................................}
+input.startingDay  = 100;
+input.durationDays = 1;
+
+input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+
+if input.durationDays == 1
+    input.simulPeriodName = ['day_',int2str(input.startingDay)];
+else
+    input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
+end
+
 
 preamble;
 %% --------------------------\\ SIM-START \\-------------------------------
@@ -138,7 +149,7 @@ for t = t_start : t_end
         for prdIndx = 0 : N_prd-1
             u_Pch(prdIndx+1,1)  = sol.Power_charging(prdIndx+1,1);
             u_Pdis(prdIndx+1,1) = sol.Power_discharging(prdIndx+1,1);
-            for g=1:N_gt
+            for g = 1 : N_gt
                 u_GTon(prdIndx+1,g)  = sol.GT_startUP_indicator(prdIndx+1,1,g);
                 u_GToff(prdIndx+1,g) = sol.GT_shutDOWN_indicator(prdIndx+1,1,g);
             end
@@ -207,14 +218,12 @@ hold off;
 % kpi = funGetCtrlRslt(par, ttData, t_start, t_end, x, u_0, rslt);
 kpi = funGetCtrlRslt(par, x, u_0, rslt);
 %% --------------------------\\ SAVE RESULTS \\----------------------------
-%
+%{
 FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\OutputFiles';   % Your destination folder
 outFileName     = ['MPC_run_',date,'-',datestr(now,'HHMMSS')];
 matFileName     = fullfile(FolderDestination,outFileName);  
 save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 %}
-%%
-
 
 % RSLT.NO_ESS.u_0 = u_0;
 % RSLT.NO_ESS.rslt = rslt;
@@ -223,19 +232,23 @@ save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 % RSLT.NO_ESS.t_start = t_start;
 % RSLT.NO_ESS.t_end = t_end;
 % 
-FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results';   % Your destination folder
-outFileName     = 'days_100_110';
-matFileName     = fullfile(FolderDestination,outFileName);  
-load(matFileName,'RSLT')
+FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
+outFileName     =  input.simulPeriodName;
+matFileName     = fullfile(FolderDestination,outFileName); 
 
-if strcmp('scn_frcst',par.method)
+if isfile(matFileName)
+   load(matFileName,'RSLT')
+end
+% 
+
+if strcmp('scn_frcst',input.method)
     RSLT.ESS_scn.u_0 = u_0;
     RSLT.ESS_scn.rslt = rslt;
     RSLT.ESS_scn.x = x;
     RSLT.ESS_scn.kpi = kpi;
     RSLT.ESS_scn.t_start = t_start;
     RSLT.ESS_scn.t_end = t_end;
-elseif strcmp( 'point_frcst',par.method)
+elseif strcmp('point_frcst',input.method)
     RSLT.ESS_mean.u_0 = u_0;
     RSLT.ESS_mean.rslt = rslt;
     RSLT.ESS_mean.x = x;
