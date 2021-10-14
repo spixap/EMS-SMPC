@@ -1,5 +1,5 @@
 %-----INITIALIZE PARAMETER VALUES-----
-clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps
+clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
 close all; clc;
 if exist('w8bar')==1
     delete(w8bar);
@@ -9,9 +9,7 @@ rng(0,'twister');
 Ts = 15; % Timestep (minutes)
 par.Ts = Ts;
 %% ----------------------------\\ INPUTS \\--------------------------------
-par.N_prd   = 12;    % 6 for MPC, 12 for CRPS
-% par.method = 'point_frcst';
-% par.method = 'scn_frcst';
+par.N_prd   = input.N_prd;   
 
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;

@@ -3,7 +3,7 @@
 
 %-----author : Spyridon Chapaloglou
 %-----date   : 17/06/2021
-%-----version: 1.0
+%-----version: 2.0
 %-----paper  : "A data-informed stochastic model predictive control approach for energy management of isolated power systems"
 
 %--- DESCRIPTION:{
@@ -15,6 +15,11 @@ input.startingDay  = 100;
 input.durationDays = 1;
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
+    error(['Non valid argument for input.method.' newline...
+        'Insert: point_frcst OR scn_frcst']);
+end
+
 
 if input.durationDays == 1
     input.simulPeriodName = ['day_',int2str(input.startingDay)];
@@ -22,6 +27,7 @@ else
     input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
 end
 
+input.N_prd = 6; %  % 6 for MPC, 12 for CRPS
 
 preamble;
 %% --------------------------\\ SIM-START \\-------------------------------
@@ -89,13 +95,10 @@ for t = t_start : t_end
     % Measurement (k = 0)
     xi.L(1,:) = Data(t);
     % Forecast (k = 1...K-1)
-    if strcmp(par.method,'scn_frcst')==1
+    if strcmp(input.method,'scn_frcst')==1
         xi.L(2:end,:) = funOut.scen(:,1:end-1,:);
-    elseif strcmp(par.method,'point_frcst')==1
+    elseif strcmp(input.method,'point_frcst')==1
         xi.L(2:end,1) = funOut.meanFrcst(1:end-1);
-    else
-        disp(['Non valid argument for par.method.' newline...
-            'Insert: point_frcst OR scn_frcst']);
     end
    
     % PART B - WIND POWER
@@ -117,13 +120,10 @@ for t = t_start : t_end
     % Measurement (k = 0)
     xi.W(1,:) = Data(t);
     % Forecast (k = 1...K-1)
-    if strcmp(par.method,'scn_frcst')==1
+    if strcmp(input.method,'scn_frcst')==1
         xi.W(2:end,:) = funOut.scen(:,1:end-1,:);
-    elseif strcmp(par.method,'point_frcst')==1
+    elseif strcmp(input.method,'point_frcst')==1
         xi.W(2:end,1) = funOut.meanFrcst(1:end-1);
-    else
-        disp(['Non valid argument for par.method.' newline...
-            'Insert: point_frcst OR scn_frcst']);
     end
     
     % ---------------\\ Formulate Optimization Problem \\------------------
@@ -191,7 +191,8 @@ for t = t_start : t_end
                       nrgUpdtMtrxBig powBalanceCnstr statesGTCnstr strtUPCnstr shtDOWNCnstr shtDOWNCnstr2 ...
                       x_0_ini w8bar ...
                       C_fuel C_deg C_gt_strUP C_gt_ON C_dump C_soc_dev ...
-                      Sigma_rec_t_prev_inf_memory_ld Sigma_rec_t_prev_inf_memory_wp
+                      Sigma_rec_t_prev_inf_memory_ld Sigma_rec_t_prev_inf_memory_wp...
+                      input
 end
 % -----------------------------\\ SIM-END \\-------------------------------
 %% ----------------------------\\ RESULTS \\-------------------------------
@@ -257,6 +258,8 @@ elseif strcmp('point_frcst',input.method)
     RSLT.ESS_mean.t_end = t_end;
 end
 
+save(matFileName,'RSLT')
+%%
 % RSLT.ESS_scn.noDegrad.u_0 = u_0;
 % RSLT.ESS_scn.noDegrad.rslt = rslt;
 % RSLT.ESS_scn.noDegrad.x = x;
@@ -292,7 +295,7 @@ end
 % save('rslts_gtONcst_5000','RSLT','par')
 
 
-save(matFileName,'RSLT')
+% save(matFileName,'RSLT')
 
 % figure;plot(RSLT.ESS_scn.rslt.fsol);hold on;plot(RSLT.ESS_mean.rslt.fsol);legend('scn','mean');
 
