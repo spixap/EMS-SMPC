@@ -2,7 +2,7 @@
 %-----SOLVE EMS PROBLEM AS SMPC-----
 
 %-----author : Spyridon Chapaloglou
-%-----date   : 17/06/2021
+%-----date   : 14/10/2021
 %-----version: 2.0
 %-----paper  : "A data-informed stochastic model predictive control approach for energy management of isolated power systems"
 
@@ -11,23 +11,41 @@
 % under a MILP formulation. This program simulates a wind powered offshore O&G simplified system
 % by applying the proposed SMPC_MILP technique.
 %..................................................................}
+%% --------------------------\\ INPUTS \\------------------------------
+
 input.startingDay  = 100;
 input.durationDays = 1;
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
     error(['Non valid argument for input.method.' newline...
-        'Insert: point_frcst OR scn_frcst']);
+           'Insert: point_frcst OR scn_frcst']);
 end
-
 
 if input.durationDays == 1
     input.simulPeriodName = ['day_',int2str(input.startingDay)];
-else
+    par.N_steps = 4*24*input.durationDays;
+    t_current   = 4*24*(input.startingDay-1);    
+
+elseif input.durationDays > 1
     input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
+    par.N_steps = 4*24*input.durationDays;
+    t_current   = 4*24*(input.startingDay-1);    
+
+elseif input.durationDays == 0
+    par.N_steps = 5;    % number of timesteps to simulate 576 (nice period)
+    input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(par.N_steps)];
+    t_current   = 4*24*(input.startingDay-1);    
 end
 
-input.N_prd = 6; %  % 6 for MPC, 12 for CRPS
+input.N_prd = 6; % {6, 12}
+
+clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
+close all; clc;
+if exist('w8bar')==1
+    delete(w8bar);
+end
+rng(0,'twister');
 
 preamble;
 %% --------------------------\\ SIM-START \\-------------------------------
@@ -139,14 +157,14 @@ for t = t_start : t_end
     rslt.xi(simIter)   = xi;
     % ---------------------------\\ MPC-END \\---------------------------------
     %% GET CONTROL ACTION FROM THE OPTIMISATION RESULT
-    u       = zeros(N_prd,2+2*N_gt);
-    u_Pch   = zeros(N_prd,1);
-    u_Pdis  = zeros(N_prd,1);
-    u_GTon  = zeros(N_prd,N_gt);
-    u_GToff = zeros(N_prd,N_gt);
+    u       = zeros(par.N_prd,2 + 2*par.N_gt);
+    u_Pch   = zeros(par.N_prd,1);
+    u_Pdis  = zeros(par.N_prd,1);
+    u_GTon  = zeros(par.N_prd,par.N_gt);
+    u_GToff = zeros(par.N_prd,par.N_gt);
     
-    for w = 1 : N_scn
-        for prdIndx = 0 : N_prd-1
+    for w = 1 : par.N_scn
+        for prdIndx = 0 : par.N_prd - 1
             u_Pch(prdIndx+1,1)  = sol.Power_charging(prdIndx+1,1);
             u_Pdis(prdIndx+1,1) = sol.Power_discharging(prdIndx+1,1);
             for g = 1 : N_gt
@@ -155,7 +173,7 @@ for t = t_start : t_end
             end
         end
         u = [u_Pch u_Pdis];
-        for g = 1 : N_gt
+        for g = 1 : par.N_gt
             u(:,2+2*g-1) = u_GTon(:,g);
             u(:,2+2*g)   = u_GToff(:,g);
         end
@@ -177,7 +195,7 @@ for t = t_start : t_end
     
     simIter        = simIter + 1;
     
-    clearvars -except simIter par rslt Ts...
+    clearvars -except simIter par rslt...
                       A_sys B_sys x_0 x u_0...
                       N_pwl N_prd N_scn N_gt...
                       DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp...

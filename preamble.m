@@ -1,13 +1,13 @@
 %-----INITIALIZE PARAMETER VALUES-----
-clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
-close all; clc;
-if exist('w8bar')==1
-    delete(w8bar);
-end
-rng(0,'twister');
+% clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
+% close all; clc;
+% if exist('w8bar')==1
+%     delete(w8bar);
+% end
+% rng(0,'twister');
 
-Ts = 15; % Timestep (minutes)
-par.Ts = Ts;
+% Ts = 15; % Timestep (minutes)
+par.Ts = 15;
 %% ----------------------------\\ INPUTS \\--------------------------------
 par.N_prd   = input.N_prd;   
 
@@ -40,10 +40,10 @@ end
 % Reference day 100: t = 4*24*99 : 4*24*99 + 4*24
 % Reference day 26: t = 4*24*25 : 4*24*25 + 4*24
 
-par.N_steps = 4*24*input.durationDays;    % number of timesteps to simulate 576 (nice period)
+% par.N_steps = 4*24*input.durationDays;    % number of timesteps to simulate 576 (nice period)
 % par.N_steps = 4*24*10;                  % number of timesteps to simulate 576 (nice period)
 
-t_current   = 4*24*(input.startingDay-1);    
+% t_current   = 4*24*(input.startingDay-1);    
 % t_current   = 4*24*99;    
 %% --------------------------\\ COST COEFS \\ -----------------------------
 dol2eur = 0.89;
@@ -70,11 +70,11 @@ netLoadX = DataX(Data_ld-Data_wp);
 netLoadX.iniVec    = netLoadX.GroupSamplesBy(96);
 
 %-------------------------------- SETS ------------------------------------
-N_pwl = 11;             % Set of discretization points for PieceWise Linear approx.
-par.N_pwl = N_pwl;      % Set of discretization points for PieceWise Linear approx.
-N_prd = par.N_prd;      % Set of future PReDiction periods {k+1,...,k+Np | t} (pred. hor.: Np)
-N_scn = par.N_scn;      % Set of SCeNarios
-N_gt  = 4;              % Set of Gas Turbines
+% N_pwl = 11;             % Set of discretization points for PieceWise Linear approx.
+par.N_pwl = 11;      % Set of discretization points for PieceWise Linear approx.
+% N_prd = par.N_prd;      % Set of future PReDiction periods {k+1,...,k+Np | t} (pred. hor.: Np)
+% N_scn = par.N_scn;      % Set of SCeNarios
+par.N_gt  = 4;              % Set of Gas Turbines
 %--------------------------------- GT -------------------------------------
 par.P_gt_nom  = 20.2;                    % Nominal power rating
 par.P_gt_min  = 0.2 * par.P_gt_nom;
@@ -82,7 +82,7 @@ par.P_gt_max  = 1.09* par.P_gt_nom;
 par.gt_RR     = par.P_gt_max;                % Ramping Rate (rememeber self-sustaining speed)
 par.spinRes   = 1.05;
 % Fuel Curve (Technical_Specifications.txt)
-par.P_gt_data = linspace(par.P_gt_min,par.P_gt_max,N_pwl);
+par.P_gt_data = linspace(par.P_gt_min,par.P_gt_max,par.N_pwl);
 par.fuel_data = (0.5109 * par.P_gt_data.^2 -20.933 .* par.P_gt_data + 433.83);   % [kg/MWh]
 % fuel_data = 208.45*P_gt_data.^2-422.84.*P_gt_data+433.82; % [kg/puMWh]
 %----------------------------- DEGRADATION --------------------------------
@@ -93,7 +93,7 @@ par.qrtrOfHour  = 4;         % To convert to equivalent cost/quarter
 par.a           = 1591.1;    % Proportional constant of cycling curve
 par.k           = 2.089;     % Exponent of cycling curve
 % Degradation Curve
-par.DoD_data    = linspace(0,1,N_pwl)';             % Depth-Of-Discharge [0-1]
+par.DoD_data    = linspace(0,1,par.N_pwl)';             % Depth-Of-Discharge [0-1]
 par.Ncyc        = par.a*par.DoD_data.^(-par.k);     % Cycle lifetime (Number of cycles)
 par.rho_data    = 100*100./par.Ncyc;                % Percentage degradation [%] - i have multiplied with 100 for scaling purposes
 %-------------------------------- BESS ------------------------------------
@@ -105,8 +105,8 @@ par.socUPlim   = 0.8;         % up SoC limit [-]
 par.socDOWNlim = 0.2;         % down SoC limit [-]
 par.SoC_ref    = 0.5;         % reference SoC 
 %------------------------------ SYSTEM ------------------------------------
-par.A_sys  = diag(ones(1 + N_gt,1));
-B_soc      = [par.eta_ch * (Ts/60) / par.E_bat_max , -(Ts/60) / par.eta_dis / par.E_bat_max];
+par.A_sys  = diag(ones(1 + par.N_gt,1));
+B_soc      = [par.eta_ch * (par.Ts/60) / par.E_bat_max , -(par.Ts/60) / par.eta_dis / par.E_bat_max];
 B_gt       = [1 -1];
-B_gt_cell  = repmat({B_gt}, 1, N_gt);
+B_gt_cell  = repmat({B_gt}, 1, par.N_gt);
 par.B_sys  = blkdiag(B_soc, blkdiag(B_gt_cell{:}));
