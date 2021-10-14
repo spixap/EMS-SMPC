@@ -1,17 +1,8 @@
 %-----INITIALIZE PARAMETER VALUES-----
-% clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
-% close all; clc;
-% if exist('w8bar')==1
-%     delete(w8bar);
-% end
-% rng(0,'twister');
-
-% Ts = 15; % Timestep (minutes)
-par.Ts = 15;
-%% ----------------------------\\ INPUTS \\--------------------------------
-par.N_prd     = input.N_prd;  
-par.N_steps   = input.N_steps;  
-
+%% ----------------------------\\ BASICS \\--------------------------------
+par.Ts      = 15; % Timestep (minutes)
+par.N_prd   = input.N_prd;  
+par.N_steps = input.N_steps;  
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;
 else
@@ -39,13 +30,7 @@ end
 
 % Days to demonstarte savings in cost (with small storage):
 % Reference day 100: t = 4*24*99 : 4*24*99 + 4*24
-% Reference day 26: t = 4*24*25 : 4*24*25 + 4*24
-
-% par.N_steps = 4*24*input.durationDays;    % number of timesteps to simulate 576 (nice period)
-% par.N_steps = 4*24*10;                  % number of timesteps to simulate 576 (nice period)
-
-% t_current   = 4*24*(input.startingDay-1);    
-% t_current   = 4*24*99;    
+% Reference day 26: t = 4*24*25 : 4*24*25 + 4*24   
 %% --------------------------\\ COST COEFS \\ -----------------------------
 dol2eur = 0.89;
 rhoGas  = 0.717;
@@ -71,10 +56,7 @@ netLoadX = DataX(Data_ld-Data_wp);
 netLoadX.iniVec    = netLoadX.GroupSamplesBy(96);
 
 %-------------------------------- SETS ------------------------------------
-% N_pwl = 11;             % Set of discretization points for PieceWise Linear approx.
 par.N_pwl = 11;      % Set of discretization points for PieceWise Linear approx.
-% N_prd = par.N_prd;      % Set of future PReDiction periods {k+1,...,k+Np | t} (pred. hor.: Np)
-% N_scn = par.N_scn;      % Set of SCeNarios
 par.N_gt  = 4;              % Set of Gas Turbines
 %--------------------------------- GT -------------------------------------
 par.P_gt_nom  = 20.2;                    % Nominal power rating

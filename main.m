@@ -16,7 +16,7 @@
 
 
 input.startingDay  = 100;
-input.durationDays = 0;
+input.durationDays = 1;
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
