@@ -12,9 +12,11 @@
 % by applying the proposed SMPC_MILP technique.
 %..................................................................}
 %% --------------------------\\ INPUTS \\------------------------------
+% load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
+
 
 input.startingDay  = 100;
-input.durationDays = 1;
+input.durationDays = 0;
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -24,23 +26,23 @@ end
 
 if input.durationDays == 1
     input.simulPeriodName = ['day_',int2str(input.startingDay)];
-    par.N_steps = 4*24*input.durationDays;
+    input.N_steps = 4*24*input.durationDays;
     t_current   = 4*24*(input.startingDay-1);    
 
 elseif input.durationDays > 1
     input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
-    par.N_steps = 4*24*input.durationDays;
+    input.N_steps = 4*24*input.durationDays;
     t_current   = 4*24*(input.startingDay-1);    
 
 elseif input.durationDays == 0
-    par.N_steps = 5;    % number of timesteps to simulate 576 (nice period)
-    input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(par.N_steps)];
+    input.N_steps = 5;    % number of timesteps to simulate 576 (nice period)
+    input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
     t_current   = 4*24*(input.startingDay-1);    
 end
 
 input.N_prd = 6; % {6, 12}
 
-clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input
+clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current
 close all; clc;
 if exist('w8bar')==1
     delete(w8bar);
@@ -52,10 +54,10 @@ preamble;
 t_start = t_current;
 t_end   = t_start + par.N_steps;
 
-u_0 = zeros(2+2*N_gt , par.N_steps + 1);
-x   = zeros(1+N_gt , par.N_steps + 1);
+u_0 = zeros(2 + 2*par.N_gt , par.N_steps + 1);
+x   = zeros(1 + par.N_gt , par.N_steps + 1);
 netLoad = zeros(par.N_steps + 1, 1);
-netLoadFrcst = zeros(par.N_steps + 1, N_scn);
+netLoadFrcst = zeros(par.N_steps + 1, par.N_scn);
 
 w8bar = waitbar(0,'Simulation started');
 
@@ -65,7 +67,7 @@ for t = t_start : t_end
     % --------------------------\\ CURRENT STATE \\----------------------------
     if simIter==1
 %         x_gt_0  = ones(N_gt,1);
-        x_gt_0  = zeros(N_gt,1);
+        x_gt_0  = zeros(par.N_gt,1);
 %         x_gt_0(1) = 1;
 %         x_gt_0(2) = 1;
         x_soc_0 = 0.5;
@@ -92,8 +94,8 @@ for t = t_start : t_end
 %         par.SoC_ref = 0.71;
 %     end
     %% ----------------------\\ FORECAST - SCENARIOS \\------------------------
-    xi.L = zeros(N_prd,N_scn);
-    xi.W = zeros(N_prd,N_scn);
+    xi.L = zeros(par.N_prd,par.N_scn);
+    xi.W = zeros(par.N_prd,par.N_scn);
     
     % PART A - LOAD
     ttData = GFA_15_min;
@@ -167,7 +169,7 @@ for t = t_start : t_end
         for prdIndx = 0 : par.N_prd - 1
             u_Pch(prdIndx+1,1)  = sol.Power_charging(prdIndx+1,1);
             u_Pdis(prdIndx+1,1) = sol.Power_discharging(prdIndx+1,1);
-            for g = 1 : N_gt
+            for g = 1 : par.N_gt
                 u_GTon(prdIndx+1,g)  = sol.GT_startUP_indicator(prdIndx+1,1,g);
                 u_GToff(prdIndx+1,g) = sol.GT_shutDOWN_indicator(prdIndx+1,1,g);
             end

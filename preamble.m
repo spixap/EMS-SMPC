@@ -9,7 +9,8 @@
 % Ts = 15; % Timestep (minutes)
 par.Ts = 15;
 %% ----------------------------\\ INPUTS \\--------------------------------
-par.N_prd   = input.N_prd;   
+par.N_prd     = input.N_prd;  
+par.N_steps   = input.N_steps;  
 
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;

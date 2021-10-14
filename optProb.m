@@ -46,12 +46,12 @@ if simIter == 1
     bin_shtDOWN_gt_k0 = optimvar('GT_shutDOWN_indicator_k0',par.N_gt,'Type','integer','LowerBound',0,'UpperBound',1);
     
     
-    nrgUpdtMtrx    = tril(ones(par.par.N_prd));
-    nrgUpdtMtrxC   = repmat({nrgUpdtMtrx}, 1, par.par.N_scn);
+    nrgUpdtMtrx    = tril(ones(par.N_prd));
+    nrgUpdtMtrxC   = repmat({nrgUpdtMtrx}, 1, par.N_scn);
     nrgUpdtMtrxBig = blkdiag(blkdiag(nrgUpdtMtrxC{:}));
-    P_ch_vec       = reshape(P_ch,par.par.N_prd*par.par.N_scn,1);
-    P_dis_vec      = reshape(P_dis,par.par.N_prd*par.par.N_scn,1);
-    DOD_vec        = reshape(DOD,par.par.N_prd*par.par.N_scn,1);
+    P_ch_vec       = reshape(P_ch,par.N_prd * par.N_scn,1);
+    P_dis_vec      = reshape(P_dis,par.N_prd * par.N_scn,1);
+    DOD_vec        = reshape(DOD,par.N_prd * par.N_scn,1);
     
     % Naming variables indexes
     indexNames = cell(1, par.N_prd + par.N_scn + par.N_gt + par.N_pwl);
@@ -167,7 +167,7 @@ if simIter == 1
                 tempSum = 0;
                 for p = 1:par.N_pwl
                     index_p = append('point_',int2str(p));
-                    tempSum  = tempSum + pwl_fuel_w(index_k,index_w,index_g,index_p) * (Ts/60) * par.fuel_data(p);
+                    tempSum  = tempSum + pwl_fuel_w(index_k,index_w,index_g,index_p) * (par.Ts/60) * par.fuel_data(p);
                 end
                 fuel(prdIndx+1,w,g) = tempSum;
                 
@@ -176,7 +176,7 @@ if simIter == 1
         C_fuel(w)     = par.c_fuel * sum(sum(fuel(:,w,:)));
         C_deg(w)      = (par.c_Bat_rpl - par.c_Bat_res) * DP(w)./100;
         C_gt_strUP(w) = par.c_gt_srt    * sum(sum(bin_strUP_gt(:,index_w,:)));
-        C_dump(w)     = par.c_dump      * (Ts/60) * sum(P_d(:,index_w));
+        C_dump(w)     = par.c_dump      * (par.Ts/60) * sum(P_d(:,index_w));
         C_soc_dev(w)  = par.c_soc_dev   * soc_dev_abs(index_w);
         C_gt_ON(w)    = par.c_gt_ON     * sum(sum(bin_gt(:,index_w,:)));
         
@@ -271,8 +271,8 @@ if simIter == 1
                     shtDOWNCnstr(prdIndx+1,w,g) = bin_gt(index_k_prev,index_w,index_g) - bin_gt(index_k,index_w,index_g) <= bin_shtDOWN_gt(index_k,index_w,index_g);
                     shtDOWNCnstr2(prdIndx+1,w,g)=  bin_strUP_gt(index_k,index_w,index_g) + bin_shtDOWN_gt(index_k,index_w,index_g) <= 1;
                     % GT ramp rate constraints
-                    rampUpPowGTCnstr(prdIndx+1,w,g)   = P_gt(index_k,index_w,index_g) - P_gt(index_k_prev,index_w,index_g) <= par.gt_RR  * (4*Ts/60);
-                    rampDownPowGTCnstr(prdIndx+1,w,g) = P_gt(index_k,index_w,index_g) - P_gt(index_k_prev,index_w,index_g) >= -par.gt_RR * (4*Ts/60);
+                    rampUpPowGTCnstr(prdIndx+1,w,g)   = P_gt(index_k,index_w,index_g) - P_gt(index_k_prev,index_w,index_g) <= par.gt_RR  * (4*par.Ts/60);
+                    rampDownPowGTCnstr(prdIndx+1,w,g) = P_gt(index_k,index_w,index_g) - P_gt(index_k_prev,index_w,index_g) >= -par.gt_RR * (4*par.Ts/60);
                     % GT state constraints
                     statesGTCnstr(prdIndx+1,w,g) =  bin_gt(index_k,index_w,index_g) == bin_gt(index_k_prev,index_w,index_g) + bin_strUP_gt(index_k,w,g)...
                         - bin_shtDOWN_gt(index_k,w,g);
@@ -353,10 +353,10 @@ if simIter == 1
     end
     
     % Battery capacity constraints
-    maxSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) <= par.socUPlim   * par.E_bat_max;
-    minSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) >= par.socDOWNlim * par.E_bat_max;
+    maxSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) <= par.socUPlim   * par.E_bat_max;
+    minSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) >= par.socDOWNlim * par.E_bat_max;
     % Battery DoD updates constraints
-    DoDUpdateCnstrBig = 1 - ((E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis)) ./ par.E_bat_max) ==...
+    DoDUpdateCnstrBig = 1 - ((E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis)) ./ par.E_bat_max) ==...
         DOD_vec;
     
     %         absSoCDevCnstr1 = soc_dev_abs(:)  == soc_dev_p(:) + soc_dev_n(:);
@@ -525,10 +525,10 @@ else
     end
     
     % Battery capacity constraints
-    maxSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) <= par.socUPlim   * par.E_bat_max;
-    minSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) >= par.socDOWNlim * par.E_bat_max;
+    maxSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) <= par.socUPlim   * par.E_bat_max;
+    minSOCCnstrBig = E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis) >= par.socDOWNlim * par.E_bat_max;
     % Battery DoD updates constraints
-    DoDUpdateCnstrBig = 1 - ((E_s_0*ones(par.N_scn*par.N_prd,1) + (Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis)) ./ par.E_bat_max) ==...
+    DoDUpdateCnstrBig = 1 - ((E_s_0*ones(par.N_scn*par.N_prd,1) + (par.Ts/60) * (par.eta_ch * nrgUpdtMtrxBig * P_ch_vec  - nrgUpdtMtrxBig * P_dis_vec/ par.eta_dis)) ./ par.E_bat_max) ==...
         DOD_vec;
     
     % Final state of charge penalization
