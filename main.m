@@ -254,7 +254,7 @@ save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 % RSLT.NO_ESS.t_end = t_end;
 % 
 FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
-outFileName     =  input.simulPeriodName;
+outFileName     =  [input.simulPeriodName,'.mat'];
 matFileName     = fullfile(FolderDestination,outFileName); 
 
 if isfile(matFileName)
