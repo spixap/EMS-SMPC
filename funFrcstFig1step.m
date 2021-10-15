@@ -4,7 +4,7 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 
     mu = zeros(1,par.N_prd);       % MVN(0,Sigma)
     idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-    randomSeed = 24; % 24, 4, 20, 1
+%     par.randomSeed = 24; % 24, 4, 20, 1
 
 %     t = t_current;
 
@@ -141,7 +141,7 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
         Rho_t(k,:) = temp(:,:,k);
     end
     %% Generate Copula samples
-    rng(randomSeed);
+    rng(par.randomSeed);
 
     R = chol(Rho_t);
     X_k_norm = repmat(mu,par.N_scn,1) + randn(par.N_scn,par.N_prd)*R;

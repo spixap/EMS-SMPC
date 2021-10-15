@@ -13,7 +13,8 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
 
     % SIMULATION
     idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-    randomSeed = 24;
+%     par.randomSeed = 24;
+
     t_final = t_current + par.N_steps;
 %     t_final = t_current;
 
@@ -233,7 +234,7 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
         end
         %}
         %% Generate Copula samples
-        rng(randomSeed);
+        rng(par.randomSeed);
 
         R = chol(Rho_hat_rec_t_inf);
         X_k_norm = repmat(mu,par.N_scn,1) + randn(par.N_scn,par.N_prd)*R;
@@ -257,7 +258,6 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
         end
 
         idx_gif = idx_gif + 1;
-%         disp(['iter = ', num2str(idx_gif)]);
 
     end
 end

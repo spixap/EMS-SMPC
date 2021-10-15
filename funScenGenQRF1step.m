@@ -13,7 +13,7 @@ end
 
 % SIMULATION
 idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-randomSeed = 24;
+% par.randomSeed = 24;
 idx_t = t_current;
 
 
@@ -220,7 +220,7 @@ if ~isempty(find(nonDiag==1,1)) || min(abs(nonDiag-1))<= 0.001
 end
 
 %% Generate Copula samples
-rng(randomSeed);
+rng(par.randomSeed);
 
 R = chol(Rho_hat_rec_t_inf);
 X_k_norm = repmat(mu,par.N_scn,1) + randn(par.N_scn,par.N_prd)*R;

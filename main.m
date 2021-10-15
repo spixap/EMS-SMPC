@@ -15,8 +15,14 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 100;
+input.startingDay  = 105;
 input.durationDays = 1;
+
+input.doAnimation = 0;
+input.animationVar = 'load'; % {'load', 'wind'}
+
+input.randomSeed = 24;
+
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -212,7 +218,7 @@ for t = t_start : t_end
                       x_0_ini w8bar ...
                       C_fuel C_deg C_gt_strUP C_gt_ON C_dump C_soc_dev ...
                       Sigma_rec_t_prev_inf_memory_ld Sigma_rec_t_prev_inf_memory_wp...
-                      input
+                      input t_current
 end
 % -----------------------------\\ SIM-END \\-------------------------------
 %% ----------------------------\\ RESULTS \\-------------------------------
@@ -279,7 +285,29 @@ elseif strcmp('point_frcst',input.method)
 end
 
 save(matFileName,'RSLT')
+%% ------ANIMATE THE FORECASTS FOR A GIVEN (SIMULATION) TIME PERIOD--------
+if input.doAnimation == 1
+    if strcmp('load',input.animationVar)
+        ttData = GFA_15_min;
+        ttData.Properties.DimensionNames{1} = 'time';
+        Mdl  = Mdl_ld;
+        Data = Data_ld;
+        
+        % funScenGenQRF(ttData, par, Data, t_start, Mdl, [], 1)
+    elseif strcmp('wind',input.animationVar)
+        newTimes = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
+        ttData   = retime(RES,newTimes,'linear');
+        Mdl  = Mdl_wp;
+        Data = Data_wp;
+        
+        % funScenGenQRF(ttData, par, Data, t_start, Mdl, [], 1)
+    end
+    funScenGenQRF(ttData, par, Data, t_current, Mdl, [], 1)
+end
 %%
+
+
+
 % RSLT.ESS_scn.noDegrad.u_0 = u_0;
 % RSLT.ESS_scn.noDegrad.rslt = rslt;
 % RSLT.ESS_scn.noDegrad.x = x;

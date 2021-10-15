@@ -8,6 +8,7 @@ if strcmp(input.method,'point_frcst')==1
 else
     par.N_scn   = 10; % realizations - scenarios number
 end
+par.randomSeed = input.randomSeed;
 % ------------------------Initial (current) time---------------------------
 % Reference period 1: Load Step : t = 2455-5 : 2455-5 + 15 (2456,2458 good
 % for plots)
