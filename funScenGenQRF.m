@@ -6,6 +6,7 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
     
     if fig_ctrl == 1
         FigH = figure('WindowState','maximized');
+%         FigH = figure;
         axis tight manual                       % this ensures that getframe() returns a consistent size
         ax = gca;
         ax.YLim = ([min(Data) max(Data)]);

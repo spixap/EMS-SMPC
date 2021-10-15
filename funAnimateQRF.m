@@ -1,4 +1,4 @@
-function funAnimateQRF(ttData, ax, FigH, quantsY, t_current, par, Data, idx_t, window, idx_gif, animPar, xi2)
+function funAnimateQRF(ttData, ax, ~, quantsY, t_current, par, Data, idx_t, window, idx_gif, ~, xi2)
 %funAnimateQRF Summary of this function goes here
 %   Detailed explanation goes here
 
