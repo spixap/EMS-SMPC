@@ -51,4 +51,14 @@
 
 </details>
 
+<details>
+  <summary>Cases with opex savings :date:</summary>
+  
+  * Day 100: 10 April 
+  * Day 107: 17 April
+  * Day 112: 21 April
+  * Day 118: 27 April
+
+</details>
+
 ## DATA FILES :open_file_folder: ##
