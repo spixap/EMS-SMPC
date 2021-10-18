@@ -15,8 +15,8 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 126; %118, 112
-input.durationDays = 0;
+input.startingDay  = 226; %118, 112, 126, 237, 238, 301, 61, 11, 166, 290, 226
+input.durationDays = 1;
 
 input.doAnimation = 0;
 input.animationVar = 'wind'; % {'load', 'wind'}
@@ -24,7 +24,9 @@ input.animationVar = 'wind'; % {'load', 'wind'}
 input.randomSeed = 24;
 
 
-input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+input.method = 'point_frcst'; % {'point_frcst', 'scn_frcst'}
+
+
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
     error(['Non valid argument for input.method.' newline...
            'Insert: point_frcst OR scn_frcst']);

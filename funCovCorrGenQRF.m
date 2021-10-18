@@ -3,11 +3,17 @@ function [out] = funCovCorrGenQRF(par, Data, t_current, Mdl)
     %  Estimate covariance and correlation matrices from inverse
     %  transformed data based on probabilistic forecasts from a QRF model
     
+
+    
     iter = 1;                            % index to measure frames - indicates how many time steps have been executed
 %     t_final = t_current + par.N_steps;
     
     t_final = t_current;
     t_start = t_current-100;
+    
+    if t_start < par.N_prd
+        error('starting time t is less than the prediction Horizon');
+    end    
 
 
 
@@ -176,6 +182,52 @@ function [out] = funCovCorrGenQRF(par, Data, t_current, Mdl)
             end
 
         end
+%         %%
+%         % Calculation of unbiased estimate of covariance matrix at time t
+%         % Based on:
+%         % P. Pinson, H. Madsen, H. A. Nielsen, G. Papaefthymiou, and B. Klöckl, “From probabilistic forecasts to statistical scenarios of short-term wind power production,” Wind Energy, vol. 12, no. 1, pp. 51–62, 2009, doi: 10.1002/we.284.
+%         % K: maximum forecastHorizon (predHorK)
+%         % X: vector of random variables for lead times k = 1,...K
+%         %% Recursively updated Sigma (initialization at the first simulation timestep)
+%         %
+%         if iter == 1
+%             Sigma_hat_rcrs_prev = diag(ones(par.N_prd,1));
+%             Sigma_hat_rcrs = Sigma_hat_rcrs_prev;
+%         else
+%             X(:,1) = X_k(iter,:);
+%             Sigma_hat_rcrs      = par.lamda * Sigma_hat_rcrs_prev + (1-par.lamda) * (X*X');
+%             Sigma_hat_rcrs_prev = Sigma_hat_rcrs;
+%         end
+%         Rho_hat_rcrs = corrcov(Sigma_hat_rcrs);
+%         
+%         
+%         idx_diag = eye(par.N_prd,par.N_prd);
+%         nonDiag = Rho_hat_rcrs(~idx_diag);
+%         
+%         if ~isempty(find(nonDiag==1,1))
+%             Rho_hat_rcrs = diag(ones(par.N_prd,1));
+%         end
+%         %}
+%         %% Estimate Sigma based on time step and data history
+%         if t > par.N_prd && iter > 1
+%             tempCovMat = zeros(par.N_prd);
+% %             for j = 2 : t % represents time
+%             for j = 1 : iter % represents time
+%                 X(:,1) = X_k(j,:);
+%                 tempCovMat = tempCovMat + X*X';
+%             end
+% %             Sigma_hat_hist = tempCovMat / (t-1);
+%             Sigma_hat_hist = tempCovMat / (iter-1);
+% 
+%             Rho_hat_hist   = corrcov(Sigma_hat_hist);
+%             
+%             out.history.Sigma(iter,:,:)   = Sigma_hat_hist;
+%             out.history.Rho(iter,:,:)     = Rho_hat_hist;
+%            
+%         else
+%             error('time t < prediction Horizon');
+%         end
+%         
         %%
         % Calculation of unbiased estimate of covariance matrix at time t
         % Based on:
@@ -183,43 +235,28 @@ function [out] = funCovCorrGenQRF(par, Data, t_current, Mdl)
         % K: maximum forecastHorizon (predHorK)
         % X: vector of random variables for lead times k = 1,...K
         %% Recursively updated Sigma (initialization at the first simulation timestep)
-        %
         if iter == 1
             Sigma_hat_rcrs_prev = diag(ones(par.N_prd,1));
             Sigma_hat_rcrs = Sigma_hat_rcrs_prev;
-        else
-            X(:,1) = X_k(iter,:);
-            Sigma_hat_rcrs      = par.lamda * Sigma_hat_rcrs_prev + (1-par.lamda) * (X*X');
+        else            
+%             X(:,1) = X_k(iter,:);
+%             Sigma_hat_rcrs      = par.lamda * Sigma_hat_rcrs_prev + (1-par.lamda) * (X*X');
+%             Sigma_hat_rcrs_prev = Sigma_hat_rcrs;            
+            X = X_k';
+            Sigma_hat_rcrs  = par.lamda * Sigma_hat_rcrs_prev + (1-par.lamda) * (X*X');
             Sigma_hat_rcrs_prev = Sigma_hat_rcrs;
         end
+        
         Rho_hat_rcrs = corrcov(Sigma_hat_rcrs);
+%         Sigma_hat_hist = tempCovMat / (iter-1);
         
         
         idx_diag = eye(par.N_prd,par.N_prd);
+        % Y = (1-idx_diag).*Rho_hat_rec_t_inf;
         nonDiag = Rho_hat_rcrs(~idx_diag);
         
-        if ~isempty(find(nonDiag==1,1))
+        if ~isempty(find(nonDiag==1,1)) || min(abs(nonDiag-1))<= 0.01
             Rho_hat_rcrs = diag(ones(par.N_prd,1));
-        end
-        %}
-        %% Estimate Sigma based on time step and data history
-        if t > par.N_prd && iter > 1
-            tempCovMat = zeros(par.N_prd);
-%             for j = 2 : t % represents time
-            for j = 1 : iter % represents time
-                X(:,1) = X_k(j,:);
-                tempCovMat = tempCovMat + X*X';
-            end
-%             Sigma_hat_hist = tempCovMat / (t-1);
-            Sigma_hat_hist = tempCovMat / (iter-1);
-
-            Rho_hat_hist   = corrcov(Sigma_hat_hist);
-            
-            out.history.Sigma(iter,:,:)   = Sigma_hat_hist;
-            out.history.Rho(iter,:,:)     = Rho_hat_hist;
-           
-        else
-            disp('time t < prediction Horizon');
         end
         %% Output
         
