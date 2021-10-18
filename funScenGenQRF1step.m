@@ -215,7 +215,7 @@ idx_diag = eye(par.N_prd,par.N_prd);
 % Y = (1-idx_diag).*Rho_hat_rec_t_inf;
 nonDiag = Rho_hat_rec_t_inf(~idx_diag);
 
-if ~isempty(find(nonDiag==1,1)) || min(abs(nonDiag-1))<= 0.001
+if ~isempty(find(nonDiag==1,1)) || min(abs(nonDiag-1))<= 0.01
     Rho_hat_rec_t_inf = diag(ones(par.N_prd,1));
 end
 

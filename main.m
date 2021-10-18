@@ -15,16 +15,16 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 106;
-input.durationDays = 1;
+input.startingDay  = 126; %118, 112
+input.durationDays = 0;
 
 input.doAnimation = 0;
 input.animationVar = 'wind'; % {'load', 'wind'}
 
-input.randomSeed = 1;
+input.randomSeed = 24;
 
 
-input.method = 'point_frcst'; % {'point_frcst', 'scn_frcst'}
+input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
     error(['Non valid argument for input.method.' newline...
            'Insert: point_frcst OR scn_frcst']);
@@ -41,7 +41,7 @@ elseif input.durationDays > 1
     t_current   = 4*24*(input.startingDay-1);    
 
 elseif input.durationDays == 0
-    input.N_steps = 576;    % number of timesteps to simulate 576 (nice period)
+    input.N_steps = 0;    % number of timesteps to simulate 576 (nice period)
     input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
     t_current   = 4*24*(input.startingDay-1);    
 end
