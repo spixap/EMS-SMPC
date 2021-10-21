@@ -15,7 +15,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 226; %118, 112, 126, 237, 238, 301, 61, 11, 166, 290, 226
+input.startingDay  = 100; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
 input.doAnimation = 0;
@@ -261,7 +261,7 @@ save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 % RSLT.NO_ESS.t_start = t_start;
 % RSLT.NO_ESS.t_end = t_end;
 % 
-FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
+FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision\less_degradation';   % Your destination folder
 outFileName     =  [input.simulPeriodName,'.mat'];
 matFileName     = fullfile(FolderDestination,outFileName); 
 

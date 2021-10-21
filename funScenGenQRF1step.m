@@ -200,6 +200,13 @@ else
     Sigma_hat_rec_t_inf  = par.lamda * Sigma_rec_t_prev_inf + (1-par.lamda) * (X*X');
 end
 
+% Covariance Matrix Singularity Check
+
+eig_Sigma = eig(Sigma_hat_rec_t_inf);
+if min(eig_Sigma) < 0
+   Sigma_hat_rec_t_inf = Sigma_hat_rec_t_inf + 0.001*eye(par.N_prd);
+end
+
 Rho_hat_rec_t_inf = corrcov(Sigma_hat_rec_t_inf);
 
 %         if abs(sum(Rho_hat_rec_t_inf,'all') - par.N_prd^2) <= 0.00001

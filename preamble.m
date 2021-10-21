@@ -38,9 +38,9 @@ rhoGas  = 0.717;
 par.c_dump     = 10*100;                    % artificial cost (per unit of dumped power per period)
 par.c_soc_dev  = 0*10*100*100;                    % artificial cost (per unit of absolute SoC deviation in the end)
 par.c_fuel     = 0.24/rhoGas*dol2eur;  % [euros/kgGas]
-par.c_gt_srt   = 1217;                 % [euros/GTstart]
-par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000  for min GT at no load: 172*0.2*20.2+984
-par.c_Bat_rpl  = 500000 * dol2eur;     % replacement cost [euros/MWh] 500000
+par.c_gt_srt   = 10*1217;                 % [euros/GTstart]
+par.c_gt_ON    = 0.5*5000;                 % [euros/GT_ON sattus] nominal 5000  for min GT at no load: 172*0.2*20.2+984
+par.c_Bat_rpl  = 10*500000 * dol2eur;     % replacement cost [euros/MWh] 500000
 par.c_Bat_res  = 50000  * dol2eur;     % residual value [euros/MWh] 50000
 %% --------------------------\\ PARAMETERS \\------------------------------
 % FOREST
