@@ -16,7 +16,7 @@
 
 
 input.startingDay  = 100; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
-input.durationDays = 1;
+input.durationDays = 0;
 
 input.doAnimation = 0;
 input.animationVar = 'wind'; % {'load', 'wind'}
@@ -286,7 +286,7 @@ elseif strcmp('point_frcst',input.method)
     RSLT.ESS_mean.t_end = t_end;
 end
 
-save(matFileName,'RSLT')
+% save(matFileName,'RSLT')
 %% ------ANIMATE THE FORECASTS FOR A GIVEN (SIMULATION) TIME PERIOD--------
 if input.doAnimation == 1
     if strcmp('load',input.animationVar)
@@ -295,14 +295,12 @@ if input.doAnimation == 1
         Mdl  = Mdl_ld;
         Data = Data_ld;
         
-        % funScenGenQRF(ttData, par, Data, t_start, Mdl, [], 1)
     elseif strcmp('wind',input.animationVar)
         newTimes = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
         ttData   = retime(RES,newTimes,'linear');
         Mdl  = Mdl_wp;
         Data = Data_wp;
         
-        % funScenGenQRF(ttData, par, Data, t_start, Mdl, [], 1)
     end
     funScenGenQRF(ttData, par, Data, t_current, Mdl, [], 1)
 end

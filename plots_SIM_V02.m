@@ -2,7 +2,7 @@
 %%
 preamble;
 % load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\Period_7500_7800\rslts_gtONcst_5000.mat','RSLT');
-load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\day100.mat','RSLT');
+% load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\day100.mat','RSLT');
 % load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\days_100_110.mat','RSLT');
 
 %%
