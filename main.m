@@ -15,8 +15,8 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 100; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
-input.durationDays = 0;
+input.startingDay  = 172; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.durationDays = 1;
 
 input.doAnimation = 0;
 input.animationVar = 'wind'; % {'load', 'wind'}
@@ -24,7 +24,7 @@ input.animationVar = 'wind'; % {'load', 'wind'}
 input.randomSeed = 24;
 
 
-input.method = 'point_frcst'; % {'point_frcst', 'scn_frcst'}
+input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
 
 
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -50,7 +50,7 @@ end
 
 input.N_prd = 6; % {6, 12}
 
-clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current
+clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current y1 test1
 close all; clc;
 if exist('w8bar')==1
     delete(w8bar);
@@ -220,7 +220,8 @@ for t = t_start : t_end
                       x_0_ini w8bar ...
                       C_fuel C_deg C_gt_strUP C_gt_ON C_dump C_soc_dev ...
                       Sigma_rec_t_prev_inf_memory_ld Sigma_rec_t_prev_inf_memory_wp...
-                      input t_current
+                      input t_current...
+
 end
 % -----------------------------\\ SIM-END \\-------------------------------
 %% ----------------------------\\ RESULTS \\-------------------------------
@@ -261,7 +262,7 @@ save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 % RSLT.NO_ESS.t_start = t_start;
 % RSLT.NO_ESS.t_end = t_end;
 % 
-FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision\less_degradation';   % Your destination folder
+FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
 outFileName     =  [input.simulPeriodName,'.mat'];
 matFileName     = fullfile(FolderDestination,outFileName); 
 
@@ -286,7 +287,7 @@ elseif strcmp('point_frcst',input.method)
     RSLT.ESS_mean.t_end = t_end;
 end
 
-% save(matFileName,'RSLT')
+save(matFileName,'RSLT')
 %% ------ANIMATE THE FORECASTS FOR A GIVEN (SIMULATION) TIME PERIOD--------
 if input.doAnimation == 1
     if strcmp('load',input.animationVar)

@@ -598,7 +598,7 @@ classdef DataX < handle
                     T = cluster(Z,'maxclust',cluster_number);
                     
                     cutoff = median([Z(end-cluster_number+1,3) Z(end-cluster_number+2,3)]);
-                    %{
+                    %
                     if objData.figControl == 1
                         figure;
                         dendrogram(Z,'ColorThreshold',cutoff)
@@ -624,20 +624,20 @@ classdef DataX < handle
                     centroidProb = zeros(cluster_number,1);
                     centroidScenarios = zeros(size(XclusterData,2),cluster_number);
                     %Plot Individual clusters
-%                     if objData.figControl == 1
+                    if objData.figControl == 1
                         for i=1:cluster_number
-%                             figure;
-%                             plot(tplot,XclusterData(T==i,:),'.-','Color',clr(i,:),'MarkerSize',12);
+                            figure;
+                            plot(tplot,XclusterData(T==i,:),'.-','Color',clr(i,:),'MarkerSize',12);
                             centroidProb(i) = size(XclusterData(T==i,:),1)/size(XclusterData,1);
                             centroidScenarios(:,i) = mean(XclusterData(T==i,:),1);
                             
-%                             xlabel('time [h]');ylabel('Load');
-%                             legend(lgd(i));
-%                             title(['Clusted group of load curves ' num2str(i)]);
-%                             xlim([1 size(XclusterData,2)]);
-%                             grid on;
+                            xlabel('time [h]');ylabel('Load');
+                            legend(lgd(i));
+                            title(['Clusted group of load curves ' num2str(i)]);
+                            xlim([1 size(XclusterData,2)]);
+                            grid on;
                         end
-%                     end
+                    end
                     clusterdData = T;
                 end
             end

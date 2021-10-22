@@ -2,7 +2,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 290; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 192; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
 input.doAnimation = 0;
