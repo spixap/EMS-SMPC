@@ -396,7 +396,7 @@ end
     myFigs.dstrb.ax.YAxis(1).FontName = 'Times New Roman';
     
     myFigs.dstrb.ax.YAxis(2).Label.Interpreter = 'latex';
-    myFigs.dstrb.ax.YAxis(2).Label.String ='# GT on';
+    myFigs.dstrb.ax.YAxis(2).Label.String = 'No GT on';
     myFigs.dstrb.ax.YAxis(2).Color = 'black';
     myFigs.dstrb.ax.YAxis(2).FontSize  = 12;
     myFigs.dstrb.ax.YAxis(2).FontName = 'Times New Roman';
