@@ -1,6 +1,8 @@
 
 *.asv
 *.mat
+*.avi
+*.gif
 Results/
 OutputFiles/
 Figs_Out/

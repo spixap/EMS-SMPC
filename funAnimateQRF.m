@@ -1,4 +1,4 @@
-function funAnimateQRF(ttData, ax, ~, quantsY, t_current, par, Data, idx_t, window, idx_gif, ~, xi2)
+function funAnimateQRF(ttData, ax, FigH, quantsY, t_current, par, Data, idx_t, window, idx_gif, animPar, xi2)
 %funAnimateQRF Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -6,7 +6,7 @@ scnplot = gobjects(par.N_scn,1);    % scnearios graphics placeholder
 
 
 % VIDEO
-%{
+%
 myVideo = VideoWriter(animPar.fulVidName);      % open video file
 myVideo.FrameRate = 10;                 % can adjust this, 5 - 10 works well for me
 open(myVideo)
@@ -67,18 +67,18 @@ drawnow
 
 %
 % Capture the plot as an image
-% frame = getframe(FigH);
-% im = frame2im(frame);
-% [imind,cm] = rgb2ind(im,256);
-% % Write to the GIF File
-% if idx_gif == 1
-%     imwrite(imind,cm,animPar.fulGifName,'gif', 'Loopcount',inf);
-% else
-%     imwrite(imind,cm,animPar.fulGifName,'gif','WriteMode','append');
-% end
+frame = getframe(FigH);
+im = frame2im(frame);
+[imind,cm] = rgb2ind(im,256);
+% Write to the GIF File
+if idx_gif == 1
+    imwrite(imind,cm,animPar.fulGifName,'gif', 'Loopcount',inf);
+else
+    imwrite(imind,cm,animPar.fulGifName,'gif','WriteMode','append');
+end
 
 % Write to the MP4 File
-% writeVideo(myVideo, frame);
+writeVideo(myVideo, frame);
 
 hold off;
 

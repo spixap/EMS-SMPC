@@ -15,11 +15,11 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 160; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 226; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
-input.doAnimation = 0;
-input.animationVar = 'wind'; % {'load', 'wind'}
+input.doAnimation = 1;
+input.animationVar = 'load'; % {'load', 'wind'}
 
 input.randomSeed = 24;
 
@@ -291,6 +291,9 @@ save(matFileName,'RSLT')
 %% ------ANIMATE THE FORECASTS FOR A GIVEN (SIMULATION) TIME PERIOD--------
 if input.doAnimation == 1
     if strcmp('load',input.animationVar)
+        
+
+        
         ttData = GFA_15_min;
         ttData.Properties.DimensionNames{1} = 'time';
         Mdl  = Mdl_ld;
@@ -303,7 +306,10 @@ if input.doAnimation == 1
         Data = Data_wp;
         
     end
-    funScenGenQRF(ttData, par, Data, t_current, Mdl, [], 1)
+    animPar.fulVidName = [input.simulPeriodName,'_',input.animationVar,'.avi'];
+    animPar.fulGifName = [input.simulPeriodName,'_',input.animationVar,'.gif'];
+        
+    funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, 1)
 end
 %%
 

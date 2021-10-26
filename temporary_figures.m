@@ -2,7 +2,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 192; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 226; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
 input.doAnimation = 0;
@@ -345,7 +345,7 @@ end
             lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT','2 GT'};
         end
         
-        colNum = 3;
+        colNum = 4;
     elseif max(iVecLoad) >= 0
         
         y_patch_1 = [0 0 max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
@@ -396,7 +396,7 @@ end
     myFigs.dstrb.ax.YAxis(1).FontName = 'Times New Roman';
     
     myFigs.dstrb.ax.YAxis(2).Label.Interpreter = 'latex';
-    myFigs.dstrb.ax.YAxis(2).Label.String = 'No GT on';
+    myFigs.dstrb.ax.YAxis(2).Label.String = '\verb|#| GT ON';
     myFigs.dstrb.ax.YAxis(2).Color = 'black';
     myFigs.dstrb.ax.YAxis(2).FontSize  = 12;
     myFigs.dstrb.ax.YAxis(2).FontName = 'Times New Roman';
@@ -439,13 +439,13 @@ end
 % end
 
     
-    FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revision';   % Your destination folder
-    FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
-    for iFig = 1:length(FigList)
-        FigHandle = FigList(iFig);
-        %       FigName   = num2str(get(FigHandle, 'Number'));
-        FigName   = get(FigHandle,'Name');
-        %     set(0, 'CurrentFigure', FigHandle);
-        %     savefig(fullfile(FolderName, [FigName '.fig']));
-        print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
-    end
+FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS';   % Your destination folder
+FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
+for iFig = 1:length(FigList)
+    FigHandle = FigList(iFig);
+    %       FigName   = num2str(get(FigHandle, 'Number'));
+    FigName   = get(FigHandle,'Name');
+    %     set(0, 'CurrentFigure', FigHandle);
+    %     savefig(fullfile(FolderName, [FigName '.fig']));
+    print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
+end
