@@ -15,11 +15,11 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 226; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 237; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
-input.doAnimation = 1;
-input.animationVar = 'load'; % {'load', 'wind'}
+input.doAnimation = 0;
+input.animationVar = 'wind'; % {'load', 'wind'}
 
 input.randomSeed = 24;
 
@@ -306,7 +306,7 @@ if input.doAnimation == 1
         Data = Data_wp;
         
     end
-    animPar.fulVidName = [input.simulPeriodName,'_',input.animationVar,'.avi'];
+    animPar.fulVidName = [input.simulPeriodName,'_',input.animationVar,'.mp4'];
     animPar.fulGifName = [input.simulPeriodName,'_',input.animationVar,'.gif'];
         
     funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, 1)

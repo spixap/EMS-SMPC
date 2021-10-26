@@ -261,5 +261,8 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
         idx_gif = idx_gif + 1;
 
     end
+    if isfile(animPar.fulVidName)
+        close(VideoWriter(animPar.fulVidName)); 
+    end
 end
 

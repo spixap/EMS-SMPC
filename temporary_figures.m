@@ -2,7 +2,9 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 226; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 160; 
+
+
 input.durationDays = 1;
 
 input.doAnimation = 0;
@@ -345,7 +347,7 @@ end
             lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT','2 GT'};
         end
         
-        colNum = 4;
+        colNum = 2;
     elseif max(iVecLoad) >= 0
         
         y_patch_1 = [0 0 max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
