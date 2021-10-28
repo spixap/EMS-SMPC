@@ -15,11 +15,11 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 237; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.startingDay  = 118; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 1;
 
-input.doAnimation = 0;
-input.animationVar = 'wind'; % {'load', 'wind'}
+input.doAnimation = 1;
+input.animationVar = 'load'; % {'load', 'wind'}
 
 input.randomSeed = 24;
 
@@ -290,10 +290,7 @@ end
 save(matFileName,'RSLT')
 %% ------ANIMATE THE FORECASTS FOR A GIVEN (SIMULATION) TIME PERIOD--------
 if input.doAnimation == 1
-    if strcmp('load',input.animationVar)
-        
-
-        
+    if strcmp('load',input.animationVar)      
         ttData = GFA_15_min;
         ttData.Properties.DimensionNames{1} = 'time';
         Mdl  = Mdl_ld;

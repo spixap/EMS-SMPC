@@ -334,8 +334,8 @@ myFigs.gtPwrA.fig = figure('Name','gt_D_Pwr','NumberTitle','off','Units','inches
 myFigs.gtPwrA.ax = gca;
 hold on;
 
-%     GTpowESSmean = setup.ESS_mean.iVecGTAPwr + setup.ESS_mean.iVecGTBPwr + setup.ESS_mean.iVecGTCPwr + setup.ESS_mean.iVecGTDPwr;
-%     GTpowESSscn = setup.ESS_scn.iVecGTAPwr + setup.ESS_scn.iVecGTBPwr + setup.ESS_scn.iVecGTCPwr + setup.ESS_scn.iVecGTDPwr;
+    GTpowESSmean = setup.ESS_mean.iVecGTAPwr + setup.ESS_mean.iVecGTBPwr + setup.ESS_mean.iVecGTCPwr + setup.ESS_mean.iVecGTDPwr;
+    GTpowESSscn = setup.ESS_scn.iVecGTAPwr + setup.ESS_scn.iVecGTBPwr + setup.ESS_scn.iVecGTCPwr + setup.ESS_scn.iVecGTDPwr;
 
 % GTpowESSmean = setup.ESS_mean.iVecGTAPwr;
 % GTpowESSscn = setup.ESS_scn.iVecGTAPwr;
@@ -346,8 +346,8 @@ hold on;
 % GTpowESSmean = setup.ESS_mean.iVecGTCPwr;
 % GTpowESSscn = setup.ESS_scn.iVecGTCPwr;
 %
-GTpowESSmean = setup.ESS_mean.iVecGTDPwr;
-GTpowESSscn = setup.ESS_scn.iVecGTDPwr;
+% GTpowESSmean = setup.ESS_mean.iVecGTDPwr;
+% GTpowESSscn = setup.ESS_scn.iVecGTDPwr;
 
 plot(ttData.time(t_start : t_end),GTpowESSmean,'-r','LineWidth',1.5);
 plot(ttData.time(t_start : t_end),GTpowESSscn,'--b','LineWidth',1.5);
