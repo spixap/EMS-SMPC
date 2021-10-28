@@ -31,11 +31,13 @@
     
  3. ### GENERATE SCENARIOS :crystal_ball: ###
     1. - [ ]  `funScenGenQRF1.m` generate scenarios 1 step ahead 
-    2. - [ ]  `funScenGenQRF.m` generate scenarios used in  `main.m` for MPC
+    2. - [ ]  `funGetCtrlRslt.m` gives you the kpi based on the result in RSLT
+               example use (mean case): `funGetCtrlRslt(par, RSLT.ESS_mean.x, RSLT.ESS_mean.u_0  , RSLT.ESS_mean.rslt);`
 
 
  4. ### GENERATE RESULTS :bulb: ###
     1. - [ ]  `funPltCtrlRslt.m` plot the control vriables results 
+    2. - [ ]  `funPltCtrlRslt.m` plot the control vriables results 
 
 
 ## SIMULATION CASE STUDIES :hourglass: ##
