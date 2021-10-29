@@ -39,7 +39,7 @@ par.c_dump     = 10*100;                    % artificial cost (per unit of dumpe
 par.c_soc_dev  = 0*10*100*100;                    % artificial cost (per unit of absolute SoC deviation in the end)
 par.c_fuel     = 0.24/rhoGas*dol2eur;  % [euros/kgGas]
 par.c_gt_srt   = 1217;                 % [euros/GTstart]
-par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000  for min GT at no load: 172*0.2*20.2+984
+par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000  
 par.c_Bat_rpl  = 500000 * dol2eur;     % replacement cost [euros/MWh] 500000
 par.c_Bat_res  = 50000  * dol2eur;     % residual value [euros/MWh] 50000
 %% --------------------------\\ PARAMETERS \\------------------------------
@@ -65,6 +65,7 @@ par.P_gt_min  = 0.2 * par.P_gt_nom;
 par.P_gt_max  = 1.09* par.P_gt_nom;
 par.gt_RR     = par.P_gt_max;                % Ramping Rate (rememeber self-sustaining speed)
 par.spinRes   = 1.05;
+par.idleFuel  = 172*0.2*20.2+984; % [kg/h] coming from min GT fuel consumption (linear curve) - intercept @ no load: 172*0.2*20.2+984
 % Fuel Curve (Technical_Specifications.txt)
 par.P_gt_data = linspace(par.P_gt_min,par.P_gt_max,par.N_pwl);
 par.fuel_data = (0.5109 * par.P_gt_data.^2 -20.933 .* par.P_gt_data + 433.83);   % [kg/MWh]

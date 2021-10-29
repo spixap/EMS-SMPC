@@ -6,7 +6,7 @@ scnplot = gobjects(par.N_scn,1);    % scnearios graphics placeholder
 
 
 % VIDEO
-%
+%{
 myVideo = VideoWriter(animPar.fulVidName);      % open video file
 myVideo.FrameRate = 10;                 % can adjust this, 5 - 10 works well for me
 open(myVideo)
@@ -78,7 +78,7 @@ else
 end
 
 % Write to the MP4 File
-writeVideo(myVideo, frame);
+% writeVideo(myVideo, frame);
 
 hold off;
 
