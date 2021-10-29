@@ -42,16 +42,11 @@ function  kpi = funGetCtrlRslt(par, x, u_0, rslt)
         fuelWeightsGTC(i,:) = rslt.sol(i).fuel_PWA_weight(1,1,3,:);
         fuelWeightsGTD(i,:) = rslt.sol(i).fuel_PWA_weight(1,1,4,:);
 
-
-%         iVecFuelGTA(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTA(i,:)' * rslt.sol(i).Power_GT_k0(1) + par.c_gt_ON * rslt.sol(i).GT_status_indicator(1,1,1)) * (x(2,i) + u_0(3,i) - u_0(4,i));
-%         iVecFuelGTB(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTB(i,:)' * rslt.sol(i).Power_GT_k0(2) + par.c_gt_ON * rslt.sol(i).GT_status_indicator(1,1,2)) * (x(3,i) + u_0(5,i) - u_0(6,i));
-%         iVecFuelGTC(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTC(i,:)' * rslt.sol(i).Power_GT_k0(3) + par.c_gt_ON * rslt.sol(i).GT_status_indicator(1,1,3)) * (x(4,i) + u_0(7,i) - u_0(8,i));
-%         iVecFuelGTD(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTD(i,:)' * rslt.sol(i).Power_GT_k0(4) + par.c_gt_ON * rslt.sol(i).GT_status_indicator(1,1,4)) * (x(5,i) + u_0(9,i) - u_0(10,i));
-%         
-        iVecFuelGTA(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTA(i,:)' * rslt.sol(i).Power_GT_k0(1) + (172*0.2*20.2+984) * rslt.sol(i).GT_status_indicator(1,1,1)) * (x(2,i) + u_0(3,i) - u_0(4,i));
-        iVecFuelGTB(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTB(i,:)' * rslt.sol(i).Power_GT_k0(2) + (172*0.2*20.2+984) * rslt.sol(i).GT_status_indicator(1,1,2)) * (x(3,i) + u_0(5,i) - u_0(6,i));
-        iVecFuelGTC(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTC(i,:)' * rslt.sol(i).Power_GT_k0(3) + (172*0.2*20.2+984) * rslt.sol(i).GT_status_indicator(1,1,3)) * (x(4,i) + u_0(7,i) - u_0(8,i));
-        iVecFuelGTD(i) = (par.Ts/60) * (par.fuel_data * fuelWeightsGTD(i,:)' * rslt.sol(i).Power_GT_k0(4) + (172*0.2*20.2+984) * rslt.sol(i).GT_status_indicator(1,1,4)) * (x(5,i) + u_0(9,i) - u_0(10,i));
+         
+        iVecFuelGTA(i) = (par.Ts/60) * ( par.fuel_data * fuelWeightsGTA(i,:)' * rslt.sol(i).Power_GT_k0(1) + par.idleFuel * rslt.sol(i).GT_status_indicator(1,1,1) ) * (x(2,i) + u_0(3,i) - u_0(4,i));
+        iVecFuelGTB(i) = (par.Ts/60) * ( par.fuel_data * fuelWeightsGTB(i,:)' * rslt.sol(i).Power_GT_k0(2) + par.idleFuel * rslt.sol(i).GT_status_indicator(1,1,2) ) * (x(3,i) + u_0(5,i) - u_0(6,i));
+        iVecFuelGTC(i) = (par.Ts/60) * ( par.fuel_data * fuelWeightsGTC(i,:)' * rslt.sol(i).Power_GT_k0(3) + par.idleFuel * rslt.sol(i).GT_status_indicator(1,1,3) ) * (x(4,i) + u_0(7,i) - u_0(8,i));
+        iVecFuelGTD(i) = (par.Ts/60) * ( par.fuel_data * fuelWeightsGTD(i,:)' * rslt.sol(i).Power_GT_k0(4) + par.idleFuel * rslt.sol(i).GT_status_indicator(1,1,4) ) * (x(5,i) + u_0(9,i) - u_0(10,i));
         
         
         iVecCostGTA(i) = par.c_fuel *  iVecFuelGTA(i) * (x(2,i) + u_0(3,i) - u_0(4,i));
