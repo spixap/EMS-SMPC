@@ -2,7 +2,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 100; 
+input.startingDay  = 118; 
 
 
 input.durationDays = 1;
@@ -109,15 +109,19 @@ hold on;
 % p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5,'Marker','x');
 % p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'--b','LineWidth',1.2,'Marker','+');
 
-p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5);
-p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'--b','LineWidth',1.2);
+% p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5);
+% p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'-b','LineWidth',1.8);
+
+p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-','Color' , '#bdbdbd','LineWidth',1.5);
+p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'-','Color' , '#737373','LineWidth',1.8);
+
 
 yl1=yline(par.socDOWNlim,'--','LineWidth',3);
 yl1.Color = [0.8500, 0.3250, 0.0980];
 yl1.Interpreter = 'latex';
 yl1.Label = '$SoC_{min}$';
-yl1.LabelVerticalAlignment = 'top';
-yl1.LabelHorizontalAlignment = 'left';
+yl1.LabelVerticalAlignment = 'top'; %{'top', 'down'}
+yl1.LabelHorizontalAlignment = 'left'; %{'left', 'right'}
 yl1.FontSize = 12;
 
 yl2=yline(par.socUPlim,'--','LineWidth',3);
@@ -125,8 +129,18 @@ yl2.Color = [0.8500, 0.3250, 0.0980];
 yl2.Interpreter = 'latex';
 yl2.Label = '$SoC_{max}$';
 yl2.LabelVerticalAlignment = 'bottom';
-yl2.LabelHorizontalAlignment = 'left';
+yl2.LabelHorizontalAlignment = 'right';
 yl2.FontSize = 12;
+
+
+
+% yl1=yline([par.socDOWNlim par.socUPlim],'--','LineWidth',3,{'$SoC_{min}$','$SoC_{max}$'});
+% yl1.Color = [0.8500, 0.3250, 0.0980];
+% yl1.Interpreter = 'latex';
+% % yl1.Label = '$SoC_{min}$';
+% % yl1.LabelVerticalAlignment = 'top';
+% % yl1.LabelHorizontalAlignment = 'left';
+% yl1.FontSize = 12;
 
 
 yyaxis right;
@@ -188,7 +202,7 @@ myFigs.netLoadSoC.ax.XGrid = 'on';
 %     myFigs.netLoadSoC.ax.YAxis.FontName = 'Times New Roman';
 % %     myFigs.pwr.ax.YLim = [0,1];
 
-legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',12,...
+legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',12,'Box', 'off','color','none',...
     'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location','northwest');
 
 %  iVecLoad       = zeros(par.N_steps + 1,1);
@@ -280,7 +294,11 @@ end
         'PaperPositionMode','auto');
 
    
-    myFigs.dstrb.ax = gca;
+%     myFigs.dstrb.ax = gca;
+    myFigs.dstrb.ax = axes(myFigs.dstrb.fig);
+
+%     yyaxis left
+
     hold on;
 
     plot(ttData.time(t_start : t_end),iVecLoad,'--k','LineWidth',1);
@@ -317,7 +335,7 @@ end
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT','2 GT','3 GT','4 GT'};
         end
 
-        colNum = 4;
+        colNum = 3;
         
     elseif max(iVecLoad) >= 2*par.P_gt_max
         
@@ -366,7 +384,7 @@ end
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT'};
         end
         
-        colNum = 2;
+        colNum = 3;
     else
         
         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
@@ -377,20 +395,28 @@ end
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT'};
         end
         
-        colNum = 2;
+        colNum = 3;
     end
     
     
-    legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,...
+    legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,'orientation','horizontal',...
         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
     
-    yyaxis right;
-    
-    myFigs.dstrb.ax = gca;
+    ax2 = copyobj(myFigs.dstrb.ax,gcf);
+    delete( get(ax2,'Children') )            %# delete its children
 
+
+    hold on;
     
-    scatter(ttData.time(t_start : t_end),setup.ESS_mean.iAllGTstates,20,'k','+');
-    scatter(ttData.time(t_start : t_end),setup.ESS_scn.iAllGTstates,20,'k','x');
+%     yyaxis right;
+    
+    
+    scatter(ttData.time(t_start : t_end),setup.ESS_mean.iAllGTstates,20,'Parent',ax2,'k','+');
+    scatter(ttData.time(t_start : t_end),setup.ESS_scn.iAllGTstates,20,'Parent',ax2,'k','x');
+    
+    set(ax2, 'Color','none', 'XTick',[], 'YTick',[], ...
+        'YAxisLocation','right', 'box','off')   %# make it transparent
+
 
     
 %     hold off;
@@ -409,15 +435,23 @@ end
     myFigs.dstrb.ax.YAxis(1).FontSize  = 12;
     myFigs.dstrb.ax.YAxis(1).FontName = 'Times New Roman';
     
-    myFigs.dstrb.ax.YAxis(2).Label.Interpreter = 'latex';
-    myFigs.dstrb.ax.YAxis(2).Label.String = '\verb|#| GT ON';
-    myFigs.dstrb.ax.YAxis(2).Color = 'black';
-    myFigs.dstrb.ax.YAxis(2).FontSize  = 12;
-    myFigs.dstrb.ax.YAxis(2).FontName = 'Times New Roman';
-    myFigs.dstrb.ax.YAxis(2).Limits  = [0,4];
-    myFigs.dstrb.ax.YAxis(2).TickValues  = 0:1:4;
-% yticks(0:1:4);
+    ax2.YAxis.Label.Interpreter = 'latex';
+    ax2.YAxis.Label.String = '\verb|#| GT ON';
+    ax2.YAxis.Color = 'black';
+    ax2.YAxis.FontSize  = 12;
+    ax2.YAxis.FontName = 'Times New Roman';
+    ax2.YAxis.Limits  = [0,4];
+    ax2.YAxis.TickValues  = 0:1:4;
+%     
+%     myFigs.dstrb.ax.YAxis(2).Label.Interpreter = 'latex';
+%     myFigs.dstrb.ax.YAxis(2).Label.String = '\verb|#| GT ON';
+%     myFigs.dstrb.ax.YAxis(2).Color = 'black';
+%     myFigs.dstrb.ax.YAxis(2).FontSize  = 12;
+%     myFigs.dstrb.ax.YAxis(2).FontName = 'Times New Roman';
+%     myFigs.dstrb.ax.YAxis(2).Limits  = [0,4];
+%     myFigs.dstrb.ax.YAxis(2).TickValues  = 0:1:4;
     
+        
     
     myFigs.dstrb.ax.XLabel.FontSize  = 12;
     myFigs.dstrb.ax.XLabel.Interpreter = 'latex';
@@ -427,20 +461,32 @@ end
     myFigs.dstrb.ax.XAxis.FontSize  = 12;
     
     myFigs.dstrb.ax.XGrid = 'on';
-%     myFigs.dstrb.ax.YGrid = 'on';
     myFigs.dstrb.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
     myFigs.dstrb.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
     myFigs.dstrb.ax.XTickLabelRotation = 45;
-    % myFigs.pwr.ax.YAxis.FontSize  = 18;
-%     myFigs.dstrb.ax.YAxis.FontName = 'Times New Roman';
-    %     myFigs.pwr.ax.YLim = [0,1];
     
+    
+    ax2.XLabel.FontSize  = 12;
+    ax2.XLabel.Interpreter = 'latex';
+    ax2.XLabel.String = 'Date';
+    ax2.XLabel.FontName = 'Times New Roman';
+    ax2.XAxis.FontName = 'Times New Roman';
+    ax2.XAxis.FontSize  = 12;
+    
+    ax2.XLim = [ttData.time(t_start),ttData.time(t_end)];
+    ax2.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
+    ax2.XTickLabelRotation = 45;
+  
     
 %         legend(myFigs.dstrb.ax,[lgdCell,{'DMPC', 'SMPC'}],'FontSize',12,...
 %         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
-legend(myFigs.dstrb.ax,{'DMPC', 'SMPC'},'FontSize',12,...
+
+    legend(ax2,{'DMPC', 'SMPC'},'FontSize',10,'Box', 'off','color','none',...
         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northeast');
-    
+
+    yyaxis left;
+
+    hold off;
     
 
 %% Appendix-1: Save produced figures
