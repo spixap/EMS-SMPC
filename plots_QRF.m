@@ -9,7 +9,7 @@ ttData = GFA_15_min;
 ttData.Properties.DimensionNames{1} = 'time';
 Data   = GFA_15_min.P_GFA;
 Mdl = Mdl_ld;
-varName = '$P_{\ell}\;[MW]$';
+varName = '$P^{\ell}\;[MW]$';
 varNameTitle = 'ld';
 %}
 % PART B - WIND POWER
@@ -21,7 +21,7 @@ WF1.WindValue = ttData.Wind_Speed;
 WF1.DoWindPower;
 Data          = WF1.WindPower;
 Mdl = Mdl_wp;
-varName = '$P_{w}\;[MW]$';
+varName = '$P^{w}\;[MW]$';
 varNameTitle = 'wp';
 
 %}
@@ -342,7 +342,7 @@ legend(myFigs.meanFrcstk1.ax,{['$y_',str_k,'$'],['$\hat{y}_',str_k,'$']},'FontSi
     'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location','northwest');
 
 myFigs.meanFrcstk1.ax.YAxis.Label.Interpreter = 'latex';
-myFigs.meanFrcstk1.ax.YAxis.Label.String = '$P_{\ell}\;[MW]$';
+myFigs.meanFrcstk1.ax.YAxis.Label.String = '$P^{\ell}\;[MW]$';
 myFigs.meanFrcstk1.ax.YAxis.Color = 'black';
 myFigs.meanFrcstk1.ax.YAxis.FontSize  = 12;
 myFigs.meanFrcstk1.ax.YAxis.FontName = 'Times New Roman';
@@ -373,8 +373,10 @@ myFigs.meanFrcstk1.ax.YGrid = 'on';
 %}
 %% -----------------------------FIGURE 5-----------------------------------
 %--------------------Scenarios and probabilistic plot----------------------
-myFigtitle = [varNameTitle,'frcst_t_',num2str(t_current)];
-funFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myFigtitle);
+myProbFrcstFigTitle = [varNameTitle,'probFrcst_t_',num2str(t_current)];
+myScenFrcstFigTitle = [varNameTitle,'scenFrcst_t_',num2str(t_current)];
+funProbFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myProbFrcstFigTitle);
+funScenFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myScenFrcstFigTitle);
 %% ------------------------\\\ SAVING FIGURES \\\---------------------------
 %
 % mkdir Figs_Out

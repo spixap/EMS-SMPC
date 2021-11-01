@@ -173,11 +173,11 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 %     grid on;
     myFig.s1 = scatter(myFig.ax,ttData.time(t),Data(t),100,'+b','LineWidth',3);
 
-    myFig.p2 = plot(ttData.time(window.t_slide_range),window.trueY,'-k*','LineWidth',2);
-    myFig.p3 = plot(ttData.time(window.t_slide_range),window.predY,'--r*','LineWidth',2);
-    myFig.p4 = plot(ttData.time(window.t_slide_range),window.quant005Y, '-g','LineWidth',1.5);
-    myFig.p5 = plot(ttData.time(window.t_slide_range),window.quant05Y , '-b','LineWidth',2);
-    myFig.p6 = plot(ttData.time(window.t_slide_range),window.quant095Y, '-g','LineWidth',1.5);
+    myFig.p2 = plot(ttData.time(window.t_slide_range),window.trueY,'-k*','LineWidth',3);
+    myFig.p3 = plot(ttData.time(window.t_slide_range),window.predY,'--r','LineWidth',2);
+    myFig.p4 = plot(ttData.time(window.t_slide_range),window.quant005Y, '-g','LineWidth',2.5);
+%     myFig.p5 = plot(ttData.time(window.t_slide_range),window.quant05Y , '--b*','LineWidth',2);
+    myFig.p6 = plot(ttData.time(window.t_slide_range),window.quant095Y, '-g','LineWidth',2.5);
 
     % 5%-95%
     myFig.X_plot = [ttData.time(window.t_slide_start + window.width + 1 : window.t_slide_start+ window.width + par.N_prd)' , ...
@@ -208,11 +208,24 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 
     hold off;
 
-    legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
-        myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
-        '$Q_{0.50}(x)$','$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-        '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',10,...
+%     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
+%         myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
+%         '$Q_{0.50}(x)$','$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
+%         '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',10,...
+%         'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
+    
+        legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p6 myFig.f1 ...
+        myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
+        '$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
+        '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',10,...
         'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
+    
+    
+    
+    
+    
+    
+    
 
 %     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
 %         myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','E2change','$Q_{0.05}(x)$',...
@@ -249,7 +262,7 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
     myFig.ax.XLabel.FontName = 'Times New Roman';
     myFig.ax.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
     
-    myFig.ax.XGrid = 'on';
-    myFig.ax.YGrid = 'on';
+%     myFig.ax.XGrid = 'on';
+%     myFig.ax.YGrid = 'on';
 
 end

@@ -2,7 +2,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 160; 
+input.startingDay  = 100; 
 
 
 input.durationDays = 1;
@@ -106,6 +106,9 @@ myFigs.netLoadSoC.fig = figure('Name',['SoC_day_',int2str(input.startingDay)],'N
 myFigs.states.ax = gca;
 hold on;
 
+% p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5,'Marker','x');
+% p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'--b','LineWidth',1.2,'Marker','+');
+
 p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5);
 p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'--b','LineWidth',1.2);
 
@@ -156,6 +159,8 @@ myFigs.netLoadSoC.ax.XLabel.Color = 'black';
 myFigs.netLoadSoC.ax.XLabel.FontSize  = 12;
 myFigs.netLoadSoC.ax.XLabel.FontName = 'Times New Roman';
 myFigs.netLoadSoC.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
+myFigs.netLoadSoC.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
+myFigs.netLoadSoC.ax.XTickLabelRotation = 45;
 
 myFigs.netLoadSoC.ax.YAxis(1).Label.Interpreter = 'latex';
 myFigs.netLoadSoC.ax.YAxis(1).Label.String ='SoC';
@@ -165,13 +170,13 @@ myFigs.netLoadSoC.ax.YAxis(1).FontName = 'Times New Roman';
 %         myFigs.netLoadSoC.ax.YAxis(1).TickValues  = (-param.Usat*0.5:0.1:param.Usat*0.5);
 
 myFigs.netLoadSoC.ax.YAxis(2).Label.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.YAxis(2).Label.String ='Net Load [MW]';
+myFigs.netLoadSoC.ax.YAxis(2).Label.String ='$\xi_0(t)\;[MW]$';
 myFigs.netLoadSoC.ax.YAxis(2).Color = 'black';
 myFigs.netLoadSoC.ax.YAxis(2).FontSize  = 12;
 myFigs.netLoadSoC.ax.YAxis(2).FontName = 'Times New Roman';
 
 myFigs.netLoadSoC.ax.XGrid = 'on';
-myFigs.netLoadSoC.ax.YGrid = 'on';
+% myFigs.netLoadSoC.ax.YGrid = 'on';
 
 %     myFigs.netLoadSoC.ax.Title.String = 'GT power';
 %     myFigs.netLoadSoC.ax.YAxis.Label.Interpreter = 'latex';
@@ -183,8 +188,8 @@ myFigs.netLoadSoC.ax.YGrid = 'on';
 %     myFigs.netLoadSoC.ax.YAxis.FontName = 'Times New Roman';
 % %     myFigs.pwr.ax.YLim = [0,1];
 
-legend(myFigs.netLoadSoC.h,{'mean','scn', 'net load'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',3,'interpreter','latex','Location','northwest');
+legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',12,...
+    'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location','northwest');
 
 %  iVecLoad       = zeros(par.N_steps + 1,1);
 %     iVecWndPwr     = zeros(par.N_steps + 1,1);
@@ -307,9 +312,9 @@ end
         patch(x_patch,y_patch_4,'magenta','FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','1 GT','2 GT','3 GT','4 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT','3 GT','4 GT'};
         else
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT','2 GT','3 GT','4 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT','2 GT','3 GT','4 GT'};
         end
 
         colNum = 4;
@@ -326,9 +331,9 @@ end
         patch(x_patch,y_patch_3,'cyan','FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','1 GT','2 GT','3 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT','3 GT'};
         else
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT','2 GT','3 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT','2 GT','3 GT'};
         end
         
         colNum = 3;
@@ -342,12 +347,12 @@ end
         patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','1 GT','2 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT'};
         else
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT','2 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT','2 GT'};
         end
         
-        colNum = 2;
+        colNum = 3;
     elseif max(iVecLoad) >= 0
         
         y_patch_1 = [0 0 max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
@@ -356,9 +361,9 @@ end
         patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','1 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT'};
         else
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT','1 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT','1 GT'};
         end
         
         colNum = 2;
@@ -367,21 +372,28 @@ end
         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$'};
         else
-            lgdCell = {'$P^{\ell}$', '$P^{w}$', '$P^{\ell}-P^{w}$','0 GT'};
+            lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','0 GT'};
         end
         
         colNum = 2;
     end
     
+    
+    legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,...
+        'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
+    
     yyaxis right;
+    
+    myFigs.dstrb.ax = gca;
+
     
     scatter(ttData.time(t_start : t_end),setup.ESS_mean.iAllGTstates,20,'k','+');
     scatter(ttData.time(t_start : t_end),setup.ESS_scn.iAllGTstates,20,'k','x');
 
     
-    hold off;
+%     hold off;
 %     myFigs.dstrb.ax.YAxis.Label.Interpreter = 'latex';
 %     myFigs.dstrb.ax.YAxis.Label.String ='Power [MW]';
 %     myFigs.dstrb.ax.YAxis.Color = 'black';
@@ -415,22 +427,21 @@ end
     myFigs.dstrb.ax.XAxis.FontSize  = 12;
     
     myFigs.dstrb.ax.XGrid = 'on';
-    myFigs.dstrb.ax.YGrid = 'on';
+%     myFigs.dstrb.ax.YGrid = 'on';
     myFigs.dstrb.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
+    myFigs.dstrb.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
+    myFigs.dstrb.ax.XTickLabelRotation = 45;
     % myFigs.pwr.ax.YAxis.FontSize  = 18;
 %     myFigs.dstrb.ax.YAxis.FontName = 'Times New Roman';
     %     myFigs.pwr.ax.YLim = [0,1];
     
     
-        legend(myFigs.dstrb.ax,[lgdCell,{'mean', 'scn'}],'FontSize',12,...
-        'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
-%     legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,...
+%         legend(myFigs.dstrb.ax,[lgdCell,{'DMPC', 'SMPC'}],'FontSize',12,...
 %         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
-
-
-
-
-
+legend(myFigs.dstrb.ax,{'DMPC', 'SMPC'},'FontSize',12,...
+        'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northeast');
+    
+    
 
 %% Appendix-1: Save produced figures
 %

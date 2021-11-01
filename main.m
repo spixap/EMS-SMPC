@@ -18,7 +18,7 @@
 input.startingDay  = 160; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
 input.durationDays = 0;
 input.giveStartingTime = 1;
-inut.startingTime = 7630;
+inut.startingTime = 7636;
 
 
 input.doAnimation = 1;
