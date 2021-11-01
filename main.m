@@ -16,7 +16,10 @@
 
 
 input.startingDay  = 160; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
-input.durationDays = 1;
+input.durationDays = 0;
+input.giveStartingTime = 1;
+inut.startingTime = 7630;
+
 
 input.doAnimation = 1;
 input.animationVar = 'load'; % {'load', 'wind'}
@@ -43,9 +46,14 @@ elseif input.durationDays > 1
     t_current   = 4*24*(input.startingDay-1);    
 
 elseif input.durationDays == 0
-    input.N_steps = 0;    % number of timesteps to simulate 576 (nice period)
-    input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
-    t_current   = 4*24*(input.startingDay-1);    
+    input.N_steps = 300;    % number of timesteps to simulate 576 (nice period)
+    if input.giveStartingTime == 0
+        input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
+        t_current   = 4*24*(input.startingDay-1);
+    else
+        input.simulPeriodName = ['t_',int2str(inut.startingTime),'_steps_',int2str(input.N_steps)];
+        t_current   = inut.startingTime;
+    end
 end
 
 input.N_prd = 6; % {6, 12}

@@ -293,6 +293,8 @@ myFigs.meanFrcstk1.ax.XLabel.Color = 'black';
 myFigs.meanFrcstk1.ax.XLabel.FontSize  = 12;
 myFigs.meanFrcstk1.ax.XLabel.FontName = 'Times New Roman';
 myFigs.meanFrcstk1.ax.XLim = [ttCompare.plotTimes(1),ttCompare.plotTimes(end)];
+myFigs.meanFrcstk1.ax.XTickLabelRotation = 45;
+
 
 myFigs.meanFrcstk1.ax.XGrid = 'on';
 myFigs.meanFrcstk1.ax.YGrid = 'on';
@@ -300,7 +302,7 @@ myFigs.meanFrcstk1.ax.YGrid = 'on';
 %% -----------------------------FIGURE 4-----------------------------------
 %--------------Zoomed timeseries forecasting for k=6 model-----------------
 %
-k = 6;
+k = 12;
 str_k = ['{t+',num2str(k),'|t}'];
 t_idx = 1;
 predX = zeros(par.N_steps, lagsNum);
@@ -357,7 +359,7 @@ myFigs.meanFrcstk1.ax.XAxis.Color = 'black';
 myFigs.meanFrcstk1.ax.XAxis.Label.String = 'Date';
 % myFigs.meanFrcstk1.ax.XTick = ttCompare.plotTimes;
 myFigs.meanFrcstk1.ax.XTick = (ttCompare.plotTimes(1):hours(6):ttCompare.plotTimes(end));
-
+myFigs.meanFrcstk1.ax.XTickLabelRotation = 45;
 
 
 

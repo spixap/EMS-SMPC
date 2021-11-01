@@ -9,7 +9,7 @@ function [out] = funCovCorrGenQRF(par, Data, t_current, Mdl)
 %     t_final = t_current + par.N_steps;
     
     t_final = t_current;
-    t_start = t_current-100;
+    t_start = t_current-10;
     
     if t_start < par.N_prd
         error('starting time t is less than the prediction Horizon');
@@ -245,6 +245,13 @@ function [out] = funCovCorrGenQRF(par, Data, t_current, Mdl)
             X = X_k';
             Sigma_hat_rcrs  = par.lamda * Sigma_hat_rcrs_prev + (1-par.lamda) * (X*X');
             Sigma_hat_rcrs_prev = Sigma_hat_rcrs;
+        end
+        
+        % Covariance Matrix Singularity Check
+
+        eig_Sigma = eig(Sigma_hat_rcrs);
+        if min(eig_Sigma) < 0
+            Sigma_hat_rcrs = Sigma_hat_rcrs + 0.001*eye(par.N_prd);
         end
         
         Rho_hat_rcrs = corrcov(Sigma_hat_rcrs);

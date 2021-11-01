@@ -403,7 +403,7 @@ legend(myFigs.gtNmr.ax,{'mean', 'scn'},'FontSize',12,...
     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
 %%
 funPaperPlts(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0  , RSLT.ESS_scn.rslt, RSLT);
-%% SELECT SPECIFIT t TO PLOT SCENARIO FORECASTS
+%% SELECT SPECIFIC t TO PLOT SCENARIO FORECASTS
 t_slct = find(ttData.time==datetime('21-Mar-2019 12:30:00'));
 myFigtitle = [varNameTitle,'frcst_t_',num2str(t_slct)];
 funFrcstFig1step(ttData, par, Data, t_slct, Mdl, varName, myFigtitle);
