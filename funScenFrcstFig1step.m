@@ -1,4 +1,4 @@
-function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle)
+function myFig = funScenFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle)
 %funFrcstFig1step Summary of this function goes here
 %   Plot mean, scenarios and probabilistic forecasts
 
@@ -179,23 +179,6 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 %     myFig.p5 = plot(ttData.time(window.t_slide_range),window.quant05Y , '-b','LineWidth',2);
     myFig.p6 = plot(ttData.time(window.t_slide_range),window.quant095Y, '-g','LineWidth',3);
 
-%     % 5%-95%
-%     myFig.X_plot = [ttData.time(window.t_slide_start + window.width + 1 : window.t_slide_start+ window.width + par.N_prd)' , ...
-%         fliplr(ttData.time(window.t_slide_start + window.width + 1 : window.t_slide_start + window.width + par.N_prd)')];
-%     myFig.Y_plot  = [quantsY.quant005Y, fliplr(quantsY.quant095Y)];
-%     myFig.f1      = fill(myFig.ax,myFig.X_plot, myFig.Y_plot , 1,'facecolor','green','edgecolor','none', 'facealpha', 0.1);
-%     % 10%-90%
-%     myFig.Y_plot  = [quantsY.quant010Y, fliplr(quantsY.quant090Y)];
-%     myFig.f2      = fill(myFig.ax,myFig.X_plot, myFig.Y_plot , 1,'facecolor','green','edgecolor','none', 'facealpha', 0.15);
-%     % 20%-80%
-%     myFig.Y_plot  = [quantsY.quant020Y, fliplr(quantsY.quant080Y)];
-%     myFig.f3      = fill(myFig.ax,myFig.X_plot, myFig.Y_plot , 1,'facecolor','green','edgecolor','none', 'facealpha', 0.2);
-%     % 30%-70%
-%     myFig.Y_plot  = [quantsY.quant030Y, fliplr(quantsY.quant070Y)];
-%     myFig.f4      = fill(myFig.ax,myFig.X_plot, myFig.Y_plot , 1,'facecolor','green','edgecolor','none', 'facealpha', 0.25);
-%     % 40%-60%
-%     myFig.Y_plot  = [quantsY.quant040Y, fliplr(quantsY.quant060Y)];
-%     myFig.f5      = fill(myFig.ax,myFig.X_plot, myFig.Y_plot , 1,'facecolor','green','edgecolor','none', 'facealpha', 0.3);
 
     for i_scn = 1 : par.N_scn
         window.scenY(1:window.width + 1,1) = NaN;
@@ -208,33 +191,11 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 
     hold off;
 
-%     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
-%         myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
-%         '$Q_{0.50}(x)$','$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-%         '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',10,...
-%         'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
 
     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p4 myFig.p6 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$Q_{0.05}(x)$',...
-        '$Q_{0.95}(x)$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',10,...
-        'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
+        '$Q_{0.95}(x)$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',12,...
+        'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
     
-    
-    
-    
-    
-
-%     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
-%         myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','E2change','$Q_{0.05}(x)$',...
-%         '$Q_{0.50}(x)$','$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-%         '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',10,...
-%         'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Location','northwest');
-
-
-%     legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p5 myFig.p6 myFig.f1 ...
-%         myFig.f2 myFig.f3 myFig.f4 myFig.f5 myFig.scnplot(1)],{'p1','p2','p3','E2change','p4',...
-%         'p5','p6','p7','p8','p9',...
-%         'p10','p11','p12'},'FontSize',10,...
-%         'NumColumns',2,'Location','northwest');
 
 
     myFig.ax.YAxis.Label.Interpreter = 'latex';
@@ -257,6 +218,10 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
     myFig.ax.XLabel.FontSize  = 12;
     myFig.ax.XLabel.FontName = 'Times New Roman';
     myFig.ax.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
+    
+    set(myFig.ax.YAxis, 'visible', 'off')
+    set(myFig.ax, 'Box', 'off')
+
     
 %     myFig.ax.XGrid = 'on';
 %     myFig.ax.YGrid = 'on';

@@ -6,7 +6,7 @@ par.N_steps = input.N_steps;
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;
 else
-    par.N_scn   = 100; % realizations - scenarios number
+    par.N_scn   = 25; % realizations - scenarios number
 end
 par.randomSeed = input.randomSeed;
 % ------------------------Initial (current) time---------------------------
