@@ -2,7 +2,7 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 118; 
+input.startingDay  = 160; 
 
 
 input.durationDays = 1;
@@ -14,6 +14,14 @@ input.randomSeed = 24;
 
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+
+input.lgdLocationDstrb = 'southwest';
+input.lgdLocationIgtOn = 'southeast';
+
+input.lgdLocationSoC = 'southeast';
+
+
+
 
 
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -121,7 +129,7 @@ yl1.Color = [0.8500, 0.3250, 0.0980];
 yl1.Interpreter = 'latex';
 yl1.Label = '$SoC_{min}$';
 yl1.LabelVerticalAlignment = 'top'; %{'top', 'down'}
-yl1.LabelHorizontalAlignment = 'left'; %{'left', 'right'}
+yl1.LabelHorizontalAlignment = 'right'; %{'left', 'right'}
 yl1.FontSize = 12;
 
 yl2=yline(par.socUPlim,'--','LineWidth',3);
@@ -129,18 +137,8 @@ yl2.Color = [0.8500, 0.3250, 0.0980];
 yl2.Interpreter = 'latex';
 yl2.Label = '$SoC_{max}$';
 yl2.LabelVerticalAlignment = 'bottom';
-yl2.LabelHorizontalAlignment = 'right';
+yl2.LabelHorizontalAlignment = 'left';
 yl2.FontSize = 12;
-
-
-
-% yl1=yline([par.socDOWNlim par.socUPlim],'--','LineWidth',3,{'$SoC_{min}$','$SoC_{max}$'});
-% yl1.Color = [0.8500, 0.3250, 0.0980];
-% yl1.Interpreter = 'latex';
-% % yl1.Label = '$SoC_{min}$';
-% % yl1.LabelVerticalAlignment = 'top';
-% % yl1.LabelHorizontalAlignment = 'left';
-% yl1.FontSize = 12;
 
 
 yyaxis right;
@@ -177,10 +175,12 @@ myFigs.netLoadSoC.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end
 myFigs.netLoadSoC.ax.XTickLabelRotation = 45;
 
 myFigs.netLoadSoC.ax.YAxis(1).Label.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.YAxis(1).Label.String ='SoC';
+myFigs.netLoadSoC.ax.YAxis(1).Label.String ='$x^{SoC}(t)$';
 myFigs.netLoadSoC.ax.YAxis(1).Color = 'black';
 myFigs.netLoadSoC.ax.YAxis(1).FontSize  = 12;
 myFigs.netLoadSoC.ax.YAxis(1).FontName = 'Times New Roman';
+% myFigs.netLoadSoC.ax.YAxis(1).Limits = [0.1,0.9];
+
 %         myFigs.netLoadSoC.ax.YAxis(1).TickValues  = (-param.Usat*0.5:0.1:param.Usat*0.5);
 
 myFigs.netLoadSoC.ax.YAxis(2).Label.Interpreter = 'latex';
@@ -203,7 +203,7 @@ myFigs.netLoadSoC.ax.XGrid = 'on';
 % %     myFigs.pwr.ax.YLim = [0,1];
 
 legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',12,'Box', 'off','color','none',...
-    'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location','northwest');
+    'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location',input.lgdLocationSoC);
 
 %  iVecLoad       = zeros(par.N_steps + 1,1);
 %     iVecWndPwr     = zeros(par.N_steps + 1,1);
@@ -301,9 +301,9 @@ end
 
     hold on;
 
-    plot(ttData.time(t_start : t_end),iVecLoad,'--k','LineWidth',1);
-    plot(ttData.time(t_start : t_end),iVecWndPwr,'-.k','LineWidth',1);
-    plot(ttData.time(t_start : t_end),iVecLoad-iVecWndPwr,'-k','LineWidth',1.5);
+    plot(ttData.time(t_start : t_end),iVecLoad,'--k','LineWidth',1.3);
+    plot(ttData.time(t_start : t_end),iVecWndPwr,'-.k','LineWidth',1.3);
+    plot(ttData.time(t_start : t_end),iVecLoad-iVecWndPwr,'-k','LineWidth',1.6);
 
     x_patch = [0 2 2 0];
 
@@ -323,11 +323,18 @@ end
         y_patch_3 = [2*par.P_gt_max 2*par.P_gt_max 3*par.P_gt_max 3*par.P_gt_max];
         y_patch_4 = [3*par.P_gt_max 3*par.P_gt_max max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
     
-        patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_3,'cyan','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_4,'magenta','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_3,'cyan','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_4,'magenta','FaceAlpha',0.3,'EdgeColor','none');
+
+        patch(x_patch_0,y_patch_0,[118/255 102/255 167/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_1,[34/255 131/255 122/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_2,[22/255 10/255 100/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_3,[224/255 183/255 46/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_4,[255/255 0/255 0/255],'FaceAlpha',0.3,'EdgeColor','none');
+
         
         if isempty(y_patch_0)
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT','3 GT','4 GT'};
@@ -343,10 +350,15 @@ end
         y_patch_2 = [par.P_gt_max par.P_gt_max 2*par.P_gt_max 2*par.P_gt_max];
         y_patch_3 = [2*par.P_gt_max 2*par.P_gt_max max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
         
-        patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_3,'cyan','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_3,'cyan','FaceAlpha',0.3,'EdgeColor','none');
+        
+        patch(x_patch_0,y_patch_0,[118/255 102/255 167/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_1,[34/255 131/255 122/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_2,[22/255 10/255 100/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_3,[224/255 183/255 46/255],'FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT','3 GT'};
@@ -360,9 +372,14 @@ end
         y_patch_1 = [0 0 par.P_gt_max par.P_gt_max];
         y_patch_2 = [par.P_gt_max par.P_gt_max max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
         
-        patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_2,'blue','FaceAlpha',0.3,'EdgeColor','none');
+        
+        patch(x_patch_0,y_patch_0,[118/255 102/255 167/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_1,[34/255 131/255 122/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_2,[22/255 10/255 100/255],'FaceAlpha',0.3,'EdgeColor','none');
+        
         
         if isempty(y_patch_0)
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT','2 GT'};
@@ -375,8 +392,11 @@ end
         
         y_patch_1 = [0 0 max(max(iVecLoad),max(iVecWndPwr)) max(max(iVecLoad),max(iVecWndPwr))];
         
-        patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
-        patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch,y_patch_1,'green','FaceAlpha',0.3,'EdgeColor','none');
+        
+        patch(x_patch_0,y_patch_0,[118/255 102/255 167/255],'FaceAlpha',0.3,'EdgeColor','none');
+        patch(x_patch,y_patch_1,[34/255 131/255 122/255],'FaceAlpha',0.3,'EdgeColor','none');
         
         if isempty(y_patch_0)
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$','1 GT'};
@@ -387,7 +407,10 @@ end
         colNum = 3;
     else
         
-        patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+%         patch(x_patch_0,y_patch_0,'red','FaceAlpha',0.3,'EdgeColor','none');
+        
+        patch(x_patch_0,y_patch_0,[118/255 102/255 167/255],'FaceAlpha',0.3,'EdgeColor','none');
+
         
         if isempty(y_patch_0)
             lgdCell = {'$P^{\ell}(t)$', '$P^{w}(t)$', '$\xi_0(t)$'};
@@ -400,7 +423,7 @@ end
     
     
     legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,'orientation','horizontal',...
-        'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
+        'Fontname','Times New Roman','EdgeColor','none', 'NumColumns',colNum,'interpreter','latex','Location',input.lgdLocationDstrb);
     
     ax2 = copyobj(myFigs.dstrb.ax,gcf);
     delete( get(ax2,'Children') )            %# delete its children
@@ -430,13 +453,15 @@ end
     
     
     myFigs.dstrb.ax.YAxis(1).Label.Interpreter = 'latex';
-    myFigs.dstrb.ax.YAxis(1).Label.String = 'Power [MW]';
+    myFigs.dstrb.ax.YAxis(1).Label.String = '$P^{\ell}(t), \; P^{w}(t), \; \xi_0(t) \;[MW]$';
     myFigs.dstrb.ax.YAxis(1).Color = 'black';
     myFigs.dstrb.ax.YAxis(1).FontSize  = 12;
     myFigs.dstrb.ax.YAxis(1).FontName = 'Times New Roman';
     
     ax2.YAxis.Label.Interpreter = 'latex';
-    ax2.YAxis.Label.String = '\verb|#| GT ON';
+%     ax2.YAxis.Label.String = ' $\sum_{g \in N_g} x_{g}^{gt}(t)$ [\verb|#| GT ON]';
+    ax2.YAxis.Label.String = ' $I_{on}^{gt}(t)$';
+
     ax2.YAxis.Color = 'black';
     ax2.YAxis.FontSize  = 12;
     ax2.YAxis.FontName = 'Times New Roman';
@@ -481,10 +506,10 @@ end
 %         legend(myFigs.dstrb.ax,[lgdCell,{'DMPC', 'SMPC'}],'FontSize',12,...
 %         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
 
-    legend(ax2,{'DMPC', 'SMPC'},'FontSize',10,'Box', 'off','color','none',...
-        'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northeast');
+    legend(ax2,{'$I_{on}^{gt} \; \textit{(DMPC)}$', '$I_{on}^{gt} \; \textit{(SMPC)}$'},'FontSize',10,'Box', 'off','color','none',...
+        'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location',input.lgdLocationIgtOn);
 
-    yyaxis left;
+%     yyaxis left;
 
     hold off;
     
