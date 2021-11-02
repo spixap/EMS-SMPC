@@ -76,4 +76,27 @@
 
 </details>
 
+<details>
+  <summary>Steps :date:</summary>
+  
+ 
+  __Load__ 
+  * current time: 7630
+  * current time: 7635
+  * current time: 7636
+  * current time: 7709
+ 
+   __Wind__ 
+  * current time: 7646
+  * current time: 7647
+  * current time: 7648
+  * current time: 7749
+ 
+  * current time: 7760
+  * current time: 7761
+  * current time: 7762
+  * current time: 7763
+
+</details>
+
 ## DATA FILES :open_file_folder: ##
