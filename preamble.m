@@ -6,7 +6,7 @@ par.N_steps = input.N_steps;
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;
 else
-    par.N_scn   = 25; % realizations - scenarios number
+    par.N_scn   = 10; % realizations - scenarios number
 end
 par.randomSeed = input.randomSeed;
 % ------------------------Initial (current) time---------------------------
@@ -39,9 +39,21 @@ par.c_dump     = 10*100;                    % artificial cost (per unit of dumpe
 par.c_soc_dev  = 0*10*100*100;                    % artificial cost (per unit of absolute SoC deviation in the end)
 par.c_fuel     = 0.24/rhoGas*dol2eur;  % [euros/kgGas]
 par.c_gt_srt   = 1217;                 % [euros/GTstart]
-par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000  
-par.c_Bat_rpl  = 500000 * dol2eur;     % replacement cost [euros/MWh] 500000
-par.c_Bat_res  = 50000  * dol2eur;     % residual value [euros/MWh] 50000
+par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000
+
+switch input.degradWeight
+    case 'none'
+         par.degradWeight = 0;
+    case 'normal'
+         par.degradWeight = 1;
+    case 'high'
+         par.degradWeight = 100;
+    otherwise
+        disp('other value malaka')
+end
+
+par.c_Bat_rpl  = par.degradWeight * 500000 * dol2eur;     % replacement cost [euros/MWh] 500000
+par.c_Bat_res  = par.degradWeight * 50000  * dol2eur;     % residual value [euros/MWh] 50000
 %% --------------------------\\ PARAMETERS \\------------------------------
 % FOREST
 par.leafSizeIdx = 1;

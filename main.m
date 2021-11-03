@@ -15,19 +15,20 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 160; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
-input.durationDays = 0;
-input.giveStartingTime = 1;
+input.startingDay  = 100; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
+input.durationDays = 1;
+input.giveStartingTime = 0; % {0, 1}
 inut.startingTime = 7760;
 
 
-input.doAnimation = 1;
+input.doAnimation = 0;
 input.animationVar = 'wind'; % {'load', 'wind'}
 
 input.randomSeed = 24;
 
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+input.degradWeight = 'normal';    % {'none', 'normal', 'low', 'medium', 'high'}
 
 
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -263,14 +264,7 @@ matFileName     = fullfile(FolderDestination,outFileName);
 save(matFileName,'par','ttData','t_start','t_end','x','u_0','rslt','kpi');
 %}
 
-% RSLT.NO_ESS.u_0 = u_0;
-% RSLT.NO_ESS.rslt = rslt;
-% RSLT.NO_ESS.x = x;
-% RSLT.NO_ESS.kpi = kpi;
-% RSLT.NO_ESS.t_start = t_start;
-% RSLT.NO_ESS.t_end = t_end;
-% 
-FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
+FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision\degradWeight';   % Your destination folder
 outFileName     =  [input.simulPeriodName,'.mat'];
 matFileName     = fullfile(FolderDestination,outFileName); 
 
@@ -279,20 +273,115 @@ if isfile(matFileName)
 end
 % 
 
-if strcmp('scn_frcst',input.method)
-    RSLT.ESS_scn.u_0 = u_0;
-    RSLT.ESS_scn.rslt = rslt;
-    RSLT.ESS_scn.x = x;
-    RSLT.ESS_scn.kpi = kpi;
-    RSLT.ESS_scn.t_start = t_start;
-    RSLT.ESS_scn.t_end = t_end;
-elseif strcmp('point_frcst',input.method)
-    RSLT.ESS_mean.u_0 = u_0;
-    RSLT.ESS_mean.rslt = rslt;
-    RSLT.ESS_mean.x = x;
-    RSLT.ESS_mean.kpi = kpi;
-    RSLT.ESS_mean.t_start = t_start;
-    RSLT.ESS_mean.t_end = t_end;
+switch input.degradWeight
+
+    case 'none'
+        
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.noDegrad.u_0 = u_0;
+            RSLT.ESS_scn.noDegrad.rslt = rslt;
+            RSLT.ESS_scn.noDegrad.x = x;
+            RSLT.ESS_scn.noDegrad.kpi = kpi;
+            RSLT.ESS_scn.noDegrad.t_start = t_start;
+            RSLT.ESS_scn.noDegrad.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.noDegrad.u_0 = u_0;
+            RSLT.ESS_mean.noDegrad.rslt = rslt;
+            RSLT.ESS_mean.noDegrad.x = x;
+            RSLT.ESS_mean.noDegrad.kpi = kpi;
+            RSLT.ESS_mean.noDegrad.t_start = t_start;
+            RSLT.ESS_mean.noDegrad.t_end = t_end;
+        end
+        
+    case 'normal'
+        
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.normalDegrad.u_0 = u_0;
+            RSLT.ESS_scn.normalDegrad.rslt = rslt;
+            RSLT.ESS_scn.normalDegrad.x = x;
+            RSLT.ESS_scn.normalDegrad.kpi = kpi;
+            RSLT.ESS_scn.normalDegrad.t_start = t_start;
+            RSLT.ESS_scn.normalDegrad.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.normalDegrad.u_0 = u_0;
+            RSLT.ESS_mean.normalDegrad.rslt = rslt;
+            RSLT.ESS_mean.normalDegrad.x = x;
+            RSLT.ESS_mean.normalDegrad.kpi = kpi;
+            RSLT.ESS_mean.normalDegrad.t_start = t_start;
+            RSLT.ESS_mean.normalDegrad.t_end = t_end;
+        end
+        
+    case 'low'
+        
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.lowDegrad.u_0 = u_0;
+            RSLT.ESS_scn.lowDegrad.rslt = rslt;
+            RSLT.ESS_scn.lowDegrad.x = x;
+            RSLT.ESS_scn.lowDegrad.kpi = kpi;
+            RSLT.ESS_scn.lowDegrad.t_start = t_start;
+            RSLT.ESS_scn.lowDegrad.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.lowDegrad.u_0 = u_0;
+            RSLT.ESS_mean.lowDegrad.rslt = rslt;
+            RSLT.ESS_mean.lowDegrad.x = x;
+            RSLT.ESS_mean.lowDegrad.kpi = kpi;
+            RSLT.ESS_mean.lowDegrad.t_start = t_start;
+            RSLT.ESS_mean.lowDegrad.t_end = t_end;
+        end
+        
+    case 'medium'
+        
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.mediumDegrad.u_0 = u_0;
+            RSLT.ESS_scn.mediumDegrad.rslt = rslt;
+            RSLT.ESS_scn.mediumDegrad.x = x;
+            RSLT.ESS_scn.mediumDegrad.kpi = kpi;
+            RSLT.ESS_scn.mediumDegrad.t_start = t_start;
+            RSLT.ESS_scn.mediumDegrad.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.mediumDegrad.u_0 = u_0;
+            RSLT.ESS_mean.mediumDegrad.rslt = rslt;
+            RSLT.ESS_mean.mediumDegrad.x = x;
+            RSLT.ESS_mean.mediumDegrad.kpi = kpi;
+            RSLT.ESS_mean.mediumDegrad.t_start = t_start;
+            RSLT.ESS_mean.mediumDegrad.t_end = t_end;
+        end
+        
+    case 'high'
+        
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.highDegrad.u_0 = u_0;
+            RSLT.ESS_scn.highDegrad.rslt = rslt;
+            RSLT.ESS_scn.highDegrad.x = x;
+            RSLT.ESS_scn.highDegrad.kpi = kpi;
+            RSLT.ESS_scn.highDegrad.t_start = t_start;
+            RSLT.ESS_scn.highDegrad.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.highDegrad.u_0 = u_0;
+            RSLT.ESS_mean.highDegrad.rslt = rslt;
+            RSLT.ESS_mean.highDegrad.x = x;
+            RSLT.ESS_mean.highDegrad.kpi = kpi;
+            RSLT.ESS_mean.highDegrad.t_start = t_start;
+            RSLT.ESS_mean.highDegrad.t_end = t_end;
+        end
+        
+    otherwise
+            
+        if strcmp('scn_frcst',input.method)
+            RSLT.ESS_scn.u_0 = u_0;
+            RSLT.ESS_scn.rslt = rslt;
+            RSLT.ESS_scn.x = x;
+            RSLT.ESS_scn.kpi = kpi;
+            RSLT.ESS_scn.t_start = t_start;
+            RSLT.ESS_scn.t_end = t_end;
+        elseif strcmp('point_frcst',input.method)
+            RSLT.ESS_mean.u_0 = u_0;
+            RSLT.ESS_mean.rslt = rslt;
+            RSLT.ESS_mean.x = x;
+            RSLT.ESS_mean.kpi = kpi;
+            RSLT.ESS_mean.t_start = t_start;
+            RSLT.ESS_mean.t_end = t_end;
+        end
 end
 
 save(matFileName,'RSLT')
@@ -317,57 +406,4 @@ if input.doAnimation == 1
     funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, 1)
 end
 %%
-
-
-
-% RSLT.ESS_scn.noDegrad.u_0 = u_0;
-% RSLT.ESS_scn.noDegrad.rslt = rslt;
-% RSLT.ESS_scn.noDegrad.x = x;
-% RSLT.ESS_scn.noDegrad.kpi = kpi;
-% RSLT.ESS_scn.noDegrad.t_start = t_start;
-% RSLT.ESS_scn.noDegrad.t_end = t_end;
-
-% RSLT.ESS_scn.noDegrad.noDump.u_0 = u_0;
-% RSLT.ESS_scn.noDegrad.noDump.rslt = rslt;
-% RSLT.ESS_scn.noDegrad.noDump.x = x;
-% RSLT.ESS_scn.noDegrad.noDump.kpi = kpi;
-% RSLT.ESS_scn.noDegrad.noDump.t_start = t_start;
-% RSLT.ESS_scn.noDegrad.noDump.t_end = t_end;
-
-
-% RSLT.ESS_mean.noDegrad.noDump.u_0 = u_0;
-% RSLT.ESS_mean.noDegrad.noDump.rslt = rslt;
-% RSLT.ESS_mean.noDegrad.noDump.x = x;
-% RSLT.ESS_mean.noDegrad.noDump.kpi = kpi;
-% RSLT.ESS_mean.noDegrad.noDump.t_start = t_start;
-% RSLT.ESS_mean.noDegrad.noDump.t_end = t_end;
-
-
-% RSLT.ESS_mean.noDegrad.u_0 = u_0;
-% RSLT.ESS_mean.noDegrad.rslt = rslt;
-% RSLT.ESS_mean.noDegrad.x = x;
-% RSLT.ESS_mean.noDegrad.kpi = kpi;
-% RSLT.ESS_mean.noDegrad.t_start = t_start;
-% RSLT.ESS_mean.noDegrad.t_end = t_end;
-
-
-% % % 
-% save('rslts_gtONcst_5000','RSLT','par')
-
-
-% save(matFileName,'RSLT')
-
 % figure;plot(RSLT.ESS_scn.rslt.fsol);hold on;plot(RSLT.ESS_mean.rslt.fsol);legend('scn','mean');
-
-
-% u_0 = RSLT.ESS_mean.u_0 ;
-% rslt = RSLT.ESS_mean.rslt ;
-% x = RSLT.ESS_mean.x;
-% t_start=RSLT.ESS_mean.t_start;
-% t_end=RSLT.ESS_mean.t_end ;
-% 
-% u_0 = RSLT.ESS_scn.u_0 ;
-% rslt = RSLT.ESS_scn.rslt ;
-% x = RSLT.ESS_scn.x;
-% t_start=RSLT.ESS_scn.t_start;
-% t_end=RSLT.ESS_scn.t_end ;
