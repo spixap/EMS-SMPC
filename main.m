@@ -28,7 +28,7 @@ input.randomSeed = 24;
 
 
 input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
-input.degradWeight = 'normal';    % {'none', 'normal', 'low', 'medium', 'high'}
+input.degradWeight = 'high';    % {'none', 'normal', 'low', 'medium', 'high'}
 
 
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)

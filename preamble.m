@@ -35,11 +35,11 @@ par.randomSeed = input.randomSeed;
 %% --------------------------\\ COST COEFS \\ -----------------------------
 dol2eur = 0.89;
 rhoGas  = 0.717;
-par.c_dump     = 10*100;                    % artificial cost (per unit of dumped power per period)
+par.c_dump     = 0.1*10*100;                    % artificial cost (per unit of dumped power per period)
 par.c_soc_dev  = 0*10*100*100;                    % artificial cost (per unit of absolute SoC deviation in the end)
 par.c_fuel     = 0.24/rhoGas*dol2eur;  % [euros/kgGas]
-par.c_gt_srt   = 1217;                 % [euros/GTstart]
-par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus] nominal 5000
+par.c_gt_srt   = 0.5*1217;                 % [euros/GTstart]
+par.c_gt_ON    = 0.01*5000;                 % [euros/GT_ON sattus] nominal 5000
 
 switch input.degradWeight
     case 'none'
@@ -47,7 +47,7 @@ switch input.degradWeight
     case 'normal'
          par.degradWeight = 1;
     case 'high'
-         par.degradWeight = 100;
+         par.degradWeight = 10000;
     otherwise
         disp('other value malaka')
 end
