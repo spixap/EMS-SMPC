@@ -9,13 +9,14 @@
 % for specified look ahead horizon
 close all;
 clc;
-clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp
+clearvars -except GFA_15_min RES
 %% SELECT DATA TYPE
 % PART A - LOAD
 %
 ttData = GFA_15_min;
 ttData.Properties.DimensionNames{1} = 'time';
-Data   = GFA_15_min.P_GFA;
+ttData.Properties.VariableNames{1} = 'data';
+Data = ttData.data;
 %}
 % PART B - WIND POWER
 %{

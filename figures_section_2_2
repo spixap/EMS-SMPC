@@ -1,7 +1,11 @@
-%-----GENERATE FIGURE WITH MEAN, PROBABILISTIC AND SCENARIO FORECASTS------
-%-----for time instant t_current------
+%-----FIGURES OF SECTION 2.2-----
+% load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 %%
-preamble;
+% preamble;
+par.leafSizeIdx = 1;
+par.lamda       = 0.5; 
+par.tau         = linspace(0,1,21);
+par.lagsNum     = 6;
 %% SELECT DATA TYPE
 % PART A - LOAD
 %{
@@ -302,7 +306,7 @@ myFigs.meanFrcstk1.ax.YGrid = 'on';
 %% -----------------------------FIGURE 4-----------------------------------
 %--------------Zoomed timeseries forecasting for k=6 model-----------------
 %
-k = 12;
+k = 6;
 str_k = ['{t+',num2str(k),'|t}'];
 t_idx = 1;
 predX = zeros(par.N_steps, lagsNum);
@@ -371,15 +375,16 @@ myFigs.meanFrcstk1.ax.XLabel.FontName = 'Times New Roman';
 myFigs.meanFrcstk1.ax.XGrid = 'on';
 myFigs.meanFrcstk1.ax.YGrid = 'on';
 %}
-%% -----------------------------FIGURE 5-----------------------------------
-%--------------------Scenarios and probabilistic plot----------------------
-myProbFrcstFigTitle = [varNameTitle,'probFrcst_t_',num2str(t_current)];
-myScenFrcstFigTitle = [varNameTitle,'scenFrcst_t_',num2str(t_current)];
-funProbFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myProbFrcstFigTitle);
-funScenFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myScenFrcstFigTitle);
-%%
-myFrcstFigTitle = [varNameTitle,'Frcst_t_',num2str(t_current)];
-funFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myFrcstFigTitle);
+
+% %% -----------------------------FIGURE 5-----------------------------------
+% %--------------------Scenarios and probabilistic plot----------------------
+% myProbFrcstFigTitle = [varNameTitle,'probFrcst_t_',num2str(t_current)];
+% myScenFrcstFigTitle = [varNameTitle,'scenFrcst_t_',num2str(t_current)];
+% funProbFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myProbFrcstFigTitle);
+% funScenFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myScenFrcstFigTitle);
+% %%
+% myFrcstFigTitle = [varNameTitle,'Frcst_t_',num2str(t_current)];
+% funFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myFrcstFigTitle);
 %% ------------------------\\\ SAVING FIGURES \\\---------------------------
 %
 % mkdir Figs_Out

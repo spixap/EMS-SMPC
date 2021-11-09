@@ -15,49 +15,51 @@
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 
 
-input.startingDay  = 100; %118, 112, 126, 226, 237, 61, 11, 166, 290  (238 bad, not 301)
-input.durationDays = 1;
-input.giveStartingTime = 0; % {0, 1}
-inut.startingTime = 7760;
+% input.startingDay  = 100;
+% input.durationDays = 1;
+% input.giveStartingTime = 0; % {0, 1}
+% inut.startingTime = 7630;
+% 
+% 
+% input.doAnimation = 0;
+% input.animationVar = 'load'; % {'load', 'wind'}
+% 
+% input.randomSeed = 24;
+% 
+% 
+% input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+% input.degradWeight = 'normal';    % {'noWeight','none', 'normal', 'low', 'medium', 'high'}
+% 
+% 
+% if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
+%     error(['Non valid argument for input.method.' newline...
+%            'Insert: point_frcst OR scn_frcst']);
+% end
+% 
+% if input.durationDays == 1
+%     input.simulPeriodName = ['day_',int2str(input.startingDay)];
+%     input.N_steps = 4*24*input.durationDays;
+%     t_current   = 4*24*(input.startingDay-1);    
+% 
+% elseif input.durationDays > 1
+%     input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
+%     input.N_steps = 4*24*input.durationDays;
+%     t_current   = 4*24*(input.startingDay-1);    
+% 
+% elseif input.durationDays == 0
+%     input.N_steps = 300;    % number of timesteps to simulate 576 (nice period)
+%     if input.giveStartingTime == 0
+%         input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
+%         t_current   = 4*24*(input.startingDay-1);
+%     else
+%         input.simulPeriodName = ['t_',int2str(inut.startingTime),'_steps_',int2str(input.N_steps)];
+%         t_current   = inut.startingTime;
+%     end
+% end
+% 
+% input.N_prd = 6; % {6, 12}
 
-
-input.doAnimation = 0;
-input.animationVar = 'wind'; % {'load', 'wind'}
-
-input.randomSeed = 24;
-
-
-input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
-input.degradWeight = 'high';    % {'none', 'normal', 'low', 'medium', 'high'}
-
-
-if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
-    error(['Non valid argument for input.method.' newline...
-           'Insert: point_frcst OR scn_frcst']);
-end
-
-if input.durationDays == 1
-    input.simulPeriodName = ['day_',int2str(input.startingDay)];
-    input.N_steps = 4*24*input.durationDays;
-    t_current   = 4*24*(input.startingDay-1);    
-
-elseif input.durationDays > 1
-    input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
-    input.N_steps = 4*24*input.durationDays;
-    t_current   = 4*24*(input.startingDay-1);    
-
-elseif input.durationDays == 0
-    input.N_steps = 300;    % number of timesteps to simulate 576 (nice period)
-    if input.giveStartingTime == 0
-        input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
-        t_current   = 4*24*(input.startingDay-1);
-    else
-        input.simulPeriodName = ['t_',int2str(inut.startingTime),'_steps_',int2str(input.N_steps)];
-        t_current   = inut.startingTime;
-    end
-end
-
-input.N_prd = 6; % {6, 12}
+user_defined_inputs;
 
 clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current y1 test1
 close all; clc;
@@ -117,8 +119,10 @@ for t = t_start : t_end
     % PART A - LOAD
     ttData = GFA_15_min;
     ttData.Properties.DimensionNames{1} = 'time';
+    ttData.Properties.VariableNames{1} = 'data';
     Mdl  = Mdl_ld;
-    Data = Data_ld;
+%     Data = Data_ld;
+    Data = ttData.data;
     
     % Recursively update Sigma (initialization for the first simulation timestep)    
     if simIter == 1
@@ -142,7 +146,11 @@ for t = t_start : t_end
     newTimes = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
     ttData   = retime(RES,newTimes,'linear');
     Mdl  = Mdl_wp;
-    Data = Data_wp;
+    ttData.Properties.DimensionNames{1} = 'time';
+    ttData.Properties.VariableNames{1} = 'data';
+%     Data = Data_wp;
+    Data = ttData.data;
+
     
     % Recursively update Sigma (initialization for the first simulation timestep)
     if simIter == 1
@@ -217,7 +225,7 @@ for t = t_start : t_end
     clearvars -except simIter par rslt...
                       A_sys B_sys x_0 x u_0...
                       N_pwl N_prd N_scn N_gt...
-                      DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp...
+                      GFA_15_min RES Mdl_wp Mdl_ld...
                       t_start t_end netLoad netLoadFrcst...
                       probMPC...
                       P_gt pwl_fuel_w pwl_fuel_bin pwl_deg_w pwl_deg_bin deg...
@@ -230,6 +238,7 @@ for t = t_start : t_end
                       C_fuel C_deg C_gt_strUP C_gt_ON C_dump C_soc_dev ...
                       Sigma_rec_t_prev_inf_memory_ld Sigma_rec_t_prev_inf_memory_wp...
                       input t_current...
+                      %  DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp...
 
 end
 % -----------------------------\\ SIM-END \\-------------------------------
@@ -390,20 +399,24 @@ if input.doAnimation == 1
     if strcmp('load',input.animationVar)      
         ttData = GFA_15_min;
         ttData.Properties.DimensionNames{1} = 'time';
+        ttData.Properties.VariableNames{1} = 'data';
         Mdl  = Mdl_ld;
-        Data = Data_ld;
+        %     Data = Data_ld;
+        Data = ttData.data;
+
         
     elseif strcmp('wind',input.animationVar)
         newTimes = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
         ttData   = retime(RES,newTimes,'linear');
         Mdl  = Mdl_wp;
-        Data = Data_wp;
+        ttData.Properties.DimensionNames{1} = 'time';
+        ttData.Properties.VariableNames{1} = 'data';
+        %     Data = Data_wp;
+        Data = ttData.data;
         
     end
-    animPar.fulVidName = [input.simulPeriodName,'_',input.animationVar,'.mp4'];
+%     animPar.fulVidName = [input.simulPeriodName,'_',input.animationVar,'.mp4'];
     animPar.fulGifName = [input.simulPeriodName,'_',input.animationVar,'.gif'];
         
     funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, 1)
 end
-%%
-% figure;plot(RSLT.ESS_scn.rslt.fsol);hold on;plot(RSLT.ESS_mean.rslt.fsol);legend('scn','mean');
