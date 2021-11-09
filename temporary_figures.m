@@ -1,52 +1,52 @@
-%% --------------------------\\ INPUTS \\------------------------------
+%-----FIGURES OF SECTION 4.2-----
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
+%%
 
+% input.startingDay  = 160; 
+% 
+% 
+% input.durationDays = 1;
+% 
+% input.doAnimation = 0;
+% input.animationVar = 'wind'; % {'load', 'wind'}
+% 
+% input.randomSeed = 24;
+% 
+% 
+% input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
+% 
+% input.lgdLocationDstrb = 'southwest';
+% input.lgdLocationIgtOn = 'southeast';
+% 
+% input.lgdLocationSoC = 'southeast';
+% 
+% 
+% if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
+%     error(['Non valid argument for input.method.' newline...
+%            'Insert: point_frcst OR scn_frcst']);
+% end
+% 
+% if input.durationDays == 1
+%     input.simulPeriodName = ['day_',int2str(input.startingDay)];
+%     input.N_steps = 4*24*input.durationDays;
+%     t_current   = 4*24*(input.startingDay-1);    
+% 
+% elseif input.durationDays > 1
+%     input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
+%     input.N_steps = 4*24*input.durationDays;
+%     t_current   = 4*24*(input.startingDay-1);    
+% 
+% elseif input.durationDays == 0
+%     input.N_steps = 0;    % number of timesteps to simulate 576 (nice period)
+%     input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
+%     t_current   = 4*24*(input.startingDay-1);    
+% end
+% 
+% input.N_prd = 6; % {6, 12}
 
-input.startingDay  = 160; 
-
-
-input.durationDays = 1;
-
-input.doAnimation = 0;
-input.animationVar = 'wind'; % {'load', 'wind'}
-
-input.randomSeed = 24;
-
-
-input.method = 'scn_frcst'; % {'point_frcst', 'scn_frcst'}
-
-input.lgdLocationDstrb = 'southwest';
-input.lgdLocationIgtOn = 'southeast';
-
-input.lgdLocationSoC = 'southeast';
-
-
-
-
-
-if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
-    error(['Non valid argument for input.method.' newline...
-           'Insert: point_frcst OR scn_frcst']);
-end
-
-if input.durationDays == 1
-    input.simulPeriodName = ['day_',int2str(input.startingDay)];
-    input.N_steps = 4*24*input.durationDays;
-    t_current   = 4*24*(input.startingDay-1);    
-
-elseif input.durationDays > 1
-    input.simulPeriodName = ['days_',int2str(input.startingDay),'_',int2str(input.startingDay + input.durationDays)];
-    input.N_steps = 4*24*input.durationDays;
-    t_current   = 4*24*(input.startingDay-1);    
-
-elseif input.durationDays == 0
-    input.N_steps = 0;    % number of timesteps to simulate 576 (nice period)
-    input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
-    t_current   = 4*24*(input.startingDay-1);    
-end
-
-input.N_prd = 6; % {6, 12}
-
+%%
+user_defined_inputs;
+%%
 clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current
 close all; clc;
 if exist('w8bar')==1
@@ -62,14 +62,11 @@ matFileName     = fullfile(FolderDestination,outFileName);
 
 load(matFileName)
 
-%
 t_start = t_current;
 t_end = t_start + par.N_steps;
-% t_start = 7681;
-% t_end = 7753;
 idx_start = t_start - t_current + 1;
 idx_end = t_end - t_current +1;
-% SELECT DATA TYPE
+%% SELECT DATA TYPE
 % PART A - LOAD
 %
 ttData = GFA_15_min;
@@ -91,7 +88,7 @@ Mdl = Mdl_wp;
 varName = '$P_{w}\;[MW]$';
 varNameTitle = 'wp';
 %}
-% \\\\\\\\\\\\\\\\\PLOT 1: soc vs net load (scn & mean)\\\\\\\\\\\\\\\\\\\
+%% \\\\\\\\\\FIGURE: RULE-BASED REGIONS & GT STATUS (DMPC/SMPC)\\\\\\\\\\\\
 
 iVecLoad       = zeros(idx_end - idx_start + 1,1);
 iVecWndPwr     = zeros(idx_end - idx_start + 1,1);
@@ -514,18 +511,19 @@ end
     hold off;
     
 %%
-t_start = t_current;
-t_end = t_start + par.N_steps;
+% t_start = t_current;
+% t_end = t_start + par.N_steps;
+% 
+% idx_start = t_start - t_current + 1;
+% idx_end = t_end - t_current +1;
 
-idx_start = t_start - t_current + 1;
-idx_end = t_end - t_current +1;
-ttData = GFA_15_min;
-ttData.Properties.DimensionNames{1} = 'time';
-Data   = GFA_15_min.P_GFA;
-Mdl = Mdl_ld;
-varName = '$P_{\ell}\;[MW]$';
-varNameTitle = 'ld';
-% \\\\\\\\\\\\\\\\\PLOT 1: soc vs net load (scn & mean)\\\\\\\\\\\\\\\\\\\
+% ttData = GFA_15_min;
+% ttData.Properties.DimensionNames{1} = 'time';
+% Data   = GFA_15_min.P_GFA;
+% Mdl = Mdl_ld;
+% varName = '$P_{\ell}\;[MW]$';
+% varNameTitle = 'ld';
+%% \\\\\\\\\\\\\\\\FIGURE: SOC vs net load (DMPC / SMPC)\\\\\\\\\\\\\\\\\\\
 
 iVecLoad       = zeros(idx_end - idx_start + 1,1);
 iVecWndPwr     = zeros(idx_end - idx_start + 1,1);
@@ -641,14 +639,7 @@ legend(myFigs.netLoadSoC.h,{'$w_{dg}=0$','$w_{dg}=1$',...
     '$w_{dg}=1000$','$\xi_0(t)$'},'FontSize',12,'Box', 'off','color','none',...
     'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location','northwest');
 %% Appendix-1: Save produced figures
-%
-% prompt = 'Save figure? Y/N [Y]: ';
-% str = input(prompt,'s');
-% if isempty(str)
-%     str = 'Y';
-% end
-
-    
+   
 FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS';   % Your destination folder
 FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
 for iFig = 1:length(FigList)
