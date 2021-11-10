@@ -48,4 +48,4 @@ varName = '$P_{w}\;[MW]$';
 varNameTitle = 'wp';
 %}
 %%
-funPaperPlts(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0  , RSLT.ESS_scn.rslt, RSLT);
+funPltCtrlRsltPretty(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0  , RSLT.ESS_scn.rslt, RSLT);
