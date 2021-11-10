@@ -1,5 +1,5 @@
-function  funPaperPlts(par, ttData, t_start, t_end, x, u_0, rslt, RSLT)
-    %funPaperPlts Paper plots
+function  funPltCtrlRsltPretty(par, ttData, t_start, t_end, x, u_0, rslt, RSLT)
+    %funPltCtrlRsltPretty
     %   To plot the MPC states evolution and control effort for selected
     %   method (DMPC/SMPC)
     %% \\\\\\\\\\\\\\\\\\\\\\PLOT 1: STATES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
