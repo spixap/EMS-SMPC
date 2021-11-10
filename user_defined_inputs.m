@@ -2,17 +2,15 @@
 %%
 input.startingDay  = 100;
 input.durationDays = 1;
-input.giveStartingTime = 0;     % {0, 1}
-inut.startingTime = 7630;
+input.giveStartingTime = 0;           % {0, 1}
+inut.startingTime  = 7630;
+input.doAnimation  = 0;
+input.animationVar = 'load';          % {'load', 'wind'}
 
+input.randomSeed   = 24;
 
-input.doAnimation = 0;
-input.animationVar = 'load';    % {'load', 'wind'}
-
-input.randomSeed = 24;
-
-input.method = 'scn_frcst';     % {'point_frcst', 'scn_frcst'}
-input.degradWeight = 'noWeight';  % {'noWeight','none', 'normal', 'low', 'medium', 'high'}
+input.method       = 'scn_frcst';     % {'point_frcst', 'scn_frcst'}
+input.degradWeight = 'noWeight';      % {'noWeight','none', 'normal', 'low', 'medium', 'high'}
 
 
 if ~xor(strcmp(input.method,'point_frcst')==1, strcmp(input.method,'scn_frcst')==1)
@@ -44,4 +42,4 @@ end
 input.N_prd = 6;    % {6, 12}
 input.lgdLocationDstrb = 'southwest';
 input.lgdLocationIgtOn = 'southeast';
-input.lgdLocationSoC = 'southeast';
+input.lgdLocationSoC   = 'southeast';
