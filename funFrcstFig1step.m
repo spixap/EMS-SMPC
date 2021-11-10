@@ -4,9 +4,6 @@ function myFig = funFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle
 
 mu = zeros(1,par.N_prd);       % MVN(0,Sigma)
 idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-%     par.randomSeed = 24; % 24, 4, 20, 1
-
-%     t = t_current;
 
 %     window.width  = 2 * par.N_prd;
 window.width  = 2 * 2;

@@ -14,10 +14,8 @@ function [xi] = funScenGenQRF(ttData, par, Data, t_current, Mdl, animPar, fig_ct
 
     % SIMULATION
     idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-%     par.randomSeed = 24;
 
     t_final = t_current + par.N_steps;
-%     t_final = t_current;
 
 
     cdf_inv_hat = zeros(par.N_prd,length(par.tau));

@@ -3,10 +3,6 @@ function myFig = funProbFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigt
 %   Plot mean, scenarios and probabilistic forecasts
 
     mu = zeros(1,par.N_prd);       % MVN(0,Sigma)
-    idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-%     par.randomSeed = 24; % 24, 4, 20, 1
-
-%     t = t_current;
 
 %     window.width  = 2 * par.N_prd;
     window.width  = 2 * 2;
@@ -151,7 +147,7 @@ function myFig = funProbFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigt
     for k = 1 : par.N_prd
         P_k(:,k) = interp1(par.tau(2:end-1),quantiles.Q{1,k}(2:end-1),U_k(:,k),'linear','extrap');
         % ASSIGN SCENARIOS
-        xi.scen(idx_gif,k,:) = P_k(:,k);
+%         xi.scen(idx_gif,k,:) = P_k(:,k);
     end
     %% Figure
     myFig.figWidth = 7; myFig.figHeight = 5;

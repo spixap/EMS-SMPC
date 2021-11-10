@@ -13,8 +13,7 @@ end
 
 % SIMULATION
 idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-% par.randomSeed = 24;
-idx_t = t_current;
+idx_t   = t_current;
 
 
 cdf_inv_hat = zeros(par.N_prd,length(par.tau));
@@ -192,10 +191,6 @@ end
 if simIter == 1
     Sigma_hat_rec_t_inf = Sigma_rec_t_prev_inf;
 else
-    %             X = zeros(par.N_prd,1);
-    %             for k = 1 : par.N_prd
-    %                 X(k,1) = X_k(simIter-par.N_prd,k);
-    %             end
     X = X_k';
     Sigma_hat_rec_t_inf  = par.lamda * Sigma_rec_t_prev_inf + (1-par.lamda) * (X*X');
 end
@@ -209,18 +204,8 @@ end
 
 Rho_hat_rec_t_inf = corrcov(Sigma_hat_rec_t_inf);
 
-%         if abs(sum(Rho_hat_rec_t_inf,'all') - par.N_prd^2) <= 0.00001
-%            Rho_hat_rec_t_inf = diag(ones(par.N_prd,1));
-%         end
-
-%         if sum(sum(Rho_hat_rec_t_inf(1:end-1,1:end-1))) >= (par.N_prd-1)^2-1
-%            Rho_hat_rec_t_inf = diag(ones(par.N_prd,1));
-%         end
-
-
 idx_diag = eye(par.N_prd,par.N_prd);
-% Y = (1-idx_diag).*Rho_hat_rec_t_inf;
-nonDiag = Rho_hat_rec_t_inf(~idx_diag);
+nonDiag  = Rho_hat_rec_t_inf(~idx_diag);
 
 if ~isempty(find(nonDiag==1,1)) || min(abs(nonDiag-1))<= 0.01
     Rho_hat_rec_t_inf = diag(ones(par.N_prd,1));
@@ -251,7 +236,5 @@ if fig_ctrl == 1
     funAnimateQRF(ttData, ax, FigH, quantsY, t_current, par, Data, idx_t, window, idx_gif, animPar, xi.scen(idx_gif,:,:));
 end
 
-
-%     end
 end
 
