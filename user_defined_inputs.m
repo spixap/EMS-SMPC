@@ -44,5 +44,4 @@ end
 input.N_prd = 6;    % {6, 12}
 input.lgdLocationDstrb = 'southwest';
 input.lgdLocationIgtOn = 'southeast';
-
 input.lgdLocationSoC = 'southeast';

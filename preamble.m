@@ -10,11 +10,11 @@ else
 end
 par.randomSeed = input.randomSeed;  
 %% --------------------------\\ COST COEFS \\ -----------------------------
-dol2eur = 0.89;
-rhoGas  = 0.717;
+par.dol2eur    = 0.89;                 % dollars to euros conversion
+par.rhoGas     = 0.717;                % Natural Gas density [kg/m^3]
 par.c_dump     = 10*100;               % artificial cost (per unit of dumped power per period)
 par.c_soc_dev  = 0*10*100*100;         % artificial cost (per unit of absolute SoC deviation in the end)
-par.c_fuel     = 0.24/rhoGas*dol2eur;  % [euros/kgGas]
+par.c_fuel     = 0.24/par.rhoGas * par.dol2eur;  % [euros/kgGas]
 par.c_gt_srt   = 1217;                 % [euros/GTstart]
 par.c_gt_ON    = 5000;                 % [euros/GT_ON sattus]
 
@@ -29,8 +29,8 @@ switch input.degradWeight
         par.degradWeight = 1;
 end
 
-par.c_Bat_rpl  = par.degradWeight * 500000 * dol2eur;     % replacement cost [euros/MWh] 500000
-par.c_Bat_res  = par.degradWeight * 50000  * dol2eur;     % residual value [euros/MWh] 50000
+par.c_Bat_rpl  = par.degradWeight * 500000 * par.dol2eur;     % replacement cost [euros/MWh]
+par.c_Bat_res  = par.degradWeight * 50000  * par.dol2eur;     % residual value [euros/MWh]
 %% --------------------------\\ PARAMETERS \\------------------------------
 % FOREST
 par.leafSizeIdx = 1;
@@ -39,16 +39,16 @@ par.tau         = linspace(0,1,21);
 par.lagsNum     = 6;
                   
 % ORGANIZE LOAD DATA AS DATAX OBJECT
-netLoadX = DataX(Data_ld-Data_wp);      
-netLoadX.iniVec    = netLoadX.GroupSamplesBy(96);
+netLoadX        = DataX(Data_ld-Data_wp);      
+netLoadX.iniVec = netLoadX.GroupSamplesBy(96);
 
 %-------------------------------- SETS ------------------------------------
 par.N_pwl = 11;      % # of discretization points for PieceWise Linear approx.
 par.N_gt  = 4;       % # of Gas Turbines
 %--------------------------------- GT -------------------------------------
 par.P_gt_nom  = 20.2;                   % Nominal GT power rating
-par.P_gt_min  = 0.2 * par.P_gt_nom;
-par.P_gt_max  = 1.09* par.P_gt_nom;
+par.P_gt_min  = 0.20 * par.P_gt_nom;
+par.P_gt_max  = 1.09 * par.P_gt_nom;
 par.gt_RR     = par.P_gt_max;           % Ramping Rate
 par.spinRes   = 1.05;
 par.idleFuel  = 172*0.2*20.2+984;       % [kg/h] coming from min GT fuel consumption (linear curve) - intercept @ no load: 172*0.2*20.2+984
