@@ -20,6 +20,7 @@ if isfile(matFileName)
    load(matFileName,'RSLT')
 end
 
+%%
 ctrl_rslt_mean = funGetCtrlRslt(par, RSLT.ESS_mean.x, RSLT.ESS_mean.u_0, RSLT.ESS_mean.rslt);
 ctrl_rslt_scn  = funGetCtrlRslt(par, RSLT.ESS_scn.x,  RSLT.ESS_scn.u_0,  RSLT.ESS_scn.rslt);
 %% CALCULATIONS

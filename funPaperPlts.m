@@ -1,6 +1,7 @@
 function  funPaperPlts(par, ttData, t_start, t_end, x, u_0, rslt, RSLT)
     %funPaperPlts Paper plots
-    %   To plot the MPC states evolution and control effort ofr the paper
+    %   To plot the MPC states evolution and control effort for selected
+    %   method (DMPC/SMPC)
     %% \\\\\\\\\\\\\\\\\\\\\\PLOT 1: STATES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     myFigs.states.figWidth = 7; myFigs.states.figHeight = 5;
     myFigs.states.figBottomLeftX0 = 2; myFigs.states.figBottomLeftY0 =2;

@@ -1,6 +1,26 @@
-%----------------------GENERATE MEAN VS SCN PLOTS--------------------------
+% -----DMPC/SMPC PLOTS-----
 %%
+user_defined_inputs;
+
+clearvars -except DataTot GFA_15_min RES Mdl_wp Mdl_ld Data_ld Data_wp spi w8bar crps input t_current
+close all; clc;
+if exist('w8bar')==1
+    delete(w8bar);
+end
+rng(0,'twister');
+
 preamble;
+
+% LOAD RESULT FILE
+FolderDestination = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Results\Revision';   % Your destination folder
+outFileName     =  [input.simulPeriodName,'.mat'];
+matFileName     = fullfile(FolderDestination,outFileName); 
+
+if isfile(matFileName)
+   load(matFileName,'RSLT')
+end
+
+% preamble;
 % load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\Period_7500_7800\rslts_gtONcst_5000.mat','RSLT');
 % load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\day100.mat','RSLT');
 % load( '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Results\days_100_110.mat','RSLT');
@@ -8,8 +28,6 @@ preamble;
 %%
 t_start = t_current;
 t_end = t_start + par.N_steps;
-% t_start = 7681;
-% t_end = 7753;
 idx_start = t_start - t_current + 1;
 idx_end = t_end - t_current +1;
 %% SELECT DATA TYPE
@@ -34,105 +52,6 @@ Mdl = Mdl_wp;
 varName = '$P_{w}\;[MW]$';
 varNameTitle = 'wp';
 %}
-%% \\\\\\\\\\\\\\\\\PLOT 1: soc vs net load (scn & mean)\\\\\\\\\\\\\\\\\\\
-
-iVecLoad       = zeros(idx_end - idx_start + 1,1);
-iVecWndPwr     = zeros(idx_end - idx_start + 1,1);
-
-for i = 1 : idx_end - idx_start + 1
-    iVecLoad(i)   = RSLT.ESS_mean.rslt.xi(i).L(1,1);
-    iVecWndPwr(i) = RSLT.ESS_mean.rslt.xi(i).W(1,1);
-end
-
-myFigs.netLoadSoC.figWidth = 7; myFigs.netLoadSoC.figHeight = 5;
-myFigs.netLoadSoC.figBottomLeftX0 = 2; myFigs.netLoadSoC.figBottomLeftY0 =2;
-myFigs.netLoadSoC.fig = figure('Name','SoC_Pgt_rslt','NumberTitle','off','Units','inches',...
-    'Position',[myFigs.netLoadSoC.figBottomLeftX0 myFigs.netLoadSoC.figBottomLeftY0 myFigs.netLoadSoC.figWidth myFigs.netLoadSoC.figHeight],...
-    'PaperPositionMode','auto');
-
-%     subplot(2,1,1);
-myFigs.states.ax = gca;
-hold on;
-
-p1=plot(ttData.time(t_start : t_end),RSLT.ESS_mean.x(1,idx_start:idx_end),'-r','LineWidth',1.5);
-p2=plot(ttData.time(t_start : t_end),RSLT.ESS_scn.x(1,idx_start:idx_end),'--b','LineWidth',1.2);
-
-yl1=yline(par.socDOWNlim,'--','LineWidth',3);
-yl1.Color = [0.8500, 0.3250, 0.0980];
-yl1.Interpreter = 'latex';
-yl1.Label = '$SoC_{min}$';
-yl1.LabelVerticalAlignment = 'top';
-yl1.LabelHorizontalAlignment = 'left';
-yl1.FontSize = 12;
-
-yl2=yline(par.socUPlim,'--','LineWidth',3);
-yl2.Color = [0.8500, 0.3250, 0.0980];
-yl2.Interpreter = 'latex';
-yl2.Label = '$SoC_{max}$';
-yl2.LabelVerticalAlignment = 'bottom';
-yl2.LabelHorizontalAlignment = 'left';
-yl2.FontSize = 12;
-
-
-yyaxis right;
-p3=plot(ttData.time(t_start : t_end),iVecLoad-iVecWndPwr,'-k','LineWidth',1.5);
-%     p3=plot(ttData.time(t_start : t_end),iVecLoad,'-k','LineWidth',1);
-%     p4=plot(ttData.time(t_start : t_end),iVecWndPwr,'--k','LineWidth',1);
-hold off;
-
-myFigs.netLoadSoC.ax = gca;
-myFigs.netLoadSoC.h = [p1;p2;p3];
-
-myFigs.netLoadSoC.ax.XLabel.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.XLabel.String ='Date';
-myFigs.netLoadSoC.ax.XLabel.Color = 'black';
-myFigs.netLoadSoC.ax.XLabel.FontSize  = 12;
-myFigs.netLoadSoC.ax.XLabel.FontName = 'Times New Roman';
-%         myFigs.netLoadSoC.ax.FontSize  = 12;
-myFigs.netLoadSoC.ax.FontName = 'Times New Roman';
-%         myFigs.netLoadSoC.ax.XLim = [0,max(sim4Opt(1,1).tout)+dt];
-%         myFigs.netLoadSoC.ax.XTick = (0:1:max(sim4Opt(1,1).tout)+dt);
-
-myFigs.netLoadSoC.ax.XAxis.Label.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.XAxis.FontName = 'Times New Roman';
-myFigs.netLoadSoC.ax.XAxis.FontSize  = 12;
-myFigs.netLoadSoC.ax.XAxis.Color = 'black';
-myFigs.netLoadSoC.ax.XAxis.Label.String = 'Date';
-% myFigs.netLoadSoC.ax.XTick = ttCompare.plotTimes;
-%     myFigs.netLoadSoC.ax.XTick = (ttCompare.plotTimes(1):hours(6):ttCompare.plotTimes(end));
-myFigs.netLoadSoC.ax.XLabel.Color = 'black';
-myFigs.netLoadSoC.ax.XLabel.FontSize  = 12;
-myFigs.netLoadSoC.ax.XLabel.FontName = 'Times New Roman';
-myFigs.netLoadSoC.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
-
-myFigs.netLoadSoC.ax.YAxis(1).Label.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.YAxis(1).Label.String ='SoC';
-myFigs.netLoadSoC.ax.YAxis(1).Color = 'black';
-myFigs.netLoadSoC.ax.YAxis(1).FontSize  = 12;
-myFigs.netLoadSoC.ax.YAxis(1).FontName = 'Times New Roman';
-%         myFigs.netLoadSoC.ax.YAxis(1).TickValues  = (-param.Usat*0.5:0.1:param.Usat*0.5);
-
-myFigs.netLoadSoC.ax.YAxis(2).Label.Interpreter = 'latex';
-myFigs.netLoadSoC.ax.YAxis(2).Label.String ='Net Load [MW]';
-myFigs.netLoadSoC.ax.YAxis(2).Color = 'black';
-myFigs.netLoadSoC.ax.YAxis(2).FontSize  = 12;
-myFigs.netLoadSoC.ax.YAxis(2).FontName = 'Times New Roman';
-
-myFigs.netLoadSoC.ax.XGrid = 'on';
-myFigs.netLoadSoC.ax.YGrid = 'on';
-
-%     myFigs.netLoadSoC.ax.Title.String = 'GT power';
-%     myFigs.netLoadSoC.ax.YAxis.Label.Interpreter = 'latex';
-%     myFigs.netLoadSoC.ax.YAxis.Label.String ='[MW]';
-%     myFigs.netLoadSoC.ax.YAxis.Color = 'black';
-%     myFigs.netLoadSoC.ax.XGrid = 'on';
-%     myFigs.netLoadSoC.ax.YGrid = 'on';
-%     % myFigs.pwr.ax.YAxis.FontSize  = 18;
-%     myFigs.netLoadSoC.ax.YAxis.FontName = 'Times New Roman';
-% %     myFigs.pwr.ax.YLim = [0,1];
-
-legend(myFigs.netLoadSoC.h,{'mean','scn', 'net load'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',3,'interpreter','latex','Location','northwest');
 %% \\\\\\\\\\\\\\\\\PLOT 2: total GT power (scn & mean)\\\\\\\\\\\\\\\\\\\
 
 myFigs.gtPwrTot.figWidth = 7; myFigs.gtPwrTot.figHeight = 5;
@@ -140,13 +59,6 @@ myFigs.gtPwrTot.figBottomLeftX0 = 2; myFigs.gtPwrTot.figBottomLeftY0 =2;
 myFigs.gtPwrTot.fig = figure('Name','gtPwrTot','NumberTitle','off','Units','inches',...
     'Position',[myFigs.gtPwrTot.figBottomLeftX0 myFigs.gtPwrTot.figBottomLeftY0 myFigs.gtPwrTot.figWidth myFigs.gtPwrTot.figHeight],...
     'PaperPositionMode','auto');
-%      setup.NO_ESS.iVecDmpPwr     = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iVecGTAPwr     = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iVecGTBPwr     = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iVecGTCPwr     = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iVecGTDPwr     = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iVecDmpPwrTrue = zeros(idx_end - idx_start + 1,1);
-%     setup.NO_ESS.iAllGTstates   = zeros(idx_end - idx_start + 1,1);
 
 
 setup.ESS_mean.iVecDmpPwr     = zeros(idx_end - idx_start + 1,1);
@@ -168,18 +80,6 @@ setup.ESS_scn.iAllGTstates   = zeros(idx_end - idx_start + 1,1);
 
 % setup = {ESS_mean, ESS_scn}
 for i = 1 : idx_end - idx_start + 1
-    %         setup.NO_ESS.iVecLoad(i)   = RSLT.NO_ESS.rslt.xi(i).L(1,1);
-    %         setup.NO_ESS.iVecWndPwr(i) = RSLT.NO_ESS.rslt.xi(i).W(1,1);
-    %         setup.NO_ESS.iVecDmpPwr(i) = mean(RSLT.NO_ESS.rslt.sol(i).Power_dump(1,:));
-    %         setup.NO_ESS.iVecGTAPwr(i) = mean(RSLT.NO_ESS.rslt.sol(i).Power_GT(1,:,1)) * (RSLT.NO_ESS.x(2,i) + RSLT.NO_ESS.u_0(3,i) - RSLT.NO_ESS.u_0(4,i));
-    %         setup.NO_ESS.iVecGTBPwr(i) = mean(RSLT.NO_ESS.rslt.sol(i).Power_GT(1,:,2)) * (RSLT.NO_ESS.x(3,i) + RSLT.NO_ESS.u_0(5,i) - RSLT.NO_ESS.u_0(6,i));
-    %         setup.NO_ESS.iVecGTCPwr(i) = mean(RSLT.NO_ESS.rslt.sol(i).Power_GT(1,:,3)) * (RSLT.NO_ESS.x(4,i) + RSLT.NO_ESS.u_0(7,i) - RSLT.NO_ESS.u_0(8,i));
-    %         setup.NO_ESS.iVecGTDPwr(i) = mean(RSLT.NO_ESS.rslt.sol(i).Power_GT(1,:,4)) * (RSLT.NO_ESS.x(5,i) + RSLT.NO_ESS.u_0(9,i) - RSLT.NO_ESS.u_0(10,i));
-    %
-    %         setup.NO_ESS.iVecDmpPwrTrue(i) = setup.NO_ESS.iVecGTAPwr(i)+setup.NO_ESS.iVecGTBPwr(i)+setup.NO_ESS.iVecGTCPwr(i)+setup.NO_ESS.iVecGTDPwr(i) - ...
-    %                             (RSLT.NO_ESS.u_0(1,i) - RSLT.NO_ESS.u_0(2,i)) - (setup.NO_ESS.iVecLoad(i)-setup.NO_ESS.iVecWndPwr(i));
-    %
-    %         setup.NO_ESS.iAllGTstates(i) = RSLT.NO_ESS.x(2,i) + RSLT.NO_ESS.x(3,i) + RSLT.NO_ESS.x(3,i) +RSLT.NO_ESS.x(4,i);
     
     setup.ESS_mean.iVecLoad(i)   = RSLT.ESS_mean.rslt.xi(idx_start-1+i).L(1,1);
     setup.ESS_mean.iVecWndPwr(i) = RSLT.ESS_mean.rslt.xi(idx_start-1+i).W(1,1);
@@ -212,11 +112,9 @@ end
 myFigs.gtPwrTot.ax = gca;
 hold on;
 
-%     GTpowNoESS = setup.NO_ESS.iVecGTAPwr + setup.NO_ESS.iVecGTBPwr + setup.NO_ESS.iVecGTCPwr + setup.NO_ESS.iVecGTDPwr;
 GTpowESSmean = setup.ESS_mean.iVecGTAPwr + setup.ESS_mean.iVecGTBPwr + setup.ESS_mean.iVecGTCPwr + setup.ESS_mean.iVecGTDPwr;
 GTpowESSscn = setup.ESS_scn.iVecGTAPwr + setup.ESS_scn.iVecGTBPwr + setup.ESS_scn.iVecGTCPwr + setup.ESS_scn.iVecGTDPwr;
 
-%     plot(ttData.time(t_start : t_end),GTpowNoESS,'--k','LineWidth',1.5);
 plot(ttData.time(t_start : t_end),GTpowESSmean,'-r','LineWidth',1.5);
 plot(ttData.time(t_start : t_end),GTpowESSscn,'--b','LineWidth',1.5);
 hold off;
