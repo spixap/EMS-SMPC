@@ -1,14 +1,9 @@
 function myFig = funScenFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigtitle)
-%funFrcstFig1step Summary of this function goes here
-%   Plot mean, scenarios and probabilistic forecasts
+%funScenFrcstFig1step Plot mean, scenarios and probabilistic forecasts
 
     mu = zeros(1,par.N_prd);       % MVN(0,Sigma)
-    idx_gif = 1;                            % index to measure frames - indicates how many time steps have been executed
-%     par.randomSeed = 24; % 24, 4, 20, 1
+    idx_gif = 1;                   % index to measure frames - indicates how many time steps have been executed
 
-%     t = t_current;
-
-%     window.width  = 2 * par.N_prd;
     window.width  = 2 * 2;
 
     window.t_slide_start = t - window.width;
@@ -170,7 +165,6 @@ function myFig = funScenFrcstFig1step(ttData, par, Data, t, Mdl, varName, myFigt
 
 %     myFig.ax.YLim = ([min(trueY)-2 max(trueY)+5]);
 
-%     grid on;
     myFig.s1 = scatter(myFig.ax,ttData.time(t),Data(t),100,'+b','LineWidth',3);
 
     myFig.p2 = plot(ttData.time(window.t_slide_range),window.trueY,'-k*','LineWidth',2);

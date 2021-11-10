@@ -23,8 +23,8 @@ end
 %%
 t_start = t_current;
 t_end = t_start + par.N_steps;
-idx_start = t_start - t_current + 1;
-idx_end = t_end - t_current +1;
+% idx_start = t_start - t_current + 1;
+% idx_end = t_end - t_current +1;
 %% SELECT DATA TYPE
 % PART A - LOAD
 %
@@ -49,24 +49,3 @@ varNameTitle = 'wp';
 %}
 %%
 funPaperPlts(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0  , RSLT.ESS_scn.rslt, RSLT);
-%% SELECT SPECIFIC t TO PLOT SCENARIO FORECASTS
-t_slct = find(ttData.time==datetime('21-Mar-2019 12:30:00'));
-myFigtitle = [varNameTitle,'frcst_t_',num2str(t_slct)];
-funFrcstFig1step(ttData, par, Data, t_slct, Mdl, varName, myFigtitle);
-%     tempXI = RSLT.ESS_scn.rslt.xi(t_slct-t_current+1).L;
-tempXI = RSLT.ESS_scn.rslt.xi(t_slct-t_current+1).W;
-hold on;plot(ttData.time(t_slct : t_slct+5),tempXI)
-%% Appendix-1: Save produced figures
-%{
-% mkdir FigOutTest
-FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\EMS_V02\Figs_Out\paper_01';   % Your destination folder
-FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
-for iFig = 1:length(FigList)
-    FigHandle = FigList(iFig);
-    %       FigName   = num2str(get(FigHandle, 'Number'));
-    FigName   = get(FigHandle,'Name');
-    %     set(0, 'CurrentFigure', FigHandle);
-    %     savefig(fullfile(FolderName, [FigName '.fig']));
-    print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
-end
-%}
