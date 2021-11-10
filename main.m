@@ -13,6 +13,8 @@
 %..................................................................}
 %% --------------------------\\ INPUTS \\------------------------------
 % load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
+% load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\dataTimeseries.mat')
+
 
 user_defined_inputs;
 

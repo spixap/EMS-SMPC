@@ -39,8 +39,8 @@ par.tau         = linspace(0,1,21);
 par.lagsNum     = 6;
                   
 % ORGANIZE LOAD DATA AS DATAX OBJECT
-netLoadX        = DataX(Data_ld-Data_wp);      
-netLoadX.iniVec = netLoadX.GroupSamplesBy(96);
+% netLoadX        = DataX(Data_ld-Data_wp);      
+% netLoadX.iniVec = netLoadX.GroupSamplesBy(96);
 
 %-------------------------------- SETS ------------------------------------
 par.N_pwl = 11;      % # of discretization points for PieceWise Linear approx.

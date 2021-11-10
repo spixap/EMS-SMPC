@@ -1,5 +1,5 @@
 function [skill_sc,CRPS_ave_qrf,CRPS_ave_bnch] = funCalcCRPS(par,Data,ttData,Mdl,t_current)
-    %UNTITLED CALCULATE CRPS FOR REFERENCE PERIOD
+    %funCalcCRPS CALCULATE CRPS FOR REFERENCE PERIOD
     %   This function calculated CRPS metric from a QRF model and compares it
     %   against the becnhmark method as described inthe paper: "A universal benchmarking
     %   method for probabilistic solar irradiance forecasting"
