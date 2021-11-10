@@ -1,14 +1,14 @@
 %-----FIGURES OF SECTION 2.2-----
-% load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 %%
-% preamble;
+user_defined_inputs;
+preamble;
 par.leafSizeIdx = 1;
 par.lamda       = 0.5; 
 par.tau         = linspace(0,1,21);
 par.lagsNum     = 6;
 %% SELECT DATA TYPE
 % PART A - LOAD
-%{
+%
 ttData = GFA_15_min;
 ttData.Properties.DimensionNames{1} = 'time';
 Data   = GFA_15_min.P_GFA;
@@ -17,7 +17,7 @@ varName = '$P^{\ell}\;[MW]$';
 varNameTitle = 'ld';
 %}
 % PART B - WIND POWER
-%
+%{
 newTimes      = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
 ttData        = retime(RES,newTimes,'linear');
 WF1           = WindFarm();
@@ -374,26 +374,4 @@ myFigs.meanFrcstk1.ax.XLabel.FontName = 'Times New Roman';
 
 myFigs.meanFrcstk1.ax.XGrid = 'on';
 myFigs.meanFrcstk1.ax.YGrid = 'on';
-%}
-
-% %% -----------------------------FIGURE 5-----------------------------------
-% %--------------------Scenarios and probabilistic plot----------------------
-% myProbFrcstFigTitle = [varNameTitle,'probFrcst_t_',num2str(t_current)];
-% myScenFrcstFigTitle = [varNameTitle,'scenFrcst_t_',num2str(t_current)];
-% funProbFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myProbFrcstFigTitle);
-% funScenFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myScenFrcstFigTitle);
-% %%
-% myFrcstFigTitle = [varNameTitle,'Frcst_t_',num2str(t_current)];
-% funFrcstFig1step(ttData, par, Data, t_current, Mdl, varName, myFrcstFigTitle);
-%% ------------------------\\\ SAVING FIGURES \\\---------------------------
-%
-% mkdir Figs_Out
-FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS\Wind_Steps';   % Your destination folder
-FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
-for iFig = 1:length(FigList)
-    FigHandle = FigList(iFig);
-    FigName   = get(FigHandle,'Name');
-%     print(FigHandle, fullfile(FolderName, ['ld_crps_simulation_period .png']), '-r300', '-dpng')
-    print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
-end
 %}

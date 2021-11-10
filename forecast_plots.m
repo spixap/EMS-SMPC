@@ -26,6 +26,6 @@ varNameTitle = 'wp';
 %}
 %% SELECT SPECIFIC t TO PLOT SCENARIO FORECASTS
 % example date: '21-Mar-2019 12:30:00'
-t_slct = find(ttData.time==datetime('10-Apr-2019 00:00:00'));
+t_slct = find(ttData.time==datetime('21-Mar-2019 11:15:00'));
 myFigtitle = [varNameTitle,'frcst_t_',num2str(t_slct)];
 funFrcstFig1step(ttData, par, Data, t_slct, Mdl, varName, myFigtitle);

@@ -1,5 +1,4 @@
 %-----FIGURES OF SECTION 4.1.2-----
-% load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\models.mat')
 user_defined_inputs;
 %% 
 preamble;

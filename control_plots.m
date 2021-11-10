@@ -23,8 +23,6 @@ end
 %%
 t_start = t_current;
 t_end = t_start + par.N_steps;
-% idx_start = t_start - t_current + 1;
-% idx_end = t_end - t_current +1;
 %% SELECT DATA TYPE
 % PART A - LOAD
 %
@@ -48,4 +46,4 @@ varName = '$P_{w}\;[MW]$';
 varNameTitle = 'wp';
 %}
 %%
-funPltCtrlRsltPretty(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0  , RSLT.ESS_scn.rslt, RSLT);
+funPltCtrlRsltPretty(par, ttData, t_start, t_end, RSLT.ESS_scn.x, RSLT.ESS_scn.u_0, RSLT.ESS_scn.rslt, RSLT);
