@@ -17,17 +17,17 @@
          - `Mdl_wp` (_wind power RF models_)
 
   2. __OUTPUT FIGURES__  
-       * `figures_section_2_2.m` &nbsp;&nbsp; create figures of paper Section 2.2 (MSE, NRMSE, zoom forecasts k=1/k=6) (Figures 2-3)
-       * `forecast_plots.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create plots for deterministic, probabilistic and scenario forecasts for selected date
+       * `figures_section_2_2.m` &nbsp;&nbsp; create figures of paper Section 2.2 (MSE, NRMSE, zoom forecasts k=1/k=6) (_Figures 2-3_)
+       * `forecast_plots.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; plot deterministic, probabilistic and scenario K steps ahead forecasts for selected date
 
  
- ## MAIN (DMPC/SMPC) SIMULATIONS :notebook_with_decorative_cover: ##
+ ## MAIN SIMULATIONS (DMPC/SMPC)  :notebook_with_decorative_cover: ##
  _Need to load trained RF models:_
  
  `load('\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\DataFiles\trainedRFmodels.mat')`
 
  1. __INPUTS :clipboard: :floppy_disk:__
-    * `user_defined_inputs.m` &nbsp; define the input structure
+    * `user_defined_inputs.m` &nbsp; define the <code>input</code> variable
 
  2. __SYSTEM SIMULATION__  
     * `main.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; simulate system with DMPC/SMPC
@@ -35,9 +35,9 @@
     * `control_plots.m` &nbsp; plot MPC states evolution and control effort for selected method (DMPC/SMPC)
 
  3. __PAPER RESULTS__  
-    * `kpi_compare.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perform KPI comparison on the results with DMPC/SMPC (Table 8)
-    * `figures_section_4_1_2.m` &nbsp;&nbsp; create figures of Section 4.1.2 (forecasts on events, mean, quantiles, scenarios) (Figures 7-9)
-    * `figures_section_4_2.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create figures of Section 4.2 (net load, rule-based areas, GT status and SoC (DMPC/SMPC)) (Figures 10-15)
+    * `kpi_compare.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perform comparison of calculated KPIs from DMPC/SMPC (_Table 8_)
+    * `figures_section_4_1_2.m` &nbsp;&nbsp; create figures of Section 4.1.2 (forecasts on events, mean, quantiles, scenarios) (_Figures 7-9_)
+    * `figures_section_4_2.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; create figures of Section 4.2 (net load, rule-based areas, GT status and SoC (DMPC/SMPC)) (_Figures 10-15_)
 
 
 
@@ -65,11 +65,12 @@
  _Specialized functions used by the above main scripts :arrow_down:_
  
  1. ### PARAMETERS :bar_chart: ###
-    `preamble.m` assigns :paperclip: parameter values.
+    `preamble.m` assigns :paperclip: parameter values to variable <code>par</code>.
 
     <details>
      <summary> Default <code>par</code> values  :1234:</summary>
 
+      __ Basic__ 
      * `par.Ts = 15`                                     % Timestep (minutes)
      * `par.dol2eur    = 0.89`                           % dollars to euros conversion
      * `par.rhoGas     = 0.717`                          % Natural Gas density [kg/m^3]
@@ -116,23 +117,22 @@
        
     
  2. ### SCENARIO FORECASTING :crystal_ball: ###
-    1. - `funScenGenQRF1.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; generate scenarios 1 step ahead 
-    2. - `funScenGenQRF.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; generate scenarios many steps ahead (_used to make gifs along with_ `funAnimateQRF.m`)
-    3. - `funScenFrcstFig1step.m` &nbsp; plot scenario forecasts for selected time
-    4. - `funProbFrcstFig1step.m` &nbsp; plot quantile forecasts for selected time
-    5. - `funFrcstFig1step.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; plot both scenario and quantile forecasts for selected time
-    6. - `funAnimateQRF.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; produce gifs of forecasting             
-                      
+   - `funScenGenQRF1.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; issue  K steps ahead scenarios forecasts at time _t_
+   - `funScenGenQRF.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; issue K steps ahead scenarios forecasts itteratively for _t>1_ (_used with_ `funAnimateQRF.m`)
+   - `funScenFrcstFig1step.m` &nbsp; plot K steps ahead scenario forecasts for selected time _t_
+   - `funProbFrcstFig1step.m` &nbsp; plot K steps ahead quantile forecasts for selected time _t_
+   - `funFrcstFig1step.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; plot both scenario and quantile K steps ahead forecasts for selected time _t_
+   - `funAnimateQRF.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; produce forecasting animation (_.gif_) for itterative forecasts (_t>1_)              
 
  3. ### GET/PLOT RESULTS :bulb: ###
-    1. - `funGetCtrlRslt.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calculated KPIs from simulation in <code>kpi</code> 
-    2. - `funPltCtrlRslt.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; plot the control variables (states and inputs) results for a method (DMPC/SMPC) 
-    3. - `funPltCtrlRsltPretty.m` &nbsp; plot the control variables (states and inputs) results for a method (DMPC/SMPC) _in a pretty way_
+   - `funGetCtrlRslt.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calculated KPIs from simulation in variable <code>kpi</code> 
+   - `funPltCtrlRslt.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; plot the control variables (states and inputs) results for a method (DMPC/SMPC) 
+   - `funPltCtrlRsltPretty.m` &nbsp; plot the control variables (states and inputs) results for a method (DMPC/SMPC) _in a pretty way_
 
  4. ### CRPS :chart_with_upwards_trend: ###
-    1. - `funCalcCRPS.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calculate CRPS, skill score and plot CRPS for all lead times, for selected period of                                                                                             time with QRF forecasts and benchmark method (paper: Figure 6, Table 1)
-    2. - `funCalcCRPS1step.m` &nbsp; calculate CRPS for single predictions and plot cdf to compare QRF and benchmark method forecasts for each lead time
-    3. - `funCovCorrGenQRF.m` &nbsp; Estimate covariance and correlation matrices from inverse transformed data based on probabilistic forecasts from QRF models
+   - `funCalcCRPS.m` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calculate CRPS, skill score and plot CRPS for all lead times, for selected period of                                                                                             time with QRF forecasts and benchmark method (_paper: Figure 6, Table 1_)
+   - `funCalcCRPS1step.m` &nbsp; calculate CRPS for single predictions and plot cdf to compare QRF and benchmark method forecasts for each lead time
+   - `funCovCorrGenQRF.m` &nbsp; Estimate covariance and correlation matrices from inverse transformed data based on probabilistic forecasts from QRF models
 
 
 ## SIMULATION CASE STUDIES :hourglass: ##
@@ -140,12 +140,15 @@
 <details>
   <summary>Cases studies (Section 4.2) :date:</summary>
   
-  * Day 100: 10 April 
-  * Day 118: 27 April
-  * Day 226: 14 August
-  * Day 61:  02 March
-  * Day 166: 15 June
-  * Day 160: 09 June
+ 
+  <code>input.durationDays</code> = 1 and <code>input.giveStartingTime</code> = 0          
+ 
+  * <code>input.startingDay</code>=100 (10 April)
+  * <code>input.startingDay</code>=118 (27 April)
+  * <code>input.startingDay</code>=226 (14 August)
+  * <code>input.startingDay</code>=61 (02 March)
+  * <code>input.startingDay</code>=166 (15 June)
+  * <code>input.startingDay</code>=160 (09 June)
 
 </details>
 
@@ -154,22 +157,24 @@
   <summary>Irregular events (Section 4.1.2) :date:</summary>
   
  
+  <code>input.durationDays</code> = 0 and <code>input.giveStartingTime</code> = 1  
+ 
   __Load__ 
-  * current time: 7630
-  * current time: 7635
-  * current time: 7636
-  * current time: 7709
+  * <code>inut.startingTime</code>= 7630
+  * <code>inut.startingTime</code>= 7635
+  * <code>inut.startingTime</code>= 7636
+  * <code>inut.startingTime</code>= 7709
  
    __Wind__ 
-  * current time: 7646
-  * current time: 7647
-  * current time: 7648
-  * current time: 7749
+  * <code>inut.startingTime</code>= 7646
+  * <code>inut.startingTime</code>= 7647
+  * <code>inut.startingTime</code>= 7648
+  * <code>inut.startingTime</code>= 7749
  
-  * current time: 7760
-  * current time: 7761
-  * current time: 7762
-  * current time: 7763
+  * <code>inut.startingTime</code>= 7760
+  * <code>inut.startingTime</code>= 7761
+  * <code>inut.startingTime</code>= 7762
+  * <code>inut.startingTime</code>= 7763
 
 </details>
 
