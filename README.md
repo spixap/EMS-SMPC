@@ -69,11 +69,32 @@
 
     <details>
      <summary> Default <code>par</code> values  :1234:</summary>
-
-      __ Basic__ 
+ 
+     <br/>
+ 
+     __Geenric__ 
      * `par.Ts = 15`                                     % Timestep (minutes)
      * `par.dol2eur    = 0.89`                           % dollars to euros conversion
      * `par.rhoGas     = 0.717`                          % Natural Gas density [kg/m^3]
+ 
+     <br/>
+ 
+      __Sets__
+     * `par.N_pwl = 11`      % # of discretization points for PieceWise Linear approx.
+     * `par.N_gt  = 4`       % # of Gas Turbines
+     * `par.N_scn = 10`      % # of scenarios
+ 
+     <br/>
+ 
+      __Random forests__
+     * `par.leafSizeIdx = 1`
+     * `par.lamda       = 0.5`
+     * `par.tau         = linspace(0,1,21)`
+     * `par.lagsNum     = 6`
+ 
+     <br/>
+ 
+     __Cost coeeficicents__
      * `par.c_dump     = 10*100`                         % artificial cost (per unit of dumped power per period)
      * `par.c_soc_dev  = 0*10*100*100`                   % artificial cost (per unit of absolute SoC deviation in the end)
      * `par.c_fuel     = 0.24/par.rhoGas * par.dol2eur`  % [euros/kgGas]
@@ -81,12 +102,10 @@
      * `par.c_gt_ON    = 5000`                           % [euros/GT_ON sattus]
      * `par.c_Bat_rpl  = par.degradWeight * 500000 * par.dol2eur`     % replacement cost [euros/MWh]
      * `par.c_Bat_res  = par.degradWeight * 50000  * par.dol2eur`     % residual value [euros/MWh]
-     * `par.leafSizeIdx = 1`
-     * `par.lamda       = 0.5`
-     * `par.tau         = linspace(0,1,21)`
-     * `par.lagsNum     = 6`
-     * `par.N_pwl = 11`      % # of discretization points for PieceWise Linear approx.
-     * `par.N_gt  = 4`       % # of Gas Turbines
+ 
+     <br/>
+ 
+     __Gas Turbines__
      * `par.P_gt_nom  = 20.2`                   % Nominal GT power rating
      * `par.P_gt_min  = 0.20 * par.P_gt_nom`
      * `par.P_gt_max  = 1.09 * par.P_gt_nom`
@@ -95,15 +114,10 @@
      * `par.idleFuel  = 172*0.2*20.2+984`       % [kg/h] coming from min GT fuel consumption (linear curve) - intercept @ no load: 172*0.2*20.2+984
      * `par.P_gt_data = linspace(par.P_gt_min,par.P_gt_max,par.N_pwl)`
      * `par.fuel_data = (0.5109 * par.P_gt_data.^2 -20.933 .* par.P_gt_data + 433.83)`   % [kg/MWh]
-     * `par.batLifetime = 10`        % Lifetime expectancy of battery
-     * `par.daysOfYear  = 365`       % To convert to equivalent daily cost
-     * `par.hoursOfday  = 24`        % To convert to equivalent hourly cost
-     * `par.qrtrOfHour  = 4`         % To convert to equivalent cost/quarter
-     * `par.a           = 1591.1`    % Proportional constant of cycling curve
-     * `par.k           = 2.089`     % Exponent of cycling curve
-     * `ar.DoD_data    = linspace(0,1,par.N_pwl)'`        % Depth-Of-Discharge [0-1]
-     * `par.Ncyc        = par.a*par.DoD_data.^(-par.k)`     % Cycle lifetime (# of cycles)
-     * `par.rho_data    = 100*100./par.Ncyc`               % Percentage degradation [%] - (times 100 for scaling purposes)
+ 
+     <br/>
+ 
+     __BESS__
      * `par.eta_ch     = 0.95`        % charging efficieny
      * `par.eta_dis    = 0.95`        % discharging efficieny
      * `par.P_bat_max  = 5`           % power rating [MW] nominal: 5
@@ -111,7 +125,16 @@
      * `par.socUPlim   = 0.8`         % up SoC limit [-]
      * `par.socDOWNlim = 0.2`         % down SoC limit [-]
      * `par.SoC_ref    = 0.5`         % reference SoC 
-     * `par.N_scn = 10`
+ 
+      <br/>
+ 
+      __Degradation__
+     * `par.batLifetime = 10`        % Lifetime expectancy of battery
+     * `par.a           = 1591.1`    % Proportional constant of cycling curve
+     * `par.k           = 2.089`     % Exponent of cycling curve
+     * `ar.DoD_data    = linspace(0,1,par.N_pwl)'`        % Depth-Of-Discharge [0-1]
+     * `par.Ncyc        = par.a*par.DoD_data.^(-par.k)`     % Cycle lifetime (# of cycles)
+     * `par.rho_data    = 100*100./par.Ncyc`               % Percentage degradation [%] - (times 100 for scaling purposes)
 
    </details>
        
