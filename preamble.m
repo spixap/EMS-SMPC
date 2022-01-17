@@ -6,7 +6,7 @@ par.N_steps = input.N_steps;
 if strcmp(input.method,'point_frcst')==1
     par.N_scn   = 1;
 else
-    par.N_scn   = 10;           % # of scenarios
+    par.N_scn   = 25;           % # of scenarios
 end
 par.randomSeed = input.randomSeed;  
 %% --------------------------\\ COST COEFS \\ -----------------------------
