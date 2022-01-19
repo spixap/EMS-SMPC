@@ -152,9 +152,11 @@ for k = 1 : par.N_prd
 end
 
 %%
-myFig.figWidth = 7; myFig.figHeight = 5;
+% myFig.figWidth = 7; myFig.figHeight = 5;
+myFig.figWidth = 255; myFig.figHeight = 182;
+
 myFig.figBottomLeftX0 = 2; myFig.figBottomLeftY0 = 2;
-myFig.fig = figure('Name',myFigtitle,'NumberTitle','off','Units','inches',...
+myFig.fig = figure('Name',myFigtitle,'NumberTitle','off','Units','points',...
     'Position',[myFig.figBottomLeftX0 myFig.figBottomLeftY0 myFig.figWidth myFig.figHeight],...
     'PaperPositionMode','auto');
 tilesObj = tiledlayout(2,1);
@@ -233,8 +235,8 @@ myFig.axProb.YLabel.Color = 'black';
 myFig.axProb.YAxis.FontSize  = 12;
 % myFig.axProb.YLabel.FontSize  = 12;
 myFig.axProb.YAxis.FontName = 'Times New Roman';
-% myFig.axProb.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
-myFig.axProb.YAxis.Limits  = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
+myFig.axProb.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
+% myFig.axProb.YAxis.Limits  = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
 % myFig.axProb.YAxis.Limits  = [min(Data(window.t_slide_range))-5 max(Data(window.t_slide_range))+5];
 % myFig.axProb.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+8]);
 
@@ -247,8 +249,8 @@ myFig.axProb.YAxis.Limits  = [min(Data(window.t_slide_range))-10 max(Data(window
 % ax2.YAxis.Color = 'black';
 % ax2.YAxis.FontSize  = 12;
 % ax2.YAxis.FontName = 'Times New Roman';
-% ax2.YAxis.Limits  = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
-ax2.YAxis.Limits  = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
+ax2.YAxis.Limits  = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
+% ax2.YAxis.Limits  = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
 % ax2.YAxis.Limits  = [min(Data(window.t_slide_range))-5 max(Data(window.t_slide_range))+5];
 % ax2.YAxis.Limits  = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+8]);
 
@@ -279,13 +281,13 @@ ax2.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
 
 legend(ax2,[myFig.f1, myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northeast');
+    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
 
 % legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p6 myFig.f1 ...
 %     myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
 %     '$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-%     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',14,...
-%     'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northwest');
+%     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',12,...
+%     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
 
   
 hold off;
@@ -329,7 +331,7 @@ hold off;
 %     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
 
 legend([myFig.scnplot(1)],{'$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northeast');
+    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
 
 
 
@@ -340,8 +342,8 @@ myFig.axScen.YLabel.Color = 'black';
 myFig.axScen.YAxis.FontSize  = 12;
 % myFig.axScen.YLabel.FontSize  = 12;
 myFig.axScen.YAxis.FontName = 'Times New Roman';
-% myFig.axScen.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
-myFig.axScen.YLim = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
+myFig.axScen.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
+% myFig.axScen.YLim = [min(Data(window.t_slide_range))-10 max(Data(window.t_slide_range))+5];
 % myFig.axScen.YLim = [min(Data(window.t_slide_range))-5 max(Data(window.t_slide_range))+5];
 % myFig.axScen.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+8]);
 
