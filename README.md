@@ -180,7 +180,7 @@
   <summary>Irregular events (Section 4.1.2) :date:</summary>
   
  
-  <code>input.durationDays</code> = 0 and <code>input.giveStartingTime</code> = 1  
+  <code>input.durationDays</code> = 0 and <code>input.giveStartingTime</code> = 1 and <code>par.N_scn</code> = 25 (for scenarios visualization) 
  
   __Load__ 
   * <code>inut.startingTime</code>= 7630
