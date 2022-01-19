@@ -3,7 +3,7 @@
 input.startingDay  = 100;
 input.durationDays = 0;
 input.giveStartingTime = 1;           % {0, 1}
-inut.startingTime  = 7630;
+inut.startingTime  = 7649;
 input.doAnimation  = 0;
 input.animationVar = 'load';          % {'load', 'wind'}
 
