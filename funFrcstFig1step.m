@@ -158,7 +158,6 @@ myFig.figWidth = 7; myFig.figHeight = 5;
 myFig.figBottomLeftX0 = 2; myFig.figBottomLeftY0 = 2;
 myFig.fig = figure('Name',myFigtitle,'NumberTitle','off','Units','inches',...
     'Position',[myFig.figBottomLeftX0 myFig.figBottomLeftY0 myFig.figWidth myFig.figHeight],...
-    'OuterPosition',[myFig.figBottomLeftX0 myFig.figBottomLeftY0 myFig.figWidth myFig.figHeight],...
     'PaperPositionMode','auto');
 tilesObj = tiledlayout(2,1);
 %% Figure
@@ -198,9 +197,9 @@ myFig.p6 = plot(ttData.time(window.t_slide_range),window.quant095Y, '-g','LineWi
 
 % hold off;
 
-legend(myFig.axProb,[myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p6],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
-    '$Q_{0.95}(x)$'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
+% legend(myFig.axProb,[myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p6],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
+%     '$Q_{0.95}(x)$'},'FontSize',12,...
+%     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
 
 ax2 = copyobj(myFig.axProb,tilesObj);
 delete( get(ax2,'Children') )            %# delete its children
@@ -233,7 +232,7 @@ myFig.axProb.YAxis.Label.Interpreter = 'latex';
 myFig.axProb.YAxis.Label.String = varName;
 myFig.axProb.YAxis.Color = 'black';
 myFig.axProb.YLabel.Color = 'black';
-myFig.axProb.YAxis.FontSize  = 12;
+myFig.axProb.YAxis.FontSize  = 14;
 % myFig.axProb.YLabel.FontSize  = 12;
 myFig.axProb.YAxis.FontName = 'Times New Roman';
 myFig.axProb.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
@@ -259,35 +258,35 @@ ax2.YAxis.Limits  = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_
 
 myFig.axProb.XAxis.Label.Interpreter = 'latex';
 myFig.axProb.XAxis.FontName = 'Times New Roman';
-myFig.axProb.XAxis.FontSize  = 12;
+myFig.axProb.XAxis.FontSize  = 14;
 myFig.axProb.XAxis.Color = 'black';
 myFig.axProb.XAxis.Label.String ='Date';
 
 
 myFig.axProb.XLabel.Color = 'black';
-myFig.axProb.XLabel.FontSize  = 12;
+myFig.axProb.XLabel.FontSize  = 14;
 myFig.axProb.XLabel.FontName = 'Times New Roman';
 myFig.axProb.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
 
-ax2.XLabel.FontSize  = 12;
+ax2.XLabel.FontSize  = 14;
 ax2.XLabel.Interpreter = 'latex';
 ax2.XLabel.String = 'Date';
 ax2.XLabel.FontName = 'Times New Roman';
 ax2.XAxis.FontName = 'Times New Roman';
-ax2.XAxis.FontSize  = 12;
+ax2.XAxis.FontSize  = 14;
 
 ax2.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
 % ax2.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
 % ax2.XTickLabelRotation = 45;
 
-legend(ax2,[myFig.f1, myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-    '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
+% legend(ax2,[myFig.f1, myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
+%     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',12,...
+%     'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
 
 % legend([myFig.p1 myFig.s1 myFig.p2 myFig.p3 myFig.p4 myFig.p6 myFig.f1 ...
 %     myFig.f2 myFig.f3 myFig.f4 myFig.f5],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$\hat{E}(Y \mid X=x)$','$Q_{0.05}(x)$',...
 %     '$Q_{0.95}(x)$','$\hat{\alpha}(x)=90\%$','$\hat{\alpha}(x)=80\%$','$\hat{\alpha}(x)=60\%$',...
-%     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',12,...
+%     '$\hat{\alpha}(x)=40\%$','$\hat{\alpha}(x)=20\%$'},'FontSize',14,...
 %     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
 
   
@@ -327,12 +326,8 @@ end
 hold off;
 
 
-% legend([myFig.p1 myFig.s1 myFig.p2 myFig.p4 myFig.p6 myFig.scnplot(1)],{'$y$','$y_{t \mid t}$','$y_{t + k \mid t}$','$Q_{0.05}(x)$',...
-%     '$Q_{0.95}(x)$','$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',14,...
-%     'Fontname','Times New Roman','NumColumns',2,'interpreter','latex','Box','off','color','none','Location','northwest');
-
-legend([myFig.scnplot(1)],{'$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
+% legend([myFig.scnplot(1)],{'$\hat{y}_{t+k \mid t}^{(i)}$'},'FontSize',14,...
+%     'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Box','off','color','none','Location','northeast');
 
 
 
@@ -340,7 +335,7 @@ myFig.axScen.YAxis.Label.Interpreter = 'latex';
 myFig.axScen.YAxis.Label.String = varName;
 myFig.axScen.YAxis.Color = 'black';
 myFig.axScen.YLabel.Color = 'black';
-myFig.axScen.YAxis.FontSize  = 12;
+myFig.axScen.YAxis.FontSize  = 14;
 % myFig.axScen.YLabel.FontSize  = 12;
 myFig.axScen.YAxis.FontName = 'Times New Roman';
 myFig.axScen.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_range))+5]);
@@ -352,13 +347,13 @@ myFig.axScen.YLim = ([min(Data(window.t_slide_range))-2 max(Data(window.t_slide_
 
 myFig.axScen.XAxis.Label.Interpreter = 'latex';
 myFig.axScen.XAxis.FontName = 'Times New Roman';
-myFig.axScen.XAxis.FontSize  = 12;
+myFig.axScen.XAxis.FontSize  = 14;
 myFig.axScen.XAxis.Color = 'black';
 myFig.axScen.XAxis.Label.String ='Date';
 
 
 myFig.axScen.XLabel.Color = 'black';
-myFig.axScen.XLabel.FontSize  = 12;
+myFig.axScen.XLabel.FontSize  = 14;
 myFig.axScen.XLabel.FontName = 'Times New Roman';
 myFig.axScen.XLim = [ttData.time(window.t_slide_start),ttData.time(window.t_slide_end)];
 
