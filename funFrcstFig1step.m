@@ -152,12 +152,13 @@ for k = 1 : par.N_prd
 end
 
 %%
-% myFig.figWidth = 7; myFig.figHeight = 5;
-myFig.figWidth = 255; myFig.figHeight = 182;
+myFig.figWidth = 7; myFig.figHeight = 5;
+% myFig.figWidth = 255; myFig.figHeight = 182;
 
 myFig.figBottomLeftX0 = 2; myFig.figBottomLeftY0 = 2;
-myFig.fig = figure('Name',myFigtitle,'NumberTitle','off','Units','points',...
+myFig.fig = figure('Name',myFigtitle,'NumberTitle','off','Units','inches',...
     'Position',[myFig.figBottomLeftX0 myFig.figBottomLeftY0 myFig.figWidth myFig.figHeight],...
+    'OuterPosition',[myFig.figBottomLeftX0 myFig.figBottomLeftY0 myFig.figWidth myFig.figHeight],...
     'PaperPositionMode','auto');
 tilesObj = tiledlayout(2,1);
 %% Figure
@@ -371,6 +372,5 @@ linkaxes([myFig.axProb,myFig.axScen],'x');
 tilesObj.TileSpacing = 'none';
 
 xticklabels(myFig.axProb,{});
-
 
 end
