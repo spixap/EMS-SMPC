@@ -2,7 +2,7 @@
 %%
 % mkdir FigOutTest
 % FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS\Load_Steps\Revised_Figs\Font_12';   % Your destination folder
-FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\No_lgd_trial';   % Your destination folder
+FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\No_lgd_trial\Load\Resized_01\PDFfigs';   % Your destination folder
 FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
 for iFig = 1:length(FigList)
     FigHandle = FigList(iFig);
@@ -10,6 +10,22 @@ for iFig = 1:length(FigList)
     FigName   = get(FigHandle,'Name');
     %     set(0, 'CurrentFigure', FigHandle);
     %     savefig(fullfile(FolderName, [FigName '.fig']));
-    print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
+    
+    % -----------------------TO PRINT THE FIGURE---------------------------
+    
+%     print(FigHandle, fullfile(FolderName, [FigName '.png']), '-r300', '-dpng')
+
+%     print(FigHandle, fullfile(FolderName, [FigName '.pdf']),'-dpdf','-fillpage')
+
+%     pos = get(FigHandle,'Position');
+
+pos = get(gcf,'Position');
+set(gcf,'PaperSize',[pos(3) pos(4)],'PaperUnits','inches')
+print(FigHandle, fullfile(FolderName, [FigName '.pdf']),'-dpdf')
+    
+%         print(FigHandle, fullfile(FolderName, [FigName '.jpg']),
+%         '-r300','-djpeg') THE WORST QUALITY
+
+
 end
 %}
