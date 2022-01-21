@@ -1,9 +1,9 @@
 %-----USER DEFINED VALUES-----
 %%
-input.startingDay  = 160;
-input.durationDays = 1;
-input.giveStartingTime = 0;           % {0, 1}
-inut.startingTime  = 7709;
+input.startingDay  = 79;
+input.durationDays = 0;
+input.giveStartingTime = 1;           % {0, 1}
+inut.startingTime  = 7500;
 input.doAnimation  = 0;
 input.animationVar = 'load';          % {'load', 'wind'}
 
@@ -29,7 +29,7 @@ elseif input.durationDays > 1
     t_current   = 4*24*(input.startingDay-1);    
 
 elseif input.durationDays == 0
-    input.N_steps = 300;    % number of timesteps to simulate 576 (nice period)
+    input.N_steps = 288;    % number of timesteps to simulate 576 (nice period)
     if input.giveStartingTime == 0
         input.simulPeriodName = ['day_',int2str(input.startingDay),'_steps_',int2str(input.N_steps)];
         t_current   = 4*24*(input.startingDay-1);
@@ -39,7 +39,7 @@ elseif input.durationDays == 0
     end
 end
 
-input.N_prd = 6;    % {6, 12}
+input.N_prd = 12;    % {6, 12}
 input.lgdLocationDstrb = 'southwest';
 input.lgdLocationIgtOn = 'southeast';
 input.lgdLocationSoC   = 'southeast';

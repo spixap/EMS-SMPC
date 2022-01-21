@@ -8,7 +8,7 @@ par.tau         = linspace(0,1,21);
 par.lagsNum     = 6;
 %% SELECT DATA TYPE
 % PART A - LOAD
-%
+%{
 ttData = GFA_15_min;
 ttData.Properties.DimensionNames{1} = 'time';
 Data   = GFA_15_min.P_GFA;
@@ -17,7 +17,7 @@ varName = '$P^{\ell}\;[MW]$';
 varNameTitle = 'ld';
 %}
 % PART B - WIND POWER
-%{
+%
 newTimes      = (datetime(2018,1,1,00,00,00):minutes(15):datetime(2018,12,31,23,45,00))';
 ttData        = retime(RES,newTimes,'linear');
 WF1           = WindFarm();
@@ -50,7 +50,7 @@ for k = 1 : predHorK
     end
 end
 
-myFigs.mse.figWidth = 7; myFigs.mse.figHeight = 5;
+myFigs.mse.figWidth = 7; myFigs.mse.figHeight = 6;
 myFigs.mse.figBottomLeftX0 = 2; myFigs.mse.figBottomLeftY0 =2;
 myFigs.mse.fig = figure('Name','MSE','NumberTitle','off','Units','inches',...
     'Position',[myFigs.mse.figBottomLeftX0 myFigs.mse.figBottomLeftY0 myFigs.mse.figWidth myFigs.mse.figHeight],...
@@ -72,22 +72,25 @@ myFigs.mse.ax.YAxis.Label.Interpreter = 'latex';
 myFigs.mse.ax.YAxis.Label.String = 'MSE';
 myFigs.mse.ax.YAxis.Color = 'black';
 myFigs.mse.ax.YLabel.Color = 'black';
-myFigs.mse.ax.YAxis.FontSize  = 12;
+myFigs.mse.ax.YAxis.FontSize  = 20;
 % myFigs.mse.ax.YLabel.FontSize  = 12;
 myFigs.mse.ax.YAxis.FontName = 'Times New Roman';
 % myFigs.mse.ax.YLim = [-1,1];
 
 myFigs.mse.ax.XAxis.Label.Interpreter = 'latex';
 myFigs.mse.ax.XAxis.FontName = 'Times New Roman';
-myFigs.mse.ax.XAxis.FontSize  = 12;
+myFigs.mse.ax.XAxis.FontSize  = 18;
 myFigs.mse.ax.XAxis.Color = 'black';
 myFigs.mse.ax.XAxis.Label.String ='$\vert \mathcal{T} \vert$';
+myFigs.mse.ax.XTickLabelRotation = 45;
 
 
 myFigs.mse.ax.XLabel.Color = 'black';
-myFigs.mse.ax.XLabel.FontSize  = 12;
+myFigs.mse.ax.XLabel.FontSize  = 20;
 myFigs.mse.ax.XLabel.FontName = 'Times New Roman';
-% myFigs.mse.ax.XLim = [0,10];
+% myFigs.mse.ax.XLim = [1,20];
+% myFigs.mse.ax.XTick = 1:2:20;
+
 
 myFigs.mse.ax.XGrid = 'on';
 %% ------------------------------FIGURE 2----------------------------------
@@ -109,7 +112,7 @@ for k = 1 : predHorK
 %     nrmse = rmse./max(Data)*100;
 end
 
-myFigs.nrmse.figWidth = 7; myFigs.nrmse.figHeight = 5;
+myFigs.nrmse.figWidth = 7; myFigs.nrmse.figHeight = 6;
 myFigs.nrmse.figBottomLeftX0 = 2; myFigs.nrmse.figBottomLeftY0 =2;
 myFigs.nrmse.fig = figure('Name','NRMSE','NumberTitle','off','Units','inches',...
     'Position',[myFigs.nrmse.figBottomLeftX0 myFigs.nrmse.figBottomLeftY0 myFigs.nrmse.figWidth myFigs.nrmse.figHeight],...
@@ -144,22 +147,24 @@ myFigs.nrmse.ax.YAxis.Label.Interpreter = 'latex';
 myFigs.nrmse.ax.YAxis.Label.String = 'Out-of-Bag Nomralized RMSE [\%]';
 myFigs.nrmse.ax.YAxis.Color = 'black';
 myFigs.nrmse.ax.YLabel.Color = 'black';
-myFigs.nrmse.ax.YAxis.FontSize  = 12;
-myFigs.nrmse.ax.YLabel.FontSize  = 12;
+myFigs.nrmse.ax.YAxis.FontSize  = 20;
+myFigs.nrmse.ax.YLabel.FontSize  = 20;
 myFigs.nrmse.ax.YAxis.FontName = 'Times New Roman';
-% myFigs.nrmse.ax.YLim = [-1,1];
+myFigs.nrmse.ax.YLim = [0,18];
 
 myFigs.nrmse.ax.XAxis.Label.Interpreter = 'latex';
 myFigs.nrmse.ax.XAxis.FontName = 'Times New Roman';
-myFigs.nrmse.ax.XAxis.FontSize  = 12;
+myFigs.nrmse.ax.XAxis.FontSize  = 20;
 myFigs.nrmse.ax.XAxis.Color = 'black';
 myFigs.nrmse.ax.XAxis.Label.String = 'lead time $k$';
 
 
 myFigs.nrmse.ax.XLabel.Color = 'black';
-myFigs.nrmse.ax.XLabel.FontSize  = 12;
+myFigs.nrmse.ax.XLabel.FontSize  = 20;
 myFigs.nrmse.ax.XLabel.FontName = 'Times New Roman';
 myFigs.nrmse.ax.XLim = [1,12];
+myFigs.nrmse.ax.XTick = 1:12;
+
 
 myFigs.nrmse.ax.XGrid = 'on';
 %% Whole timeseries forecasting for k model
@@ -259,7 +264,7 @@ predY = predict(Mdl.M{k,par.leafSizeIdx},predX);
 ttCompare = timetable(plotTimes,trueY,predY);
 ttCompare.Properties.VariableNames = {'True_Val', 'Forecast_Val'};
 
-myFigs.meanFrcstk1.figWidth = 7; myFigs.meanFrcstk1.figHeight = 5;
+myFigs.meanFrcstk1.figWidth = 7; myFigs.meanFrcstk1.figHeight = 6;
 myFigs.meanFrcstk1.figBottomLeftX0 = 2; myFigs.meanFrcstk1.figBottomLeftY0 =2;
 myFigsmeanFrcstk1mse.fig = figure('Name',[varNameTitle,'MeanFrcstk1'],'NumberTitle','off','Units','inches',...
     'Position',[myFigs.meanFrcstk1.figBottomLeftX0 myFigs.meanFrcstk1.figBottomLeftY0 myFigs.meanFrcstk1.figWidth myFigs.meanFrcstk1.figHeight],...
@@ -273,35 +278,37 @@ hold off;
 myFigs.meanFrcstk1.ax = gca;
 % myFigs.meanFrcstk1.h = [myFigs.mse.p1(1);myFigs.mse.p2(1)];
 
-legend(myFigs.meanFrcstk1.ax,{['$y_',str_k,'$'],['$\hat{y}_',str_k,'$']},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location','northwest');
+legend(myFigs.meanFrcstk1.ax,{['$y_',str_k,'$'],['$\hat{y}_',str_k,'$']},'FontSize',20,'Box', 'off','color','none',...
+    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location','best');
 
 myFigs.meanFrcstk1.ax.YAxis.Label.Interpreter = 'latex';
 myFigs.meanFrcstk1.ax.YAxis.Label.String = varName;
 myFigs.meanFrcstk1.ax.YAxis.Color = 'black';
-myFigs.meanFrcstk1.ax.YAxis.FontSize  = 12;
+myFigs.meanFrcstk1.ax.YAxis.FontSize  = 20;
 myFigs.meanFrcstk1.ax.YAxis.FontName = 'Times New Roman';
 % myFigs.meanFrcstk1.ax.YLim = [-1,1];
-myFigs.meanFrcstk1.ax.YLabel.FontSize  = 12;
+myFigs.meanFrcstk1.ax.YLabel.FontSize  = 20;
 myFigs.meanFrcstk1.ax.YLabel.Color = 'black';
+myFigs.meanFrcstk1.ax.YTick = 0:5:40;
+
 
 
 myFigs.meanFrcstk1.ax.XAxis.Label.Interpreter = 'latex';
 myFigs.meanFrcstk1.ax.XAxis.FontName = 'Times New Roman';
-myFigs.meanFrcstk1.ax.XAxis.FontSize  = 12;
+myFigs.meanFrcstk1.ax.XAxis.FontSize  = 18;
 myFigs.meanFrcstk1.ax.XAxis.Color = 'black';
 myFigs.meanFrcstk1.ax.XAxis.Label.String = 'Date';
-% myFigs.meanFrcstk1.ax.XTick = ttCompare.plotTimes;
+myFigs.meanFrcstk1.ax.XTick = ttCompare.plotTimes;
 myFigs.meanFrcstk1.ax.XTick = (ttCompare.plotTimes(1):hours(6):ttCompare.plotTimes(end));
 myFigs.meanFrcstk1.ax.XLabel.Color = 'black';
-myFigs.meanFrcstk1.ax.XLabel.FontSize  = 12;
+myFigs.meanFrcstk1.ax.XLabel.FontSize  = 18;
 myFigs.meanFrcstk1.ax.XLabel.FontName = 'Times New Roman';
 myFigs.meanFrcstk1.ax.XLim = [ttCompare.plotTimes(1),ttCompare.plotTimes(end)];
 myFigs.meanFrcstk1.ax.XTickLabelRotation = 45;
 
 
-myFigs.meanFrcstk1.ax.XGrid = 'on';
-myFigs.meanFrcstk1.ax.YGrid = 'on';
+% myFigs.meanFrcstk1.ax.XGrid = 'on';
+% myFigs.meanFrcstk1.ax.YGrid = 'on';
 
 %% -----------------------------FIGURE 4-----------------------------------
 %--------------Zoomed timeseries forecasting for k=6 model-----------------
@@ -328,7 +335,7 @@ predY = predict(Mdl.M{k,par.leafSizeIdx},predX);
 ttCompare = timetable(plotTimes,trueY,predY);
 ttCompare.Properties.VariableNames = {'True_Val', 'Forecast_Val'};
 
-myFigs.meanFrcstk1.figWidth = 7; myFigs.meanFrcstk1.figHeight = 5;
+myFigs.meanFrcstk1.figWidth = 7; myFigs.meanFrcstk1.figHeight = 6;
 myFigs.meanFrcstk1.figBottomLeftX0 = 2; myFigs.meanFrcstk1.figBottomLeftY0 =2;
 myFigsmeanFrcstk1mse.fig = figure('Name',[varNameTitle,'MeanFrcstk6'],'NumberTitle','off','Units','inches',...
     'Position',[myFigs.meanFrcstk1.figBottomLeftX0 myFigs.meanFrcstk1.figBottomLeftY0 myFigs.meanFrcstk1.figWidth myFigs.meanFrcstk1.figHeight],...
@@ -342,36 +349,38 @@ hold off;
 myFigs.meanFrcstk1.ax = gca;
 % myFigs.meanFrcstk1.h = [myFigs.mse.p1(1);myFigs.mse.p2(1)];
 
-legend(myFigs.meanFrcstk1.ax,{['$y_',str_k,'$'],['$\hat{y}_',str_k,'$']},'FontSize',12,...
-    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location','northwest');
+legend(myFigs.meanFrcstk1.ax,{['$y_',str_k,'$'],['$\hat{y}_',str_k,'$']},'FontSize',20,'Box', 'off','color','none',...
+    'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location','best');
 
 myFigs.meanFrcstk1.ax.YAxis.Label.Interpreter = 'latex';
-myFigs.meanFrcstk1.ax.YAxis.Label.String = '$P^{\ell}\;[MW]$';
+myFigs.meanFrcstk1.ax.YAxis.Label.String = varName;
 myFigs.meanFrcstk1.ax.YAxis.Color = 'black';
-myFigs.meanFrcstk1.ax.YAxis.FontSize  = 12;
+myFigs.meanFrcstk1.ax.YAxis.FontSize  = 20;
 myFigs.meanFrcstk1.ax.YAxis.FontName = 'Times New Roman';
 % myFigs.meanFrcstk1.ax.YLim = [-1,1];
-myFigs.meanFrcstk1.ax.YLabel.FontSize  = 12;
+myFigs.meanFrcstk1.ax.YLabel.FontSize  = 20;
 myFigs.meanFrcstk1.ax.YLabel.Color = 'black';
+myFigs.meanFrcstk1.ax.YTick = 0:5:40;
 
 
 
 myFigs.meanFrcstk1.ax.XAxis.Label.Interpreter = 'latex';
 myFigs.meanFrcstk1.ax.XAxis.FontName = 'Times New Roman';
-myFigs.meanFrcstk1.ax.XAxis.FontSize  = 12;
+myFigs.meanFrcstk1.ax.XAxis.FontSize  = 18;
 myFigs.meanFrcstk1.ax.XAxis.Color = 'black';
 myFigs.meanFrcstk1.ax.XAxis.Label.String = 'Date';
 % myFigs.meanFrcstk1.ax.XTick = ttCompare.plotTimes;
 myFigs.meanFrcstk1.ax.XTick = (ttCompare.plotTimes(1):hours(6):ttCompare.plotTimes(end));
+myFigs.meanFrcstk1.ax.XLim = [ttCompare.plotTimes(1),ttCompare.plotTimes(end)];
 myFigs.meanFrcstk1.ax.XTickLabelRotation = 45;
 
 
 
 myFigs.meanFrcstk1.ax.XLabel.Color = 'black';
-myFigs.meanFrcstk1.ax.XLabel.FontSize  = 12;
+myFigs.meanFrcstk1.ax.XLabel.FontSize  = 18;
 myFigs.meanFrcstk1.ax.XLabel.FontName = 'Times New Roman';
 % myFigs.meanFrcstk1.ax.XLim = [0,10];
 
-myFigs.meanFrcstk1.ax.XGrid = 'on';
-myFigs.meanFrcstk1.ax.YGrid = 'on';
+% myFigs.meanFrcstk1.ax.XGrid = 'on';
+% myFigs.meanFrcstk1.ax.YGrid = 'on';
 %}

@@ -1,7 +1,7 @@
 % ----- FORECAST PLOTS (based on selected date) -----
 %%
 % mkdir FigOutTest
-FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS\Resized';   % Your destination folder
+FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\Revised_MS';   % Your destination folder
 % FolderName = '\\home.ansatt.ntnu.no\spyridoc\Documents\MATLAB\J2_PAPER\EMS-SMPC\Figs_Out\No_lgd_trial\Load\Resized_01\PDFfigs';   % Your destination folder
 FigList = findobj(allchild(0), 'flat', 'Type', 'figure');
 for iFig = 1:length(FigList)
