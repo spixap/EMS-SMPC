@@ -53,7 +53,7 @@ for i = 1 : idx_end - idx_start + 1
     iVecWndPwr(i) = RSLT.ESS_scn.rslt.xi(i).W(1,1);
 end
 
-myFigs.netLoadSoC.figWidth = 7; myFigs.netLoadSoC.figHeight = 5;
+myFigs.netLoadSoC.figWidth = 7; myFigs.netLoadSoC.figHeight = 6;
 myFigs.netLoadSoC.figBottomLeftX0 = 2; myFigs.netLoadSoC.figBottomLeftY0 =2;
 myFigs.netLoadSoC.fig = figure('Name',['SoC_day_',int2str(input.startingDay)],'NumberTitle','off','Units','inches',...
     'Position',[myFigs.netLoadSoC.figBottomLeftX0 myFigs.netLoadSoC.figBottomLeftY0 myFigs.netLoadSoC.figWidth myFigs.netLoadSoC.figHeight],...
@@ -72,7 +72,7 @@ yl1.Interpreter = 'latex';
 yl1.Label = '$SoC_{min}$';
 yl1.LabelVerticalAlignment = 'top'; %{'top', 'down'}
 yl1.LabelHorizontalAlignment = 'right'; %{'left', 'right'}
-yl1.FontSize = 12;
+yl1.FontSize = 16;
 
 yl2=yline(par.socUPlim,'--','LineWidth',3);
 yl2.Color = [0.8500, 0.3250, 0.0980];
@@ -80,7 +80,7 @@ yl2.Interpreter = 'latex';
 yl2.Label = '$SoC_{max}$';
 yl2.LabelVerticalAlignment = 'bottom';
 yl2.LabelHorizontalAlignment = 'left';
-yl2.FontSize = 12;
+yl2.FontSize = 16;
 
 
 yyaxis right;
@@ -95,7 +95,7 @@ myFigs.netLoadSoC.h = [p1;p2;p3];
 myFigs.netLoadSoC.ax.XLabel.Interpreter = 'latex';
 myFigs.netLoadSoC.ax.XLabel.String ='Date';
 myFigs.netLoadSoC.ax.XLabel.Color = 'black';
-myFigs.netLoadSoC.ax.XLabel.FontSize  = 12;
+myFigs.netLoadSoC.ax.XLabel.FontSize  = 16;
 myFigs.netLoadSoC.ax.XLabel.FontName = 'Times New Roman';
 %         myFigs.netLoadSoC.ax.FontSize  = 12;
 myFigs.netLoadSoC.ax.FontName = 'Times New Roman';
@@ -104,13 +104,13 @@ myFigs.netLoadSoC.ax.FontName = 'Times New Roman';
 
 myFigs.netLoadSoC.ax.XAxis.Label.Interpreter = 'latex';
 myFigs.netLoadSoC.ax.XAxis.FontName = 'Times New Roman';
-myFigs.netLoadSoC.ax.XAxis.FontSize  = 12;
+myFigs.netLoadSoC.ax.XAxis.FontSize  = 14;
 myFigs.netLoadSoC.ax.XAxis.Color = 'black';
 myFigs.netLoadSoC.ax.XAxis.Label.String = 'Date';
 % myFigs.netLoadSoC.ax.XTick = ttCompare.plotTimes;
 %     myFigs.netLoadSoC.ax.XTick = (ttCompare.plotTimes(1):hours(6):ttCompare.plotTimes(end));
 myFigs.netLoadSoC.ax.XLabel.Color = 'black';
-myFigs.netLoadSoC.ax.XLabel.FontSize  = 12;
+myFigs.netLoadSoC.ax.XLabel.FontSize  = 16;
 myFigs.netLoadSoC.ax.XLabel.FontName = 'Times New Roman';
 myFigs.netLoadSoC.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
 myFigs.netLoadSoC.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
@@ -119,7 +119,7 @@ myFigs.netLoadSoC.ax.XTickLabelRotation = 45;
 myFigs.netLoadSoC.ax.YAxis(1).Label.Interpreter = 'latex';
 myFigs.netLoadSoC.ax.YAxis(1).Label.String ='$x^{SoC}(t)$';
 myFigs.netLoadSoC.ax.YAxis(1).Color = 'black';
-myFigs.netLoadSoC.ax.YAxis(1).FontSize  = 12;
+myFigs.netLoadSoC.ax.YAxis(1).FontSize  = 20;
 myFigs.netLoadSoC.ax.YAxis(1).FontName = 'Times New Roman';
 % myFigs.netLoadSoC.ax.YAxis(1).Limits = [0.1,0.9];
 
@@ -128,7 +128,7 @@ myFigs.netLoadSoC.ax.YAxis(1).FontName = 'Times New Roman';
 myFigs.netLoadSoC.ax.YAxis(2).Label.Interpreter = 'latex';
 myFigs.netLoadSoC.ax.YAxis(2).Label.String ='$\xi_0(t)\;[MW]$';
 myFigs.netLoadSoC.ax.YAxis(2).Color = 'black';
-myFigs.netLoadSoC.ax.YAxis(2).FontSize  = 12;
+myFigs.netLoadSoC.ax.YAxis(2).FontSize  = 20;
 myFigs.netLoadSoC.ax.YAxis(2).FontName = 'Times New Roman';
 
 myFigs.netLoadSoC.ax.XGrid = 'on';
@@ -144,7 +144,7 @@ myFigs.netLoadSoC.ax.XGrid = 'on';
 %     myFigs.netLoadSoC.ax.YAxis.FontName = 'Times New Roman';
 % %     myFigs.pwr.ax.YLim = [0,1];
 
-legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',12,'Box', 'off','color','none',...
+legend(myFigs.netLoadSoC.h,{'DMPC','SMPC', '$\xi_0(t)$'},'FontSize',16,'Box', 'off','color','none',...
     'Fontname','Times New Roman','Orientation','horizontal','NumColumns',3,'interpreter','latex','Location',input.lgdLocationSoC);
     
 %% \\\\\\\FIGURE: DISTRUBANCE (LOAD & WIND & NET LOAD) with GT area patches and No. of GTs ON \\\\\\\\\
@@ -199,7 +199,7 @@ end
     
     
     
-    myFigs.dstrb.figWidth = 7; myFigs.dstrb.figHeight = 5;
+    myFigs.dstrb.figWidth = 7; myFigs.dstrb.figHeight = 6;
     myFigs.dstrb.figBottomLeftX0 = 2; myFigs.dstrb.figBottomLeftY0 =2;
     myFigs.dstrb.fig = figure('Name',['dstrb_day_',int2str(input.startingDay)],'NumberTitle','off','Units','inches',...
         'Position',[myFigs.dstrb.figBottomLeftX0 myFigs.dstrb.figBottomLeftY0 myFigs.dstrb.figWidth myFigs.dstrb.figHeight],...
@@ -334,7 +334,7 @@ end
     end
     
     
-    legend(myFigs.dstrb.ax,lgdCell,'FontSize',12,'orientation','horizontal',...
+    legend(myFigs.dstrb.ax,lgdCell,'FontSize',16,'orientation','horizontal',...
         'Fontname','Times New Roman','EdgeColor','none', 'NumColumns',colNum,'interpreter','latex','Location',input.lgdLocationDstrb);
     
     ax2 = copyobj(myFigs.dstrb.ax,gcf);
@@ -367,7 +367,7 @@ end
     myFigs.dstrb.ax.YAxis(1).Label.Interpreter = 'latex';
     myFigs.dstrb.ax.YAxis(1).Label.String = '$P^{\ell}(t), \; P^{w}(t), \; \xi_0(t) \;[MW]$';
     myFigs.dstrb.ax.YAxis(1).Color = 'black';
-    myFigs.dstrb.ax.YAxis(1).FontSize  = 12;
+    myFigs.dstrb.ax.YAxis(1).FontSize  = 20;
     myFigs.dstrb.ax.YAxis(1).FontName = 'Times New Roman';
     
     ax2.YAxis.Label.Interpreter = 'latex';
@@ -375,7 +375,7 @@ end
     ax2.YAxis.Label.String = ' $I_{on}^{gt}(t)$';
 
     ax2.YAxis.Color = 'black';
-    ax2.YAxis.FontSize  = 12;
+    ax2.YAxis.FontSize  = 20;
     ax2.YAxis.FontName = 'Times New Roman';
     ax2.YAxis.Limits  = [0,4];
     ax2.YAxis.TickValues  = 0:1:4;
@@ -390,25 +390,24 @@ end
     
         
     
-    myFigs.dstrb.ax.XLabel.FontSize  = 12;
     myFigs.dstrb.ax.XLabel.Interpreter = 'latex';
+    myFigs.dstrb.ax.XLabel.FontSize  = 16;
     myFigs.dstrb.ax.XLabel.String = 'Date';
     myFigs.dstrb.ax.XLabel.FontName = 'Times New Roman';
     myFigs.dstrb.ax.XAxis.FontName = 'Times New Roman';
-    myFigs.dstrb.ax.XAxis.FontSize  = 12;
+    myFigs.dstrb.ax.XAxis.FontSize  = 14;
     
     myFigs.dstrb.ax.XGrid = 'on';
     myFigs.dstrb.ax.XLim = [ttData.time(t_start),ttData.time(t_end)];
     myFigs.dstrb.ax.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
     myFigs.dstrb.ax.XTickLabelRotation = 45;
     
-    
-    ax2.XLabel.FontSize  = 12;
     ax2.XLabel.Interpreter = 'latex';
+    ax2.XLabel.FontSize  = 16;
     ax2.XLabel.String = 'Date';
     ax2.XLabel.FontName = 'Times New Roman';
     ax2.XAxis.FontName = 'Times New Roman';
-    ax2.XAxis.FontSize  = 12;
+    ax2.XAxis.FontSize  = 14;
     
     ax2.XLim = [ttData.time(t_start),ttData.time(t_end)];
     ax2.XTick = (ttData.time(t_start):hours(2.25):ttData.time(t_end));
@@ -418,7 +417,7 @@ end
 %         legend(myFigs.dstrb.ax,[lgdCell,{'DMPC', 'SMPC'}],'FontSize',12,...
 %         'Fontname','Times New Roman','NumColumns',colNum,'interpreter','latex','Location','northwest');
 
-    legend(ax2,{'$I_{on}^{gt} \; \textit{(DMPC)}$', '$I_{on}^{gt} \; \textit{(SMPC)}$'},'FontSize',10,'Box', 'off','color','none',...
+    legend(ax2,{'$I_{on}^{gt} \; \textit{(DMPC)}$', '$I_{on}^{gt} \; \textit{(SMPC)}$'},'FontSize',16,'Box', 'off','color','none',...
         'Fontname','Times New Roman','NumColumns',1,'interpreter','latex','Location',input.lgdLocationIgtOn);
 
 %     yyaxis left;

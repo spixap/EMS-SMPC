@@ -1,8 +1,8 @@
 %-----USER DEFINED VALUES-----
 %%
-input.startingDay  = 100;
-input.durationDays = 0;
-input.giveStartingTime = 1;           % {0, 1}
+input.startingDay  = 160;
+input.durationDays = 1;
+input.giveStartingTime = 0;           % {0, 1}
 inut.startingTime  = 7709;
 input.doAnimation  = 0;
 input.animationVar = 'load';          % {'load', 'wind'}
