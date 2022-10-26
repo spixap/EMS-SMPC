@@ -1,5 +1,5 @@
 # EMS-SMPC # 
- This repository contains the scripts :scroll: and data :open_file_folder: used for the EMS-SMPC paper :page_facing_up:.
+ This repository contains the scripts :scroll: and data :open_file_folder: used for the EMS-SMPC based on this [paper](https://www.sciencedirect.com/science/article/pii/S0306261922003294/ "Named link title").
  
  ## RANDOM FORESTS (RF) :deciduous_tree: ## 
  
